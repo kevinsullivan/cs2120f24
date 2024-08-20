@@ -1,3 +1,13 @@
-# Instructor Directory
+# Lean Quick 
 
-Do not change any files in this directory. If you do, you won't be able to "pull" updates from the instructor's "upstream" GitHub repository. If this happens, first transfer any changes you want to save to files in the Student directory, then discard the changes you've made to the instructor files. Do this by opening the "Source Control (git)" tool on the left (forking path icon) and select the "Discard Changes" tool for each file in the Instructor directory that you have changed. Once you've discarded all changes, you should once again be able to pull updates from the instructor's upstream repository.
+Hi colleagues, this little project is meant to give 
+a sense of what it's like to work with Lean. 
+
+To experience The Joy of Lean yourself
+
+- fork this GitHub-hosts repo to your GitHub account
+- clone your fork to your own machine
+- open the top level directory in VSCode
+- click on Main.lean; VSCode will install Lean
+- open Cs2120f24/Demo/Demo.lean and have a good time
+
