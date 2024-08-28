@@ -1,5 +1,7 @@
 import Mathlib.Data.Real.Basic
 
+namespace cs2120f24
+
 /-
 An abstract specification, written in the logic
 of the Lean prover. The function, a_relation, is
@@ -12,3 +14,5 @@ squared equals x and out is non-negative.
 -/
 def a_relation (x : ℝ) (_ : x ≥ 0) :=
   { out : ℝ |  (x = out ^ 2) ∧ (x ≥ 0) }
+
+end cs2120f24

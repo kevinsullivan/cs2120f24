@@ -1,3 +1,5 @@
+namespace cs2120f24
+
 /-!
 ## Propositional Logic: Syntax, Sematics, Satisfiability
 
@@ -188,3 +190,5 @@ def reduce_and : List Bool → Bool
 def is_sat : Expr → Bool := λ e : Expr => reduce_or (truth_table_outputs e)
 def is_valid : Expr → Bool := λ e : Expr => reduce_and (truth_table_outputs e)
 def is_unsat : Expr → Bool := λ e : Expr => not (is_sat e)
+
+end cs2120f24
