@@ -1,23 +1,24 @@
-# Setup
-
-UVa CS 2120-002 F24 (Sullivan)
+# UVa CS 2120-002 F24 (Sullivan)
 
 Here's the initial state of the evolving git repository
-for our class.
+for our class. If you don't know what something means (e.g.,'
+what's a git repo and how to fork one on GitHub) there are
+videos all over Youtube, TikTok, or whatever.
 
-And just below are the instructions for getting started.
+## Setup
 
-If you don't know what something means (e.g.,how to fork
-a repository on GitHub), there are videos all over Youtube,
-TikTok, or whatever.
+Here are instructions for getting started.
 
 Getting started:
 
 - if you don't have a GitHub account, get one
+- if you don't have git installed on your laptop, do that now
+  - MacOS: xcode-select --install
+  - Windows: <https://git-scm.com/download/win>
 - Log into your github account
 - Navigate in GitHub to this repository
 - fork *this/my* GitHub repo (makes a copy in *your* GitHub account)
-- navigate back to your account, get the URL for your new repo copy 
+- navigate back to your account, get the URL for your new repo copy
 - then use that URL to clone *your* fork (on GitHub) onto your laptop
 - if you don't already have it, install VSCode
 - in VSCode install the lean4 extension
