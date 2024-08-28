@@ -3,10 +3,13 @@
 UVa CS 2120-002 F24 (Sullivan)
 
 Here's the initial state of the evolving git repository
-for our class. And here are the instructions for getting 
-started. If you don't know what something here means (e.g.,
-how to fork a repository on GitHub), there are videos all
-over Youtube, TikTok, or whatever.
+for our class.
+
+And just below are the instructions for getting started.
+
+If you don't know what something means (e.g.,how to fork
+a repository on GitHub), there are videos all over Youtube,
+TikTok, or whatever.
 
 Getting started:
 
