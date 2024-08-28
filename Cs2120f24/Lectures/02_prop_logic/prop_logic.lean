@@ -32,14 +32,14 @@ inductive Expr : Type
 | bin_exp (op : binary_op) (e1 e2 : Expr)
 
 -- concrete syntax
+notation " ⊤ " => Expr.top_exp
+notation " ⊥ " => Expr.bot_exp
 notation "{"v"}" => Expr.var_exp v
 prefix:max "¬" => Expr.un_exp unary_op.not
 infixr:35 " ∧ " => Expr.bin_exp binary_op.and
 infixr:30 " ∨ " => Expr.bin_exp binary_op.or
 infixr:25 " ⇒ " =>  Expr.bin_exp binary_op.imp
 infixr:20 " ⇔ " => Expr.bin_exp binary_op.iff
-notation " ⊤ " => Expr.top_exp
-notation " ⊥ " => Expr.bot_exp
 
 
 /-!
