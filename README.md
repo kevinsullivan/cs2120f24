@@ -17,7 +17,7 @@ Getting started:
 - navigate back to your account, get the URL for your new repo copy 
 - then use that URL to clone *your* fork (on GitHub) onto your laptop
 - if you don't already have it, install VSCode
-- in VSCode instsall the lean4 extension
+- in VSCode install the lean4 extension
 - in VSCode "File > open folder" your new cloned *directory*
 - click on Main.lean; VSCode will install Lean
 - sometimes you need to tell Lean to re-process a "red" file with CMD/CTRL-SHIFT-P the "Lean4: Restart File"
