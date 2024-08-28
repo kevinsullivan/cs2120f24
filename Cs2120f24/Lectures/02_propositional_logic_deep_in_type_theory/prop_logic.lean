@@ -14,6 +14,7 @@ structure var : Type :=  (n: Nat)
 
 -- connectives/operators
 inductive unary_op : Type | not
+
 inductive binary_op : Type
 | and
 | or
