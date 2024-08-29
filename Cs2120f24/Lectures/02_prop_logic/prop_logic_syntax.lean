@@ -1,83 +1,76 @@
 namespace cs2120f24
 
 /-!
-## Propositional Logic: Syntax, Sematics, Satisfiability
+# Propositional Logic Syntax: Abstract and Concrete
 
 This section of the exam simply includes our formal
 definition of the syntax and semantics of propositional
 logic and of functions that determine whether a given
 expression is valid, satisfiable, or unsatisfiable.
 
-### Syntax
+## Abstract Syntax
 
 The syntax specifies the set of all and only syntactically
 correct propositional logic expressions. Roughly speaking,
 the syntax defines "literal" and "variable" expressions and
-a collection of composition operators that take any smaller
-expressions as arguments and produce larger expressions. We
-are not talking abouting semantic meanings yet: just proper
-formation of propositional logic expressions.
-
-We will specify the syntax in terms of
-- two literal expressions (litTrue and litFalse)
+a collection of expression-composiing operators that take
+smaller expressions as arguments to yield larger expressions
+as results. Remember: we're not talking abouting meanings,
+just the possible forms of a propositional logic expression.
+So let's get started.
 -/
 
 /-
-structure litExpr : Type :=
-(fromBool : Bool)
+First, for reasons that will become clear, we distinguish
+between variables, and variable expressions, in our formal
+definition. The following definition can be read as saying
+that *var* is the type of variables and that a new variable
+term/object/value can be constructed by applying the "mk"
+*constructor* to any natural number, n. The following terms
+are thus defined: (var.mk 0), (var.mk 1), etc. In ordinary
+mathematical notations, we might say that v₀, v₁, etc. are
+variables in our language. In other words, the set of all
+variables is *indexed* by the natural numbers.
 -/
 
--- inductive ç : Type
--- | litTrue : LiteralExpr
--- | litFalse : LiteralExpr
-
-/-
-Next come variable expressions. to support this concept, we
-introduce the type of *variables*. A *variable expression* is
-parameterized by (wraps) a variable. To have an inexhaustible
-supply of different variables, we specify that each instance
-of the var type will be constructed from a natural numbers,
-and it in turn uniquely specifies that one variable "thing."
--/
 -- variables
 structure var : Type :=
-(n: Nat)
+mk :: (n: Nat)
 
 /-
-Different variable expressions "wrapping" the same underlying
-variable will be treated as identical in our implementation of
-propositional logic.
+Next we specify the *syntactic operator* of propositional logic.
+These are also known as the *logical connectives*. Each operator
+takes one (not) or two (and, or, implies, iff) expressions as its
+arguments and constructs a larger expression from them. Literal
+and variable expressions are the basic starting points for building
+larger expressions in propositional logic. For example, if P, Q,
+and R are expressions, then so are (not P), (and P Q), etc.
 -/
-
--- structure VariableExpression : Type :=
--- (from_variable : var)
-
 
 /-
-Finally we have *operator* or *logical connective* expressions,
-such as ¬X or X ∧ Y. ¬ is a unary operator, building a bigger
-expression (with a not in front) from any given smaller one.
-The and operator on the other hand is a binary connective or
-operator, in that it constructs a new expression from *two*
-smaller expressions, as in "P ∧ Q", where P and Q can stand for
-any such smaller expressions.
+We have only one unary expression-building operator: not. We
+represent the collection of unary operators as the values of a
+new data type we'll call un_op, for "unary operator".
 -/
 
--- we have only one unary connective operator: not
 inductive un_op : Type | not
 
--- structure UnaryOperatorExpression : Type :=
--- (op : unary_op)
-
--- seeral binary expression-building (connective) operators
+-- We similarly define bin_op as the set of available binary operators
 inductive bin_op : Type
 | and
 | or
 | imp
 | iff
 
--- structure BinaryOperatorExpression : Type :=
--- (op : bin_op)
+/-!
+Now we get to the heart of the matter. With those preliminary
+dependencies out of the way, we now formally specify the complete
+(abstract) syntax of propositional logic. We do this by defining
+yet another data type. The idea is that values of this type will
+be (really will represent) expressions in propositional logic. In
+fact, in Lean, this type specifies the set of *all* and *only*
+the expressions legal in propositional logic.
+-/
 
 -- expressions (abstract syntax)
 inductive Expr : Type
@@ -88,7 +81,11 @@ inductive Expr : Type
 
 open Expr
 
--- concrete syntax: notations fro the two literal expressions
+/-
+### Concrete Syntax
+-/
+
+-- concrete syntax for literal true and literal false
 notation " ⊤ " => lit_expr true
 notation " ⊥ " => lit_expr false
 
