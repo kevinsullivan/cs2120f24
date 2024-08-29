@@ -25,3 +25,6 @@ Getting started:
 - in VSCode "File > open folder" your new cloned *directory*
 - click on Main.lean; VSCode will install Lean
 - sometimes you need to tell Lean to re-process a "red" file with CMD/CTRL-SHIFT-P the "Lean4: Restart File"
+- to be able to run Python files you'll need to have Python installed on your laptop
+  - many will have python3 installed (as python), otherwise https://www.python.org/downloads/release/python-3125/
+  
