@@ -64,12 +64,12 @@ theorem sqrt_4_neg2 : sqrt 4 (by linarith) (-2) := by
   2 * 2 = 9.
   -/
 
-  theorem sqrt_9_2 : sqrt (9:ℚ) (by linarith) 2 := by
+/-
+theorem sqrt_9_2 : sqrt (9:ℚ) (by linarith) 2 := by
   unfold sqrt
   simp
   show 2 ∈ {out | out * out = 9}
   simp
-  linarith  -- no can do: you can't prove the falsity that 2 * 2 = 9!
-
+-/
 
 end cs2120f24
