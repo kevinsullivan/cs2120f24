@@ -20,7 +20,7 @@ complex languages. For example, any common imperative programming
 language has expression sub-languages for Boolean and arithmetic
 expressions, among others (e.g., *X && Y* and *N + 1*).
 
-## The Formal Language of Propositional Logic Informally
+## The Formal Language of Propositional Logic, Informally
 
 Propositional logic is an *expression language*. In fact it is
 *isomorphic* (essentially identical) to the language of Boolean
@@ -40,24 +40,25 @@ as *base cases*. Here's the syntax.
 We define the type of expressions in PL as follows:
 
 - base cases
-  - given any (b : Bool), (literal b) is an expression (base case)
-  - given any (v : Variable), (variable v) is an expression (base case)
+  - given any (b : Bool), (lit b) is an expression (base case)
+  - given any (v : Variable), (var v) is an expression (base case)
 - inductive cases
-  - given any expression e and any unary operator (connective), op, \op e is an expression (inductive)
+  - given any expression e and any *unary* operator, op, \op e is an expression 
     - the only *unary* operator we consider for now is \not
-    - thus, for any e, the only unary operator expression defined here is \not e
-  - if e1 and e2 are any expressions and op is any *binary* operator (connective) then so is \op e1 e2
+    - thus, for any e, the only unary operator expression we define is (not e)
+  - if e1 and e2 are expressions and op is a *binary* connective, then (\op e1 e2) is an expression
     - the binary connectives we consider here for now are: and, or, implies, iff
-    - thus the following are also all expressions in propositional logic:
-      - \and e1 e2
-      - \or e1 e2
-      - \to e1 e2
-      - \implies e1 e2
-      - \iff e1 e2
+    - so the following are also all expressions in propositional logic:
+      - (and e1 e2)
+      - (or e1 e2)
+      - and some others
+        - (imp e1 e2)
+        - (iff e1 e2)
+        - etc
 
 #### Concrete Syntax
 
-We'll use \top and \bottom as notations for the (literal true) and (literal false) expressions.
+We'll use \top and \bottom as notations for the (lit true) and (lit false) expressions.
 Given any variable, v, we'll use {v} as a variable expression and will allow shorthands such as X := {v}
 Given any expression, e, we'll use \not e as a notation for \not e
 Given any expressions, e1 and e2, we'll use *infix* notation e1 \and e2, etc.
