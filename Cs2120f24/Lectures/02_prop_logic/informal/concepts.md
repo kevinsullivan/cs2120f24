@@ -51,5 +51,5 @@
     - map (eval e) over each i in list of interpretation *functions*
     - specifying Boolean functions: truth tables (paper and machine)
     - counting Boolean functions: how many ways to reduce n Booleans to one
-- Wecome to abstract thinking!
-  
+  - 
+  - 
