@@ -1,4 +1,4 @@
-import Cs2120f24.Lectures.«02_prop_logic».prop_logic_syntax
+import Cs2120f24.Lectures.«02_prop_logic».syntax
 
 open cs2120f24
 open Expr
@@ -56,6 +56,7 @@ Hover over the Lean #check commands to see the output.
 #check Expr.bin_op_expr                 -- binary connective expression builder
 #check Expr.bin_op_expr bin_op.and      -- specializ to *and* expression builder
 #check Expr.bin_op_expr bin_op.and P Q  -- applied to two expressions, voila!
+#check P ∧ Q                            -- same thing with concrete syntax
 
 /-
 Now you can construct as many syntactically correct

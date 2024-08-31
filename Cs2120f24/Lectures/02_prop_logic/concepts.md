@@ -1,0 +1,44 @@
+# Concepts in and through Propositional Logic
+
+- propositional logic: an expression language
+- formalize syntax as a type, Expr, with four expression constructors:
+  - "lit" expression from Boolean
+  - "var" expression from var indexed by a natural number
+  - "un_op" expression from unary operator, op, and (a smaller) expression, e
+  - "bin_op" expression from binary operator, op, and two expressions, e1, e2
+- abstract vs concrete syntax, de-sugaring
+- infix notations bring added complications
+  - have to specify relative precedences across several infix operators
+  - have to specify associativity properties of infix operators
+- constructors and consumers
+  - a "constructor", also known in logic as an introduction axiom (or "rule"):
+    - produces a term of a given type, T, from specified, typed argument values
+    - constructor C applied to (a1, ..., an) yields term (C a1 ... an), of type T
+    - a type can be defined to have any number of constructors
+  - a "destructor/eliminator" takes in a term of type T and analyzes it to:
+    - determine which of T's constructors produced it (matches on head of term)
+    - in each case, bind names to its remaining parts for possible subsequent use
+  - functions often analyze (look inside) data values to decide how to proceed
+  - (c.f., concept of parametricity in functions and data)
+- an operational semantics is a *function* for evaluating meanings of expressions
+- we define *eval*: given any (arbitrarily simple or complex) expression, eval:
+  - *consumes* it *recursively*, reducing parts from results of reducing subparts
+  - thus computing results *compositionally* its Boolean *meaning*
+- view an interpretation, i, as representing one of many possible Boolean worlds
+  - in PL, the i's (interpretations) are all Boolean valuations of n variables
+  - see a valuation/interpretation as a *function* from variables to Bools
+  - semantic evaluation answers whether expression, e, is true in world, i
+  - that's the essential subroutine, by simple expression evaluation given i
+  - for PL, there are algorithms for deciding three fundamental properties:
+    - validity: an expression is true in *all* (2^n) worlds (interpretations)
+    - satisfiability means there's *some* world (in the 2^n) in which it's true
+    - unsatisfiability means there's *no* world (in the 2^n) in which it's true
+  - "brute force" algorithm to *decide* if an expression, e, has each property:
+    - collect the results of evaluating e under each of the 2^n interpretations
+    - if they're all true, e is valid; if some are true, satisfiable; none: unsat
+  - look! a complete, precise, automated, declarative formal language (in Lean)
+    - abstract and concrete syntax
+    - operational semantics, eval : Expr -> Interpretation -> Bool
+    - brute force expression property checkers:  valid, sat, unsat
+- Wecome to the world of automated formal reasoning!
+  

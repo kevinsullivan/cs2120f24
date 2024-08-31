@@ -1,5 +1,5 @@
-import Cs2120f24.Lectures.«02_prop_logic».prop_logic_syntax
-import Cs2120f24.Lectures.«02_prop_logic».prop_logic_semantics
+import Cs2120f24.Lectures.«02_prop_logic».syntax
+import Cs2120f24.Lectures.«02_prop_logic».semantics
 
 namespace cs2120f24
 
