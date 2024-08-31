@@ -1,13 +1,14 @@
-import Cs2120f24.Lectures.«02_prop_logic».syntax
+import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
+import Cs2120f24.Lectures.«02_prop_logic».formal.semantics
 
 open cs2120f24
 open Expr
 
 
 -- Variables
-def v₀ : var := var_[0]
-def v₁ : var := var_[1]
-def v₂ : var := var_[2]
+def v₀ : var := ⟨0⟩
+def v₁ : var := ⟨1⟩
+def v₂ : var := ⟨2⟩
 
 /-!
 Variable expressions

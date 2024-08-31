@@ -28,8 +28,15 @@
   - in PL, the i's (interpretations) are all Boolean valuations of n variables
   - see a valuation/interpretation as a *function* from variables to Bools
   - semantic evaluation answers whether expression, e, is true in world, i
-  - that's the essential subroutine, by simple expression evaluation given i
-  - for PL, there are algorithms for deciding three fundamental properties:
+  - answer depends on meanings of both elementary expressions and *operators*
+    - elementary expressions are literal and variable expressions
+    - syntactic operators are \and,. \or, \not, etc.
+    - semantics of constant by the two cases
+    - semantics of variable by applying interpretation *function* to variable
+    - semantics of an operator is some Boolean function: &&, ||, !, etc.
+    - here it's a function from any operator to its meaning as a Boolean function
+  - evaluation of an expression under an interpretation is core subroutine
+  - using it we get algorithms for "deciding three properties of expressions:"
     - validity: an expression is true in *all* (2^n) worlds (interpretations)
     - satisfiability means there's *some* world (in the 2^n) in which it's true
     - unsatisfiability means there's *no* world (in the 2^n) in which it's true
@@ -40,5 +47,9 @@
     - abstract and concrete syntax
     - operational semantics, eval : Expr -> Interpretation -> Bool
     - brute force expression property checkers:  valid, sat, unsat
-- Wecome to the world of automated formal reasoning!
+  - Unsorted/misc
+    - map (eval e) over each i in list of interpretation *functions*
+    - specifying Boolean functions: truth tables (paper and machine)
+    - counting Boolean functions: how many ways to reduce n Booleans to one
+- Wecome to abstract thinking!
   

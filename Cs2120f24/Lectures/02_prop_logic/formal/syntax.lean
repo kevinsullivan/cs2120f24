@@ -15,51 +15,96 @@ correct propositional logic expressions. Roughly speaking,
 the syntax defines "literal" and "variable" expressions and
 a collection of expression-composiing operators that take
 smaller expressions as arguments to yield larger expressions
-as results. Remember: we're not talking abouting meanings,
-just the possible forms of a propositional logic expression.
-So let's get started.
+as results.
+
+- literal expressions
+- variable expressions
+- operator (application) expressions
+
+Remember: we're not talking about Boolean meanings of
+literals, variables, or bigger expressions here. The
+syntax of a languages defines the set of syntactically
+constructible expressions in our language, and that's
+all.
+
+Now what's interesting is that we formalized the set of
+all correct expressions as Expr. It's a type. And now
+any particular logical expression is just a data value of
+this Expr type. The available constructors describe all
+all and only the ways to construct a term of this type,
+that we take to encode a propositional logic expression,
+that Lean checks automatically for syntactic correctness.
+
+Let's dive down into literal, variable, and application
+(operator application, if you want) expressions and how
+we represent them in Lean.
 -/
 
 /-!
 ### Literal Expressions
 
-We need literal expressions meaning Boolean true and
-Boolean false, respectively. We'll write these literal
-expressions as (lit true) and llit false). For concrete
-syntax we'll use ⊤ for (lit true) and ⊥ for (lit false).
+Our implementation of propositional logic defines two
+literal values, each built (a) by a constructor called
+lit, (b) from one of the two Boolean values, provided
+as an argument (true or false). Our syntactic language
+now includes two expressions: (lit true) and (lit false).
+In concrete syntax ⊤ is (lit true) and ⊥ is (lit false).
 -/
 
 /-!
 ### Variable Expressions
 
-Next we tackle *variable* expressions. For this we will
-separately define variables and variable expressions. A
-variable expression will be constructed from the variable
-it represents as an expression in propositional logic.
+Variable expressions are a little more complicated, but
+not much. Just as a lit expression is built from a Boolean
+value (and incorporated as a value into the resulting term),
+a variable expression is built from a variable (a value of
+a type we'll call var). Each var object in turn is built
+from a natural number (0, 1, 2, ...). The natural number
+in one var distinguishes that var from any var having a
+different natural number "index." This design provides us
+as future authors of masterpieces in propositional logic
+an infinite supply of distinct variables to use in writing
+our logical opus magni. So, again, lets dig down a little
+more.
 
 #### Variables
 
 We define *var* to be the type of *variables* as we've
 been using the term: they are not themselves expressions
 but are necessary values for making variable expressions.
-
-The structure keyword indicates we're defining a data
-type with just one constructor, here called *mk*. In this
-case, it takes on argument, a natural number. The result
-of applying var.mk to the number 3 is the term (var.mk 3).
-This is the actual term in Lean that we've now defined to
-represent what in concrete syntax we might write as v₃,
-the variable with (natural number) index 3 into the set
-of all of "countably" many distinct *variables* that we
-can now use in building propositional logic expressions.
 -/
 
--- abstract syntax for variables (var)
+/-!
+##### abstract syntax for variables (var)
+-/
 structure var : Type :=
-  mk :: (n: Nat)
+  mk :: (index: Nat)
 
--- concrete syntax: "var_[n]" for "(var.mk n)"
-notation "var_[" n "]" => var.mk n
+/-!
+The structure keyword indicates we're defining a data
+type with just one constructor, here called *mk*. In this
+case, it takes one argument, a natural number. The result
+of applying var.mk to the number 3 is the term (var.mk 3),
+which we will take to mean "the particular variable from
+our set of infinitely many, built from the Nat value 3".
+Here's a shorthand notation we just made up. You can use
+var_[3], for example, to mean (var.mk 3). It't not a lot
+of help, but
+-/
+
+/-!
+##### concrete syntax for variables (var)
+
+We could define our own concrete notation for variables,
+but Lean provides one automatically for any "structure"
+type. A structure type has exactly one constructor. You
+can give it a name, but Lean defines *mk* as the default.
+This constructor will take zero or more argument. So, to
+build a value of such a type you can use ⟨ a, b, c,... ⟩
+notation as a shorthand for, say, "var.mk a b c ....".
+We do need to let Lean know the result show be a "var".
+-/
+#check (⟨3⟩ : var)   -- it's a variable (var)
 
 
 /-!
@@ -128,7 +173,7 @@ definition a range of expressions, which is to
 say, values that can be constructed using these
 constructors and any values for their arguments.
 
-PRACTICE:
+PRACTICE: Coming your way soon.
 -/
 
 /-

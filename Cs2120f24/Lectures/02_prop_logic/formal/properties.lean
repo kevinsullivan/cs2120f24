@@ -90,7 +90,8 @@ where bools_to_interp_helper : (vars : Nat) → (vals : List Bool) → Interp
 def mk_interp_vars_row : (vars: Nat) → (row: Nat) → Interp
 | v, r => bools_to_interp (mk_row_bools r v)
 
--- INTERFACE: Given # n of variables, return list of all 2^n interpretations
+-- INTERFACE:
+-- Given number, n, of variables, return list of all 2^n interpretations
 def mk_interps (vars : Nat) : List Interp :=
   mk_interps_helper (2^vars) vars
 where mk_interps_helper : (rows : Nat) → (vars : Nat) → List Interp
@@ -121,6 +122,7 @@ def reduce_and : List Bool → Bool
 | [] => true
 | h::t => and h (reduce_and t)
 
+-- INTERFACE
 -- Three main functions: test given expression for satsfiability properties
 -- reduce_or (map (eval e) all_interps)
 

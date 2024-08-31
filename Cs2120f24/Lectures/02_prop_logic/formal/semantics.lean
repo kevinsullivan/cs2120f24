@@ -1,0 +1,94 @@
+import Cs2120f24.Lectures.«02_prop_logic».formal.domain
+import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
+
+namespace cs2120f24
+
+/-!
+### Semantics
+
+The idea of semantics in Propositional Logic is simple:
+every expression has, as its meaning, a Boolean value.
+For literal expressions, easy. For variable expresssions,
+you need a interpretation function, then you extract the
+variable from the variable expressions, then you apply
+the interpretation function to the variable to get the
+Boolean value "assigned to it by that interpretation."
+Finally, you evaluate big expressions by evaluating the
+subexpressions, getting Bools, which you then combing
+using the Boolean function specified by the *syntactic*
+operator (logical connective): and, or, not, or whatever.
+That's it!
+-/
+
+/-!
+#### Interpretation of Unary Connectives
+
+The first thing we'll do is define what Boolean operators
+we mean by the names of our unary and binary "conenctives".
+-/
+
+-- function takes unary operator and returns *unary* Boolean function
+-- (Bool -> Bool) means takes *one* Bool argument and "returns" a Bool
+
+def eval_un_op : un_op → (Bool → Bool)
+| (un_op.not) => not
+
+
+/-!
+#### Interpretation of Binary Connectives
+
+- takes a binary operator and returns corresponding *binary* Boolean function
+- (Bool → Bool → Bool means takes two Bools and finally returns one at the end)
+-/
+
+def eval_bin_op : bin_op → (Bool → Bool → Bool)
+| bin_op.and => and
+| bin_op.or => or
+| bin_op.imp => imp
+| bin_op.iff => iff
+
+/-!
+We've now understood that an "interpretation" can be understood
+to be and can at least here actually be *used* as a function that
+takes a variable (var) as an argument and that returns the Boolean
+value that that interpretation assigns to it.
+
+To understand the next line, understand that (var → Bool) in Lean
+is the type of any function that takes a var argument and returns a
+Bool value. Here we just give this *type* a name to make subsequent
+code just a easier for people to read and understand.
+-/
+
+def VarInterp := var → Bool
+
+open Expr
+
+/-!
+#### Operational Semantics of Propositional Logic
+
+NB: This is the material you most need and want to grok.
+
+Finally now here is the central definition: the semantics of
+propositional logic, specified in terms of our representations
+of interpretations, variables, etc.
+
+The first line defines eval_expr to be some function taking
+an expression, e, and an interpretation, i, as arguments and
+returning the Boolean meaining of e in the "world" (binding
+of all variables to Boolean values) expressed by that i.
+-/
+
+def eval_expr : Expr → VarInterp → Bool
+| lit_expr b,             _ => b
+| (var_expr v),           i => i v
+| (un_op_expr op e),      i => (eval_un_op op) (eval_expr e i)
+| (bin_op_expr op e1 e2), i => (eval_bin_op op) (eval_expr e1 i) (eval_expr e2 i)
+
+/-!
+That's it. From this material you should be able to aquire
+a justifiably confidenct grasp of essentially every aspect
+of  its syntax and semantics of propositional logic. We have
+yet to address fundamental *properties of expressions in
+propositional logic. That's coming next.
+-/
+end cs2120f24

@@ -58,10 +58,11 @@ We define the type of expressions in PL as follows:
 
 #### Concrete Syntax
 
-We'll use \top and \bottom as notations for the (lit true) and (lit false) expressions.
-Given any variable, v, we'll use {v} as a variable expression and will allow shorthands such as X := {v}
-Given any expression, e, we'll use \not e as a notation for \not e
-Given any expressions, e1 and e2, we'll use *infix* notation e1 \and e2, etc.
+- We'll use ⊤ (top) and ⊥ (bottom) as notations for (lit true) and (lit false)
+- Given a variable (var), v, we define {v}, to be a variable expression for v
+  - namely (Expr.var (var.mk n)) where n is the variable's natural number index 
+- Given any expression, e, we'll use ¬e as a notation for (Expr.not e)
+- Given any expressions, e1 and e2, we'll use *infix* notation e1 \and e2, etc.
 
 ##### Operator Precedence
 
@@ -84,8 +85,6 @@ right to the left, which would give us (5 - (3 - 1)) or from the left to right:
 so the correct answer is 1, not 3. Some other operators, such as *implies*, are
 *right associative*. So, for example, P -> Q -> R means (P -> (Q -> R)), and not
 ((P -> Q) -> R).
-
-#### Exercises
 
 #### Conclusions
 
@@ -150,6 +149,22 @@ to write an "always-right" program that takes any Java program
 as input and that in a finite number of steps outputs the right
 answer to the question, can it go into an infinite loop?
 
-## Semantics of Expressions
-
 ## Properties of Expressions
+
+What the semantics of propositional logic gives us to start with
+is an operational semantics: a *function* that we can apply to any
+expression (along with a interpretation for the variables) to get
+the Boolean meaning of that expression (proposition) in (or about)
+the "world" that the interpretation represents.
+
+From this definition we can now define three crucial properties
+of expressions (all by themselves). An expression, e, is said to be
+
+- valid : true under all possible interpretations of the variables in e
+- satisfiable : true under some interpretation of the variables in in e
+- unsatisfiable: true under none of the interpretations of the variables in e
+  
+The trick is that given a natural number, n, of variables, we can easily
+generate a list of all 2^n possible interpretations, and that's enough to
+be able to *decide* whether any given expression has any of these properties
+by just evaluating e "in each of the 2^n possible worlds."
