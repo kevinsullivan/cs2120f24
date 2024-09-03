@@ -59,6 +59,7 @@ def iff : Bool → Bool → Bool
 
 -- Define your own here.
 
--- Question (combinatorics): How many binary Boolean functions are there?
+-- Problem #1 (combinatorics): How many binary Boolean functions are there?
+-- Problem #2 (Boolean algenra): Write a specification of the exclusive or function (xor)
 
 end cs2120f24

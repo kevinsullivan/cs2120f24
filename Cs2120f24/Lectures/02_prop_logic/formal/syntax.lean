@@ -76,9 +76,15 @@ but are necessary values for making variable expressions.
 
 /-!
 ##### abstract syntax for variables (var)
+
+The idea is that eventually an interpretation function
+will take a BoolVar object as arguments and return the
+Boolean values that that interpretation assigns to it.
 -/
-structure var : Type :=
+structure BoolVar : Type :=
   mk :: (index: Nat)
+deriving Repr
+
 
 /-!
 The structure keyword indicates we're defining a data
@@ -104,7 +110,9 @@ build a value of such a type you can use ⟨ a, b, c,... ⟩
 notation as a shorthand for, say, "var.mk a b c ....".
 We do need to let Lean know the result show be a "var".
 -/
-#check (⟨3⟩ : var)   -- it's a variable (var)
+#check (⟨3⟩ : BoolVar)    -- it's a variable (var)
+-- #check ⟨3⟩             -- not unique constructor expr
+-- But where Lean can infer BoolVar type ⟨3⟩ will suffice
 
 
 /-!
@@ -137,17 +145,19 @@ uses it in constructing a larger expression.
 We call the only unary operator *not*.
 -/
 
-inductive un_op : Type | not
+inductive Un_op : Type | not
+deriving Repr
 
 
 /-
 We also give usual names to four binary operators
 -/
-inductive bin_op : Type
+inductive Bin_op : Type
 | and
 | or
 | imp
 | iff
+deriving Repr
 
 /-!
 Now we get to the heart of the matter. With those preliminary
@@ -161,19 +171,27 @@ the expressions legal in propositional logic.
 ### Definition: The Abstract Syntax of Propositional Logic
 -/
 
-inductive Expr : Type
-| lit_expr (fromBool : Bool) : Expr
-| var_expr (from_var : var)
-| un_op_expr(op : un_op) (e : Expr)
-| bin_op_expr (op : bin_op) (e1 e2 : Expr)
+inductive PLExpr : Type
+| lit_expr (fromBool : Bool) : PLExpr
+| var_expr (from_var : BoolVar)
+| un_op_expr (op : Un_op) (e : PLExpr)
+| bin_op_expr (op : Bin_op) (e1 e2 : PLExpr)
+deriving Repr
 
 /-!
-It will be a good practice to infer from this
-definition a range of expressions, which is to
-say, values that can be constructed using these
-constructors and any values for their arguments.
+The "deriving Repr" here is a detail you can ignore for
+now. It's explained in the book. In a nutshell it causes
+Lean to try to synthesize a function to convert any value
+of this type to a string to help in presenting values as
+properly formatted output strings. Anyway, a detail.
+-/
 
-PRACTICE: Coming your way soon.
+/-!
+However, it's essential to practice writing definitions
+of such terms, to get a clear sense of just exactly how
+they can be formed.
+
+PRACTICE: IN CLASS.
 -/
 
 /-
@@ -186,7 +204,7 @@ the time, one can "open" the namespace. Just don't
 do this if it would result in names having multiple
 different definitions being "directly visible."
 -/
-open Expr
+open PLExpr
 
 /-
 ## Concrete Syntax
@@ -211,17 +229,18 @@ notation "{" v "}" => var_expr v
 
 -- our single unary connective, *not* (¬)
 -- we set it to have maximum precedence (binding strength)
-prefix:max "¬" => un_op_expr un_op.not
+prefix:max "¬" => PLExpr.un_op_expr Un_op.not
 
 -- and here are concrete notations for our binary connectives
 -- the letter "l" after infix specifies left associativity
 -- rhw numbers after the colons specify relative binding strengths
 -- in parens are the concrete notations
 -- the de-sugared versions follow after the =>s
-infixr:35 " ∧ " => bin_op_expr bin_op.and
-infixr:30 " ∨ " => bin_op_expr bin_op.or
-infixr:25 " ⇒ " =>  bin_op_expr bin_op.imp
-infixr:20 " ⇔ " => bin_op_expr bin_op.iff
+
+infixr:35 " ∧ " => PLExpr.bin_op_expr Bin_op.and
+infixr:30 " ∨ " => PLExpr.bin_op_expr Bin_op.or
+infixr:25 " ⇒ " => PLExpr.bin_op_expr Bin_op.imp
+infixr:20 " ⇔ " => PLExpr.bin_op_expr Bin_op.iff
 
 /-
 Now head off to the Main.lean file in this same directory,

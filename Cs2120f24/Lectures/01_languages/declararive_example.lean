@@ -4,6 +4,8 @@ import Mathlib.Tactic.Linarith.Frontend
 namespace cs2120f24
 
 /-
+Declarative Specification
+
 An abstract specification, written in the logic
 of the Lean prover. The function, a_relation, is
 defined to take any *real* number, x, as an input
@@ -17,6 +19,8 @@ def sqrt (x : ℚ) (_ : x ≥ (0:ℚ)) :=
   { out : ℝ |  (out * out = x) ∧ (x ≥ 0) }  -- bug!
 
 /-
+Logical Reasoning (optional, no need to read this)
+
 Just because you write in mathematical logic doesn't
 mean that you can't make dumb mistakes. Here we have
 not an implementation bug but a specification bug. Do

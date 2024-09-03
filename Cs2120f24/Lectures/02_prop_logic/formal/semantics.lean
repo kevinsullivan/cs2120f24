@@ -1,5 +1,5 @@
-import Cs2120f24.Lectures.«02_prop_logic».formal.domain
 import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
+import Cs2120f24.Lectures.«02_prop_logic».formal.domain
 
 namespace cs2120f24
 
@@ -30,8 +30,8 @@ we mean by the names of our unary and binary "conenctives".
 -- function takes unary operator and returns *unary* Boolean function
 -- (Bool -> Bool) means takes *one* Bool argument and "returns" a Bool
 
-def eval_un_op : un_op → (Bool → Bool)
-| (un_op.not) => not
+def eval_un_op : Un_op → (Bool → Bool)
+| (Un_op.not) => not
 
 
 /-!
@@ -41,11 +41,11 @@ def eval_un_op : un_op → (Bool → Bool)
 - (Bool → Bool → Bool means takes two Bools and finally returns one at the end)
 -/
 
-def eval_bin_op : bin_op → (Bool → Bool → Bool)
-| bin_op.and => and
-| bin_op.or => or
-| bin_op.imp => imp
-| bin_op.iff => iff
+def eval_bin_op : Bin_op → (Bool → Bool → Bool)
+| Bin_op.and => and
+| Bin_op.or => or
+| Bin_op.imp => imp
+| Bin_op.iff => iff
 
 /-!
 We've now understood that an "interpretation" can be understood
@@ -59,9 +59,9 @@ Bool value. Here we just give this *type* a name to make subsequent
 code just a easier for people to read and understand.
 -/
 
-def VarInterp := var → Bool
+abbrev BoolInterp := BoolVar → Bool
 
-open Expr
+open PLExpr
 
 /-!
 #### Operational Semantics of Propositional Logic
@@ -78,7 +78,7 @@ returning the Boolean meaining of e in the "world" (binding
 of all variables to Boolean values) expressed by that i.
 -/
 
-def eval_expr : Expr → VarInterp → Bool
+def eval_expr : PLExpr → BoolInterp → Bool
 | lit_expr b,             _ => b
 | (var_expr v),           i => i v
 | (un_op_expr op e),      i => (eval_un_op op) (eval_expr e i)
