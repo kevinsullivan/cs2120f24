@@ -49,12 +49,6 @@ def InterpFromRowCols : (row: Nat) → (cols: Nat) → BoolInterp
   InterpFromListBool
     (list_bool_from_row_index_and_cols index cols)
 
-/-
-def all_interps_n_vars : Nat → List (List Bool)
-| 0 => []
-| (n' + 1) => [([false]::(all_interps_n_vars n')), true::(all_interps_n_vars n')]
--/
-
 /-!
 Given the number, n, of variables, return a list of its 2^n interpretations.
 Watch out, as the size of the constsructed lists grows very quickly.
