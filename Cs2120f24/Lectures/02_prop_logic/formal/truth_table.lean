@@ -13,10 +13,10 @@ arithmetic up to the row at index 2^n-1, where n is the number
 of variables.
 -/
 
-def truth_table_outputs : PLExpr → List Bool
-| e =>  eval_expr_interps (expr_to_all_interps e) e where
-eval_expr_interps : List BoolInterp → PLExpr → List Bool
+def truthTableOutputVector : PLExpr → List Bool
+| e =>  evalBoolExpr_interps (interpsForExpr e) e where
+evalBoolExpr_interps : List BoolInterp → PLExpr → List Bool
 | [], _ => []
-| h::t, e => [eval_expr e h] ++ eval_expr_interps t e
+| h::t, e => [evalBoolExpr e h] ++ evalBoolExpr_interps t e
 
 end cs2120f24

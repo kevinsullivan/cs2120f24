@@ -1,0 +1,83 @@
+
+
+
+
+/-!
+You can use #check to see the types of all these things.
+Hover over the Lean #check commands to see the output.
+-/
+
+#check 0                                -- natural number
+#check BoolVar.mk                           -- constructor takes nat
+#check BoolVar.mk 0                         -- applied to a nat yields BoolVar
+
+#check PLExpr                             -- the type of expression values
+
+-- quick introduction to "partial evaluation"
+#check PLExpr.bin_op_expr                 -- binary connective expression builder
+#check PLExpr.bin_op_expr BinOp.and      -- specializ to *and* expression builder
+#check PLExpr.bin_op_expr BinOp.and P    -- applied to one expression: whaah?
+#check PLExpr.bin_op_expr BinOp.and P Q  -- applied to two expressions, voila!
+
+
+-- now wouldn't you rather write this?!
+#check P ∧ Q                            -- same thing with concrete syntax
+
+/-
+Now you can construct as many syntactically correct
+expressions in propositional logic as you want. We
+have formally specified the exact structures of the
+values/terms, in Lean, that we will use for literal,
+variable, and (unary and binary) operator expressions.
+
+Given the rules we've defined for constructing these
+propositional logic expression (Expr) values/terms,
+it's simply not possible to construct terms that are
+not syntactically correct. Lean continually checks to
+ensure that terms are of the types they are meant to
+be. If you get one of these structures wrong, Lean
+will reject it as not being a value of the right type,
+namely of the type of terms defined by the construction
+"rules" we've given to the Expr type.
+
+Note, however, that we've said nothing at all yet
+about what all of these expressions should be defined
+to mean!
+-/
+
+/-!
+Interpretations. Remember that interpretations
+are functions and won't print well natively.
+-/
+
+def row_5_vars_3 := list_bool_from_row_index_and_cols 5 3
+#reduce row_5_vars_3  -- [true,false,true]
+
+
+def lb2i := InterpFromListBool [true,true,true]
+def r5v3 := InterpFromListBool row_5_vars_3
+#eval! stringFromInterp lb2i 5 -- bug
+#eval! stringFromInterp r5v3 5 -- bug
+
+
+def i1 := interpsForNVariables 1
+def i2 := interpsForNVariables 2
+def i3 := interpsForNVariables 3
+def i4 := interpsForNVariables 4
+#reduce listListStringFromInterps i1 4
+#reduce listListStringFromInterps i2 4
+#reduce listListStringFromInterps i3 4
+#reduce listListStringFromInterps i4 4
+
+#reduce  (binaryFromRowCols 5 6)
+#reduce bit_list_to_bool_list (binaryFromRowCols 5 6)
+#reduce list_bool_from_row_index_and_cols 5 6
+
+-- this is a function and so doesn't print nicely
+#reduce InterpFromRowCols 6 3
+
+
+#reduce stringFromInterp (InterpFromRowCols 6 3) 5
+
+#eval! (list_bool_from_row_index_and_cols 4 3).toString
+#reduce stringFromInterp (InterpFromRowCols 2 2) 4

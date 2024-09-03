@@ -30,8 +30,8 @@ we mean by the names of our unary and binary "conenctives".
 -- function takes unary operator and returns *unary* Boolean function
 -- (Bool -> Bool) means takes *one* Bool argument and "returns" a Bool
 
-def eval_un_op : Un_op → (Bool → Bool)
-| (Un_op.not) => not
+def evalUnOp : UnOp → (Bool → Bool)
+| (UnOp.not) => not
 
 
 /-!
@@ -41,11 +41,11 @@ def eval_un_op : Un_op → (Bool → Bool)
 - (Bool → Bool → Bool means takes two Bools and finally returns one at the end)
 -/
 
-def eval_bin_op : Bin_op → (Bool → Bool → Bool)
-| Bin_op.and => and
-| Bin_op.or => or
-| Bin_op.imp => imp
-| Bin_op.iff => iff
+def evalBinOp : BinOp → (Bool → Bool → Bool)
+| BinOp.and => and
+| BinOp.or => or
+| BinOp.imp => imp
+| BinOp.iff => iff
 
 /-!
 We've now understood that an "interpretation" can be understood
@@ -72,17 +72,17 @@ Finally now here is the central definition: the semantics of
 propositional logic, specified in terms of our representations
 of interpretations, variables, etc.
 
-The first line defines eval_expr to be some function taking
+The first line defines evalBoolExpr to be some function taking
 an expression, e, and an interpretation, i, as arguments and
 returning the Boolean meaining of e in the "world" (binding
 of all variables to Boolean values) expressed by that i.
 -/
 
-def eval_expr : PLExpr → BoolInterp → Bool
+def evalBoolExpr : PLExpr → BoolInterp → Bool
 | lit_expr b,             _ => b
 | (var_expr v),           i => i v
-| (un_op_expr op e),      i => (eval_un_op op) (eval_expr e i)
-| (bin_op_expr op e1 e2), i => (eval_bin_op op) (eval_expr e1 i) (eval_expr e2 i)
+| (un_op_expr op e),      i => (evalUnOp op) (evalBoolExpr e i)
+| (bin_op_expr op e1 e2), i => (evalBinOp op) (evalBoolExpr e1 i) (evalBoolExpr e2 i)
 
 /-!
 That's it. From this material you should be able to aquire

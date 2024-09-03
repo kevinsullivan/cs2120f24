@@ -4,8 +4,8 @@
 - formalize syntax as a type, Expr, with four expression constructors:
   - "lit" expression from Boolean
   - "var" expression from var indexed by a natural number
-  - "un_op" expression from unary operator, op, and (a smaller) expression, e
-  - "bin_op" expression from binary operator, op, and two expressions, e1, e2
+  - "UnOp" expression from unary operator, op, and (a smaller) expression, e
+  - "BinOp" expression from binary operator, op, and two expressions, e1, e2
 - abstract vs concrete syntax, de-sugaring
 - infix notations bring added complications
   - have to specify relative precedences across several infix operators

@@ -9,60 +9,49 @@ Converting natural number indices to corresponding rows of
 truth tables for any given v, a number of variables.
 -/
 
+--
+abbrev Bit := Bool
+abbrev Binary := List Bit
+
 -- rightmost bit in binary representation of given natural number, n
-def right_bit (n : Nat) := n%2
+def rightBit (n : Nat) := n%2
 
 -- dividing n by 2 discards rightmost bit in binary representation of n
-def shift_right (n : Nat) := n/2
+def shiftRight (n : Nat) := n/2
+
+-- Given nat n return its binary expansion as a list Bool
+def BitFromNat (n : Nat) := if n= 0 then false else true
 
 -- convert natural number to corresponding list of bits (nat, 0 or 1)
-def nat_to_bin : Nat → List Nat
-| 0     => [0]
-| 1     => [1]
+def binaryFromNat : Nat → Binary
+| 0     => [false]
+| 1     => [true]
 | n' + 2 =>
-  have : (shift_right (n' + 2)) < (n' + 2) := by sorry
-  nat_to_bin (shift_right (n' + 2)) ++ [right_bit (n' + 2)]
+  have : (shiftRight (n' + 2)) < (n' + 2) := by sorry
+  (binaryFromNat (shiftRight (n' + 2))) ++ [(BitFromNat (rightBit (n' + 2)))]
 
 /-!
 Left pad list of nats with zeros
 Todo: Clarify bits vs nats
 -/
-def list_nat_zero_pad : List Nat → Nat → List Nat
+def zeroPadListLeft : Binary → Nat → Binary
   | l, n => zero_pad_recursive (n - (l.length)) l
-where zero_pad_recursive : Nat → List Nat → List Nat
+where zero_pad_recursive : Nat → Binary → Binary
   | 0, l => l
-  | n'+1, l => zero_pad_recursive n' (0::l)
+  | n'+1, l => zero_pad_recursive n' (false::l)
 
 /-!
  Make bit list at index "row" zero padded "cols" wide
 -/
-def mk_bit_row_pad : (row : Nat) → (cols: Nat) → List Nat
-| r, c => list_nat_zero_pad (nat_to_bin r) c
-
-/-!
-Convert bit to bool
--/
-def bit_to_bool : Nat → Bool
-| 0 => false
-| _ => true
-
-/-!
-convert list of bits to list Bools
--/
-def bit_list_to_bool_list : List Nat → List Bool
-| [] => []
-| h::t => (bit_to_bool h) :: (bit_list_to_bool_list t)
+def binaryFromRowCols : (row : Nat) → (cols: Nat) → Binary
+| r, c => zeroPadListLeft (binaryFromNat r) c
 
 /-!
 Make row'th row of truth table with vars variable columns
 -/
 def list_bool_from_row_index_and_cols : (row : Nat) → (vars : Nat) → List Bool
-| index, cols => bit_list_to_bool_list (mk_bit_row_pad index cols)
+| index, cols => (binaryFromRowCols index cols)
 
-
-/-!
-### Generalized Boolean reductions
--/
 
 -- functions to check if bool list has any, resp. all, values true
 def reduce_or : List Bool → Bool

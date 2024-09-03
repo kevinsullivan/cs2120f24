@@ -99,7 +99,7 @@ of help, but
 -/
 
 /-!
-##### concrete syntax for variables (var)
+##### Concrete syntax for variables (var)
 
 We could define our own concrete notation for variables,
 but Lean provides one automatically for any "structure"
@@ -116,11 +116,9 @@ We do need to let Lean know the result show be a "var".
 
 
 /-!
-#### Variable Expressions
-
 Now we just defined variables expressions as expressions
-of the form (var_expr v). We define var_expr shortly. Just
-see it as the method for constructing a variable expression
+of the form (var_expr v). We define var_expr shortly. View
+var_expr as the method for constructing a variable expression
 from a variable. ANd given a variable expression, you can
 get the underlying variable back out to work with. We'll
 need that when it comes to defining interpretations as
@@ -139,20 +137,19 @@ uses it in constructing a larger expression.
 - applying the *not* operator to an expression e yields the expression (not e)
 - applying a *binary* operator, op, to e1 and e2, yields the expression (op e1 e2)
 - here, op can be and, or, not, implies, iff, and so forth
+
+We call the only unary operator *not*, and the usual binary operators
+by their usual names. Remeber, these are meaningless symbols in the formal
+*syntax* of propositional logic. We give them names that will reflect their
+usual meanings when we define *semantics* for syntact expressions.
 -/
 
-/-
-We call the only unary operator *not*.
--/
-
-inductive Un_op : Type | not
+-- unary connective (syntactic expression composers)
+inductive UnOp : Type | not
 deriving Repr
 
-
-/-
-We also give usual names to four binary operators
--/
-inductive Bin_op : Type
+-- binary connectives (syntactic expression composers)
+inductive BinOp : Type
 | and
 | or
 | imp
@@ -168,14 +165,14 @@ be (really will represent) expressions in propositional logic. In
 fact, in Lean, this type specifies the set of *all* and *only*
 the expressions legal in propositional logic.
 
-### Definition: The Abstract Syntax of Propositional Logic
+### Formal Syntax of Propositional Logic
 -/
 
 inductive PLExpr : Type
-| lit_expr (fromBool : Bool) : PLExpr
+| lit_expr (from_bool : Bool) : PLExpr
 | var_expr (from_var : BoolVar)
-| un_op_expr (op : Un_op) (e : PLExpr)
-| bin_op_expr (op : Bin_op) (e1 e2 : PLExpr)
+| un_op_expr (op : UnOp) (e : PLExpr)
+| bin_op_expr (op : BinOp) (e1 e2 : PLExpr)
 deriving Repr
 
 /-!
@@ -184,14 +181,6 @@ now. It's explained in the book. In a nutshell it causes
 Lean to try to synthesize a function to convert any value
 of this type to a string to help in presenting values as
 properly formatted output strings. Anyway, a detail.
--/
-
-/-!
-However, it's essential to practice writing definitions
-of such terms, to get a clear sense of just exactly how
-they can be formed.
-
-PRACTICE: IN CLASS.
 -/
 
 /-
@@ -206,41 +195,44 @@ different definitions being "directly visible."
 -/
 open PLExpr
 
+
+
 /-
-## Concrete Syntax
+## Concrete Syntax: All the Usual Notations
 
 A well designed, user tested, concrete syntax for a
 given formal language can be a huge aid to the human
 of abstract formal definitions in that language. We
 prefer to write (3 + 4) over (add 3 4), for example.
-
 We don't expect you to have justifiable confidence
 in your deep understanding of this notation stuff at
 this point! We encourge you to follow it carefully
 to get the gist.
 -/
 
--- concrete syntax for (lit true) and (lit false) expressions
+-- (lit true) and (lit false) expressions
 notation " ⊤ " => lit_expr true
 notation " ⊥ " => lit_expr false
 
--- our non-standard notation for a variable expression from a variable
+-- a variable expression constructed from from a variable
 notation "{" v "}" => var_expr v
 
 -- our single unary connective, *not* (¬)
+prefix:max "¬" => PLExpr.un_op_expr UnOp.not
 -- we set it to have maximum precedence (binding strength)
-prefix:max "¬" => PLExpr.un_op_expr Un_op.not
 
--- and here are concrete notations for our binary connectives
--- the letter "l" after infix specifies left associativity
--- rhw numbers after the colons specify relative binding strengths
--- in parens are the concrete notations
--- the de-sugared versions follow after the =>s
+/-!
+Here are concrete notations for our binary connectives.
+The letter "l" after infix specifies left associativity.
+The numbers after the colons specify binding strengths.
+In parens are the concrete infix notations.
+The de-sugared versions follow after the arrows.
+-/
 
-infixr:35 " ∧ " => PLExpr.bin_op_expr Bin_op.and
-infixr:30 " ∨ " => PLExpr.bin_op_expr Bin_op.or
-infixr:25 " ⇒ " => PLExpr.bin_op_expr Bin_op.imp
-infixr:20 " ⇔ " => PLExpr.bin_op_expr Bin_op.iff
+infixr:35 " ∧ " => PLExpr.bin_op_expr BinOp.and
+infixr:30 " ∨ " => PLExpr.bin_op_expr BinOp.or
+infixr:25 " ⇒ " => PLExpr.bin_op_expr BinOp.imp
+infixr:20 " ⇔ " => PLExpr.bin_op_expr BinOp.iff
 
 /-
 Now head off to the Main.lean file in this same directory,

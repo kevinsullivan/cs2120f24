@@ -27,11 +27,11 @@ structure nat_var where
 -- type of interpretation of arithmetic variables
 def arith_interp := nat_var → Nat
 
-inductive arith_un_op where
+inductive arith_UnOp where
 | inc
 | dec
 
-inductive arith_bin_op where
+inductive arith_BinOp where
 | add
 | sub
 | mul
@@ -41,9 +41,9 @@ inductive arith_bin_op where
 inductive arith_expr
 | lit (n : Nat)
 | var (v : var)
-| un_op (op : arith_un_op) (e : arith_expr)
-| bin_op (op : arith_bin_op) (e1 e2 : arith_expr)
+| UnOp (op : arith_UnOp) (e : arith_expr)
+| BinOp (op : arith_BinOp) (e1 e2 : arith_expr)
 
 -- concrete syntax
-notation "++" n => arith_expr.arith_un_op.inc n
-notation "--" n => arith_expr.arith_un_op.dec n
+notation "++" n => arith_expr.arith_UnOp.inc n
+notation "--" n => arith_expr.arith_UnOp.dec n
