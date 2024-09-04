@@ -53,7 +53,7 @@ def InterpFromRowCols : (row: Nat) → (cols: Nat) → BoolInterp
 Given the number, n, of variables, return a list of its 2^n interpretations.
 Watch out, as the size of the constsructed lists grows very quickly.
 -/
-def interpsForNVariables (vars : Nat) : List BoolInterp :=
+def listInterpsFromNVariables (vars : Nat) : List BoolInterp :=
   mk_interps_helper (2^vars) vars
 where mk_interps_helper : (rows : Nat) → (vars : Nat) → List BoolInterp
   | 0, _         => []
@@ -64,22 +64,30 @@ where mk_interps_helper : (rows : Nat) → (vars : Nat) → List BoolInterp
 /-!
 Given a PLExpr
 -/
-def interpsForExpr : PLExpr → List BoolInterp
-| e => let n := numVarsInExpr e; interpsForNVariables n
+def listInterpsFromExpr : PLExpr → List BoolInterp
+| e => let n := numVarsInExpr e; listInterpsFromNVariables n
 
 /-!
 Given interp, i, return list of "0"/"1" strings of width n
 By case analysis on the width argument
 -/
-def stringFromInterp : (i : BoolInterp) → (n : Nat) → List String
+def listStringFromInterp : (i : BoolInterp) → (w : Nat) → List String
 | _, 0 => []
-| i, (n' + 1) =>
-  let b := if (i ⟨n'⟩ ) then "1" else "0"
-  b::stringFromInterp i n'
+| i, (w' + 1) =>
+  let b := (if (i ⟨w'⟩ ) then "1" else "0")
+  listStringFromInterp i w' ++ [b]  -- ++ here is binary List.append
+
+#check listStringFromInterp
+
+/-!
+def stringFromListInterps : (List BoolInterp) → Nat → List (List String)
+| [], _ => []
+| h::t, w => (listStringFromInterp h w)::(stringFromListInterps t w)
+-/
 
 /-!
 Given a list of Bool interps and a width n, output them as a list of list of Bool
 -/
-def listListStringFromInterps : List BoolInterp → Nat → List (List String)
+def listListStringFromListInterps : List BoolInterp → Nat → List (List String)
 | [], _ => []
-| h::t, n => (stringFromInterp h n)::(listListStringFromInterps t n)
+| h::t, n => listStringFromInterp h n::listListStringFromListInterps t n

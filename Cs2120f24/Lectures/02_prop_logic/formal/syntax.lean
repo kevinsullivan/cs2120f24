@@ -145,7 +145,8 @@ usual meanings when we define *semantics* for syntact expressions.
 -/
 
 -- unary connective (syntactic expression composers)
-inductive UnOp : Type | not
+inductive UnOp : Type
+| not
 deriving Repr
 
 -- binary connectives (syntactic expression composers)
@@ -211,7 +212,7 @@ to get the gist.
 -/
 
 -- (lit true) and (lit false) expressions
-notation " ⊤ " => lit_expr true
+notation " ⊤ " => PLExpr.lit_expr true
 notation " ⊥ " => lit_expr false
 
 -- a variable expression constructed from from a variable

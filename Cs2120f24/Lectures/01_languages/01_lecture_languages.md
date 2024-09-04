@@ -1,4 +1,5 @@
 1. Languages
+2. 
    1. Elements  
       1. Syntax: Symbols and symbolic expressions
       2. Semantic domains: things that symbols/expressions refer to  
@@ -28,7 +29,7 @@
    4. Formal Languages  
       1. Imperative  
       2. Declarative  
-2. Formal Languages  
+3. Formal Languages  
    1. Imperative  
       1. Step by step procedure to solve a problem
       2. States, commands, and effects
@@ -40,7 +41,7 @@
          3) Models: Validity, Satisfiability, Unsatisfiability  
          4) Expressiveness vs Solvability  
       2. Expressiveness Against Efficiency  
-3. Declarative Formal Languages  
+4. Declarative Formal Languages  
    1. Quality Tradeoffs  
       1. Expressiveness  
       2. Computational complexity  
