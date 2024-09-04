@@ -103,7 +103,6 @@ Properties of Propositions (Expressions)!
 #reduce is_valid (P ∨ Q)
 
 
-
 /-!
 Homework #1
 
@@ -116,28 +115,31 @@ will get you started by defining three new propositional
 variables: isRaining, streetWet, and sprinklerOn. Now for
 each of the following propositions expressed in English,
 express it formally using these PL variable expressions.
+Here then are our three new PL variable expressions. The
+identifer's we're binding to these terms remind us what
+we are going to want these terms to mean "in the world."
 -/
 
-def isRaining : PLExpr := PLExpr.var_expr (BoolVar.mk 0)
-def sprinklerOn : PLExpr := PLExpr.var_expr (BoolVar.mk 1)
-def streetWet : PLExpr := PLExpr.var_expr (BoolVar.mk 2)
+def itsRaining : PLExpr := PLExpr.var_expr v₀
+def sprinklerOn : PLExpr := PLExpr.var_expr v₁
+def streetWet : PLExpr := PLExpr.var_expr v₂
 
 /-
 For each of the following English language expressions write
 the corresponding expression using our concrete propositional
 logic syntax. Give names to these propositions (PLExpr's) in
-the pattern of p0, p1, p2, ..., as we get you started
+the pattern of p0, p1, p2, as seen below.
 -/
 
 /-!
 It's raining and the sprinkler's on.
 -/
-def p0 : PLExpr := isRaining ∧ sprinklerOn
+def p0 : PLExpr := itsRaining ∧ sprinklerOn
 
 /-!
 The sprinler's on and it's raining.
 -/
-def p1  : PLExpr := _
+def p1  : PLExpr := sorry
 
 /-!
 If it's raining, then if the sprinkler's on, then it's
@@ -146,49 +148,69 @@ then that) expressions in natural language are written
 formally in propositional and predicate logic using the
 implication (implies) operator, imp (⇒ in our notation).
 -/
-def p2  : PLExpr := _
+def p2  : PLExpr := sorry
 
 /-!
 If it's raining and the sprinkler's running, then it's raining.
 -/
-def p3  : PLExpr := _
-
+def p3  : PLExpr := sorry
 
 /-!
 If it's raining ,then it's raining or the sprinkler's running.
 -/
-def p4  : PLExpr := _
+def p4  : PLExpr := sorry
 
 /-!
 If the sprinkler's running, it's raining or the sprinkler's running.
 -/
-def p5  : PLExpr := _
+def p5  : PLExpr := sorry
 
 /-!
 Whenever it's raining the streets are wet.
 -/
-def p6  : PLExpr := _
+def p6  : PLExpr := sorry
 
 /-!
 Whenever the sprinkler's running the streets are wet.
 -/
-def p7  : PLExpr := _
+def p7  : PLExpr := sorry
 
 /-!
-If (a) it's raining or the sprinkler's running, then (b) if it's
-raining then the streets are wet, the if the sprinkler's running
-then the streets are wet, then _________. What is the conclusion?
-Write the expression in PL.
+If (a) it's raining or the sprinkler's running, then (b) if
+whenever it's raining then the streets are wet, then (c) if
+whenever the sprinkler's running then the streets are wet, then
+_________. What is the conclusion? Write the expression in PL.
 -/
-def p8  : PLExpr := _
+def p8  : PLExpr := sorry
+
+/-!
+If whenever it's raining, the streets are wet, then whenever the
+streets are wet it's raining.
+-/
+def p9  : PLExpr := sorry
 
 
-def p9  : PLExpr := _
-def p10  : PLExpr := _
-def p11 : PLExpr := _
-def p12 : PLExpr := _
-def p13 : PLExpr := _
-def p14 : PLExpr := _
-def p15 : PLExpr := _
+/-!
+If whever it's raining then bottom, then it's not raining.
+-/
+def p10  : PLExpr := sorry
+
+/-!
+If it's raining or the sprinkler's running then if it's
+not raining then the sprinkler's running.
+-/
+def p11 : PLExpr := sorry
+
+/-!
+If whenever it's raining the streets are wet, then whenever the
+streets are not wet, it must not be raining.
+-/
+def p12 : PLExpr := sorry
+
+/-!
+-/
+def p13 : PLExpr := sorry
+def p14 : PLExpr := sorry
+def p15 : PLExpr := sorry
 
 end cs2120f24
