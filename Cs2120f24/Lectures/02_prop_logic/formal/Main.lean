@@ -9,44 +9,54 @@ open PLExpr
 
 /-!
 SYNTAX
+
+Suppose I want to write some propositional logic expressions
+using the variable expressions, P, Q, and R, and building up
+larger propositions using the propositional logic expression-
+constructing operators. Here's how you do it.
 -/
 
--- Variables
-def v₀ : BoolVar := BoolVar.mk 0
-def v₁ : BoolVar := ⟨1⟩   -- Lean for structure constructor (mk)
+-- First define a disting variable for each variable expression
+def v₀ : BoolVar := BoolVar.mk 0    -- abstract syntax
+def v₁ : BoolVar := ⟨1⟩             -- Lean notation for mk
 def v₂ : BoolVar := ⟨2⟩
 
 /-!
-Variable expressions
+Now you define the variable expressions you want to use. The
+first line is using abstract syntax. The next two use our own
+(non-standard) notation, desugaring to exactly that abstract
+syntax.
 -/
 def P : PLExpr := PLExpr.var_expr v₀
 def Q : PLExpr := { v₁ }  -- our notation for var_expr constructor
 def R : PLExpr := { v₂ }
 
 /-
-Operator expression: abstract syntax
+Now that you have three variable expressions to work with,
+you can use logical expression "connectives" (operators) to
+build bigger expressions. Consider the expression, P ∧ Q,
+for example. First we'll write it using abstract syntax,
+then using concrete syntax.
 -/
 
+-- abstract syntax
 def P_and_Q_abstract : PLExpr :=
   (PLExpr.bin_op_expr BinOp.and P Q)
 
--- Exact same expression using standard notation
+-- Concrete syntax (standard math book) notation
 def P_and_Q_concrete := P ∧ Q
 
--- de-sugars to the underlying astract syntax
+-- Notation de-sugars to that astract syntax
 #reduce P_and_Q_concrete
 
 
 /-!
 INTERPRETATIONS
+-/
 
-The apparent ordering is off, backwards from
-what we'd expect. For now it doesn't matter.
-We've got it on our list of things to fix.
-This example counts the number of variables in
-(P ∧ Q), it's 2, and a list of all 2^2 = 4
-possible interpretations for that expression
-are returned.
+/-
+Here's how we can see a list of interpretations
+for a given expressions.
 -/
 #reduce listListStringFromListInterps
           (listInterpsFromExpr (P ∧ Q))
@@ -208,6 +218,7 @@ streets are not wet, it must not be raining.
 def p12 : PLExpr := sorry
 
 /-!
+QUIZ: challenges to come
 -/
 def p13 : PLExpr := sorry
 def p14 : PLExpr := sorry

@@ -79,11 +79,6 @@ def listStringFromInterp : (i : BoolInterp) → (w : Nat) → List String
 
 #check listStringFromInterp
 
-/-!
-def stringFromListInterps : (List BoolInterp) → Nat → List (List String)
-| [], _ => []
-| h::t, w => (listStringFromInterp h w)::(stringFromListInterps t w)
--/
 
 /-!
 Given a list of Bool interps and a width n, output them as a list of list of Bool
