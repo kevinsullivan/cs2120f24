@@ -59,8 +59,8 @@ Here's how we can see a list of interpretations
 for a given expressions.
 -/
 #reduce listListStringFromListInterps
-          (listInterpsFromExpr (P ∧ Q))
-          2
+          (listInterpsFromExpr (P ∧ Q ∨ R))
+          3
 /-!
 It's often helpful to list arguments
 to functions properly indented across
@@ -78,7 +78,7 @@ false. (We have a note to clean this up.)
 -/
 
 #eval! (truthTableOutputVector (P))
-#eval! (truthTableOutputVector (P ∧ Q))
+#eval! (truthTableOutputVector (P ∨ Q))
 
 
 /-!
@@ -158,12 +158,12 @@ then that) expressions in natural language are written
 formally in propositional and predicate logic using the
 implication (implies) operator, imp (⇒ in our notation).
 -/
-def p2  : PLExpr := sorry
+def p2  : PLExpr := itsRaining ⇒ sprinklerOn ⇒ p0
 
 /-!
 If it's raining and the sprinkler's running, then it's raining.
 -/
-def p3  : PLExpr := sorry
+def p3  : PLExpr := (itsRaining ∧ sprinklerOn) ⇒ itsRaining
 
 /-!
 If it's raining ,then it's raining or the sprinkler's running.
@@ -191,7 +191,11 @@ whenever it's raining then the streets are wet, then (c) if
 whenever the sprinkler's running then the streets are wet, then
 _________. What is the conclusion? Write the expression in PL.
 -/
-def p8  : PLExpr := sorry
+
+def p8  : PLExpr := (itsRaining ∨ sprinklerOn) ⇒ (itsRaining ⇒ streetWet) ⇒ (sprinklerOn ⇒ streetWet) ⇒ streetWet
+#eval! is_valid p8
+
+
 
 /-!
 If whenever it's raining, the streets are wet, then whenever the
