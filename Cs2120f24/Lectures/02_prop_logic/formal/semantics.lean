@@ -86,9 +86,7 @@ def evalBoolExpr : PLExpr → BoolInterp → Bool
 
 /-!
 That's it. From this material you should be able to aquire
-a justifiably confidenct grasp of essentially every aspect
-of  its syntax and semantics of propositional logic. We have
-yet to address fundamental *properties of expressions in
-propositional logic. That's coming next.
+a justifiably confident grasp of essentially every aspect
+of the syntax and semantics of propositional logic.
 -/
 end cs2120f24
