@@ -81,7 +81,6 @@ of all variables to Boolean values) expressed by that i.
 def evalBoolExpr : PLExpr → BoolInterp → Bool
 | lit_expr b,             _ => b
 | (var_expr v),           i => i v
-| (gpt_expr s),           i => _
 | (un_op_expr op e),      i => (evalUnOp op) (evalBoolExpr e i)
 | (bin_op_expr op e1 e2), i => (evalBinOp op) (evalBoolExpr e1 i) (evalBoolExpr e2 i)
 
