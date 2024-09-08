@@ -1,6 +1,4 @@
-import Cs2120f24.Lectures.«02_prop_logic».formal.interpretation
-import Cs2120f24.Lectures.«02_prop_logic».formal.properties
-import Cs2120f24.Lectures.«02_prop_logic».formal.utilities
+import «Cs2120f24»
 
 namespace cs2120f24
 

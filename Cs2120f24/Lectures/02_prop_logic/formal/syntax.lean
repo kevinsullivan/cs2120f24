@@ -212,28 +212,26 @@ to get the gist.
 -/
 
 -- (lit true) and (lit false) expressions
-notation " ⊤ " => PLExpr.lit_expr true
-notation " ⊥ " => lit_expr false
-
 -- a variable expression constructed from from a variable
-notation "{" v "}" => var_expr v
 
 -- our single unary connective, *not* (¬)
-prefix:max "¬" => PLExpr.un_op_expr UnOp.not
 -- we set it to have maximum precedence (binding strength)
 
 /-!
 Here are concrete notations for our binary connectives.
 The letter "l" after infix specifies left associativity.
 The numbers after the colons specify binding strengths.
-In parens are the concrete infix notations.
 The de-sugared versions follow after the arrows.
 -/
 
-infixr:35 " ∧ " => PLExpr.bin_op_expr BinOp.and
-infixr:30 " ∨ " => PLExpr.bin_op_expr BinOp.or
-infixr:25 " ⇒ " => PLExpr.bin_op_expr BinOp.imp
-infixr:20 " ⇔ " => PLExpr.bin_op_expr BinOp.iff
+notation:max " ⊤ " => (PLExpr.lit_expr true)
+notation:max " ⊥ " => (lit_expr false)
+notation:max "{" v "}" => (var_expr v)
+notation:max "¬" p:40 => un_op_expr UnOp.not p
+infixr:35 " ∧ "  =>  PLExpr.bin_op_expr BinOp.and
+infixr:30 " ∨  "  => PLExpr.bin_op_expr BinOp.or
+infixr:20 " ↔ " => bin_op_expr BinOp.iff
+infixr:25 " ⇒ " => bin_op_expr BinOp.imp
 
 /-
 Now head off to the Main.lean file in this same directory,
