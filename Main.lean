@@ -20,7 +20,7 @@ verification facilities.
 -/
 
 def main : IO Unit :=
-  IO.println s!"{hello}"
+  IO.println s!"Hi!"
 
 /-
 You can run the main routine right here by using eval.
