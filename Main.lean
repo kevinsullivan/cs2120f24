@@ -1,4 +1,4 @@
-import «Cs2120f24»
+import «Cs2120f24».Lectures.«02_prop_logic».formal.syntax
 
 /-
 The first thing to do: open Cs2120f24/Demo/Demo.lean,
