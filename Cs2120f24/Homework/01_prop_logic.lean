@@ -78,7 +78,7 @@ ok to write "if it's not raining then this proposition is false"
 -/
 
 /-!
-A. It's raining and the sprinkler is running (free 5 points!)
+A. It's raining and the sprinkler is running.
 -/
 def formal_0 : PLExpr := sorry
 
