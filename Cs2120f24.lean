@@ -2,7 +2,6 @@
 -- Import modules here that should be built as part of the library.
 
 -- Unit 1: Languages, Natural and Formal
-import «Cs2120f24».Welcome.Welcome
 import «Cs2120f24».Lectures.«01_languages».declararive_example
 
 -- Unit 2: Propositional Logic
