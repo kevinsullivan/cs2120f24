@@ -1,6 +1,4 @@
 import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
-
-
 namespace cs2120f24
 
 open PLExpr
@@ -76,8 +74,8 @@ starting with all true and descending to all
 false. (We have a note to clean this up.)
 -/
 
-#eval! (truthTableOutputVector (P))
-#eval! (truthTableOutputVector (P ∨ Q))
+#eval! (truthTableOutputs (P))
+#eval! (truthTableOutputs (P ∨ Q))
 
 
 /-!

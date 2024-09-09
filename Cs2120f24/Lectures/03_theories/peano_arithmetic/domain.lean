@@ -1,8 +1,21 @@
 namespace cs2120f24
 
+/-!
+# Peano arithmetic. A theory of the natural numbers.
+-/
+
+#print Nat
 
 /-!
-#### Domnain: Constructing Natural Numbers from Parts
+- with these two constructors one can build succ terms of any length, n; we represent n as the term of that length
+- disjointness of constructors: Different constructors yield unequal values. zero is not the successor of any number.
+- injectivity of constructors: Different arguments yield unequal values. no number is the success of distinct numbers.
+-/
+
+
+
+/-!
+## Domnain: Constructing Natural Numbers from Parts
 
 We represent them as terms of type Nat.
 
@@ -11,11 +24,8 @@ inductive Nat : Type
 | succ (n' : nat)
 -/
 
-#check Nat  -- come back after Right click Nat; Go to Definition
-
-
 /-!
-#### Destructuring and Using Natural Numbers in Computations
+## Destructuring and Using Natural Numbers in Computations
 
 Crucial point: we have to define a function with a specific
 return value for every possible value of the argument type,
@@ -48,9 +58,9 @@ parts of incoming values.
 -/
 
 /-!
-#### Operations
+## Operations
 
-##### Arithmetic (→ Nat)
+### Arithmetic (→ Nat)
 
 With our two Nat constructors (zero and succ n') and the
 ability to destructure any given Nat by pattern matching,
@@ -127,9 +137,8 @@ def mul : Nat → Nat → Nat
 | n, (Nat.succ m') => add n (mul n m')
 -- effect is to iterate addition of n to zero m times
 
-
 /-!
-##### Boolean (→ Bool, from Nat)
+### Boolean (→ Bool, from Nat)
 
 - eq_0 n
 - eq n m
@@ -192,61 +201,4 @@ and associativity properties.
 etc.
 -/
 
-namespace cs2120f24
-
-/-
-But even better than that, let's from now on just
-use Lean's definition of Nat, along with all kinds
-of machinery, including all standard math functions,
-notations with the right precedence and associativity,
-properties, lots of facts (theorems) about natural
-numbers, etc.
-
-Note that we are back in Lean's global namespace,
-not within the cs212024 namespace, within which we
-defined our own versions of the standard elements,
-just to see how to write them. You can right click
-on any of the function names below to see how the
-operations are defined in the
--/
-
--- type
-#check Nat
-
--- constructors
-#check Nat.zero
-#check Nat.succ
-
--- functions
-#check Nat.pred
-#check Nat.add
-#check Nat.mul
-#check Nat.sub
-#check Nat.div
--- etc
-
--- arithmetic operator expressions
--- define in Lean's libraries
--- the type of each term here is Nat
-#check Nat.pred 3
-#check Nat.add 2 3
-#check Nat.mul 2 3
-#check Nat.sub 3 2
-#check Nat.div 5 2
-#check Nat.mod 5 2
-
--- evaluation is as we defined it
-#eval Nat.pred 3
-#eval Nat.add 2 3
-#eval Nat.mul 2 3
-#eval Nat.sub 3 2
-#eval Nat.div 5 2
-#eval Nat.mod 3 2
--- concrete syntax
--- nothing for pred
-#eval 2 + 3
-#eval 2 * 3
-#eval 3 - 2
-#eval 3 / 2
-#eval 5 / 2
-#eval 5 % 2
+end cs2120f24

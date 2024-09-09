@@ -9,3 +9,4 @@ import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
 import «Cs2120f24».Lectures.«02_prop_logic».formal.truth_table
 import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
 import «Cs2120f24».Lectures.«02_prop_logic».formal.utilities
+import «Cs2120f24».Lectures.«02_prop_logic».formal.models

@@ -21,8 +21,8 @@ in several pieces. This subsection includes all definitions.
 -- Three main functions: test given expression for satsfiability properties
 -- reduce_or (map (eval e) all_interps)
 
-def is_sat : PLExpr → Bool := λ e : PLExpr => reduce_or (truthTableOutputVector e)
-def is_valid : PLExpr → Bool := λ e : PLExpr => reduce_and (truthTableOutputVector e)
+def is_sat : PLExpr → Bool := λ e : PLExpr => reduce_or (truthTableOutputs e)
+def is_valid : PLExpr → Bool := λ e : PLExpr => reduce_and (truthTableOutputs e)
 def is_unsat : PLExpr → Bool := λ e : PLExpr => not (is_sat e)
 def is_model : BoolInterp → PLExpr → Bool := fun i e => evalBoolExpr e i
 

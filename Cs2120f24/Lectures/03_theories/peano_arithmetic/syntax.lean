@@ -1,7 +1,7 @@
 namespace cs2120f24
 
 /-!
-# Language of Arithmetic Expressions
+# Expression Language of Arithmetic
 
 Ok, so now that we have the semantic domain, what
 about our expression language? We'll you write it
@@ -25,19 +25,20 @@ structure nat_var where
   (index : Nat)
 
 -- type of interpretation of arithmetic variables
-def arith_interp := nat_var → Nat
+def arith_var_interp := nat_var → Nat
 
+-- unary arithmetic operators (here increment, decrement)
 inductive arith_UnOp where
 | inc
 | dec
 
+-- binary arithemtic operators (here +, -, and *)
 inductive arith_BinOp where
 | add
 | sub
 | mul
 
-
--- abstract syntax of expresion language
+-- abstract syntax
 inductive arith_expr
 | lit (n : Nat)
 | var (v : var)
@@ -45,5 +46,8 @@ inductive arith_expr
 | BinOp (op : arith_BinOp) (e1 e2 : arith_expr)
 
 -- concrete syntax
-notation "++" n => arith_expr.arith_UnOp.inc n
-notation "--" n => arith_expr.arith_UnOp.dec n
+notation:max "++" n => arith_expr.arith_UnOp.inc n
+notation:max "--" n => arith_expr.arith_UnOp.dec n
+notation e1 "+" e2 => arith_expr.arith_UnOp.add e1 e2
+notation e1 "-" e2 => arith_expr.arith_UnOp.sub e1 e2
+notation e1 "+" e2 => arith_expr.arith_UnOp.mul e1 e2
