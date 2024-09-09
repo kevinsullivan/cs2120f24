@@ -193,6 +193,8 @@ _________. What is the conclusion? Write the expression in PL.
 
 def p8  : PLExpr := (itsRaining ∨ sprinklerOn) ⇒ (itsRaining ⇒ streetWet) ⇒ (sprinklerOn ⇒ streetWet) ⇒ streetWet
 #eval! is_valid p8
+#eval! is_sat p8
+#eval! is_unsat p8
 
 
 
