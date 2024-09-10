@@ -58,6 +58,13 @@ for a given expressions.
 #reduce listListStringFromListInterps
           (listInterpsFromExpr (P ∧ Q ∨ R))
           3
+
+/-!
+Bad developer interface. Let's fix it.
+-/
+def
+
+
 /-!
 It's often helpful to list arguments
 to functions properly indented across
