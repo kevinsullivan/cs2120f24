@@ -217,8 +217,13 @@ together a method for finding a counterexample if there is one?
 def findCounterExample : PLExpr → Option BoolInterp
 | e => findModel ¬e
 
-#reduce match (findCounterExample e) with | none => [] | some i => listBitStringFromInterp i (numVarsFromExpr e)
-#reduce match (findCounterExample ¬e) with | none => [] | some i => listBitStringFromInterp i (numVarsFromExpr ¬e)
+#reduce match (findCounterExample e) with
+  | none => []
+  | some i => listBitStringFromInterp i (numVarsFromExpr e)
+
+#reduce match (findCounterExample ¬e) with
+  | none => []
+  | some i => listBitStringFromInterp i (numVarsFromExpr ¬e)
 
 
 end cs2120f24
