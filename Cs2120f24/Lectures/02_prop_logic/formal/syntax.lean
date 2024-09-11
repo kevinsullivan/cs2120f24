@@ -230,8 +230,8 @@ notation:max "{" v "}" => (var_expr v)
 notation:max "¬" p:40 => un_op_expr UnOp.not p
 infixr:35 " ∧ "  =>  PLExpr.bin_op_expr BinOp.and
 infixr:30 " ∨  "  => PLExpr.bin_op_expr BinOp.or
-infixl:20 " ↔ " => bin_op_expr BinOp.iff
-infixl:25 " ⇒ " => bin_op_expr BinOp.imp
+infixr:20 " ↔ " => bin_op_expr BinOp.iff
+infixr:25 " ⇒ " => bin_op_expr BinOp.imp
 
 /-
 Now head off to the Main.lean file in this same directory,
