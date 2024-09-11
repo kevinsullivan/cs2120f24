@@ -55,14 +55,9 @@ INTERPRETATIONS
 Here's how we can see a list of interpretations
 for a given expressions.
 -/
-#reduce listListStringFromListInterps
+#reduce interpStringsFromInterps
           (listInterpsFromExpr (P ∧ Q ∨ R))
-          3
-
-/-!
-Bad developer interface. Let's fix it.
--/
-def
+          3 -- number of variables here
 
 
 /-!

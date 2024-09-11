@@ -1,7 +1,4 @@
-import Cs2120f24.Lectures.«02_prop_logic».formal.semantics
-import Cs2120f24.Lectures.«02_prop_logic».formal.interpretation
 import Cs2120f24.Lectures.«02_prop_logic».formal.truth_table
-import Cs2120f24.Lectures.«02_prop_logic».formal.utilities
 
 namespace cs2120f24
 
@@ -24,6 +21,6 @@ in several pieces. This subsection includes all definitions.
 def is_sat : PLExpr → Bool := λ e : PLExpr => reduce_or (truthTableOutputs e)
 def is_valid : PLExpr → Bool := λ e : PLExpr => reduce_and (truthTableOutputs e)
 def is_unsat : PLExpr → Bool := λ e : PLExpr => not (is_sat e)
-def is_model : BoolInterp → PLExpr → Bool := fun i e => evalBoolExpr e i
+def is_model : BoolInterp → PLExpr → Bool := fun i e => evalPLExpr e i
 
 end cs2120f24

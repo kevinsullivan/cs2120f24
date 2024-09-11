@@ -61,3 +61,21 @@ def reduce_or : List Bool → Bool
 def reduce_and : List Bool → Bool
 | [] => true
 | h::t => and h (reduce_and t)
+
+/-
+The indexFirstTrue function returns an option:
+either (some "index of the first true value in
+the list"), or "none" if there is no such value.
+-/
+
+def indexFirstTrue : List Bool → Option Nat
+    | bs => foo bs bs.length
+where foo : List Bool → Nat → Option Nat
+    | [], _ => none
+    | b::bs, len =>
+        if b then
+          /-current index-/
+          some (len-(b::bs).length)
+        else
+          /-search rest-/
+          foo bs len
