@@ -80,7 +80,7 @@ ok to write "if it's not raining then this proposition is false"
 /-!
 A. It's raining and the sprinkler is running.
 -/
-def formal_0 : PLExpr := sorry
+def formal_0 : PLExpr := rain ∧ sprink
 
 
 /-!
@@ -88,12 +88,12 @@ B. If it's raining then it's raining or the sprinkler's running.
 Rememver to use \=> for the implies "connective" (expression
 builder).
 -/
-def formal_1  : PLExpr := sorry
+def formal_1  : PLExpr := rain ⇒ (rain ∨ sprink)
 
 /-!
 C. If the sprinkler's running then it's raining or it's sprinkling.
 -/
-def formal_2  : PLExpr := sorry
+def formal_2  : PLExpr := sprink ⇒ (rain ∨ sprink)
 
 /-!
 D. Whenever it's raining the streets are wet. You can express the same
@@ -102,12 +102,13 @@ these two English-language phrases mean the same thing. You will want to
 use the "whenever" form sometimes and the "if then" form sometimes when
 writing logic in English.
 -/
-def formal_3  : PLExpr := sorry
+def formal_3  : PLExpr := rain ⇒ wet
 
 /-!
 E. Whenever the sprinkler's running the streets are wet.
 -/
-def formal_4 : PLExpr := sorry
+def formal_4 : PLExpr := sprink ⇒ wet
+#eval! is_valid formal_4
 
 /-!
 Here's an example, from class, of a proposition built up in
@@ -123,15 +124,15 @@ Add a check for the validity of this expression. The *example*
 keyword in Lean asks Lean to check a term without binding a
 name to it.
 -/
-example : PLExpr :=
+def foo : PLExpr :=
   (rain ∨ sprink) ⇒
   (rain ⇒ wet) ⇒
   (sprink ⇒ wet) ⇒
   wet
 
 -- Write your validity check here
-#eval! is_valid ((rain ∨ sprink) ⇒ (rain ⇒ wet) ⇒(sprink ⇒ wet) ⇒ wet)
-
+#eval! is_valid ((rain ∨ sprink) ⇒ (rain ⇒ wet) ⇒ (sprink ⇒ wet) ⇒ wet)
+#eval! is_valid foo
 
 /-!
 If (whenever it's raining, the streets are wet), then (whenever the
@@ -281,8 +282,9 @@ def equiv_elim_right := (sprink ↔ wet) ⇒ (wet ⇒ sprink)
 If it's sprinkling if and only if it's wet, then if it's
 wet then it's sprinkling.
 -/
+#eval! is_valid equiv_elim_right
 
-def affirm_disjunct := (wet ∨ sprink) ⇒ wet ⇒ ¬sprink
+def affirm_disjunct := (rain ∨ sprink) ⇒ rain ⇒ ¬sprink
 /-!
 If it's wet or sprinkling then if it's not wet it's not
 sprinkling.

@@ -1,5 +1,4 @@
 import «Cs2120f24».Lectures.«02_prop_logic».formal.domain
-import «Cs2120f24».Lectures.«02_prop_logic».formal.identities
 import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
 import «Cs2120f24».Lectures.«02_prop_logic».formal.models
 import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
