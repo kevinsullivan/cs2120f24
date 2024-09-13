@@ -324,6 +324,6 @@ meaning that P is assigned 0; Q, 1; R, 1, by that interpretation.
 #eval! interpStringsFromInterps
         (findCounterexamples      -- a list of interpretations for ...
           ((P ⇒ Q) ⇒ (¬P ⇒ ¬Q)))  -- this proposition (parens needed)
-        2                         -- width to print each interpretation
+        2                         -- number of variables in result strings
 
 end cs2120f24
