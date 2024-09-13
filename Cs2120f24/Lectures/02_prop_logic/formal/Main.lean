@@ -66,7 +66,7 @@ def P_and_Q_concrete := P ∧ Q
 -/
 
 
-/-! INTERPRETATIONS
+/-! SEMANTICS UNDER INTERPRETATIONS
 
 We can easily enumerate all possible interpretations.
 That's jsut the "input" side of a truth table. Notice
@@ -139,7 +139,7 @@ of e. It represents a world in which e is true.
 -/
 
 /-!
-CONVENIENCE FUNCTIONS FOR WORKING WITH INTERPRETATIONS
+Convenience functions for working with our representations of interpretations
 
 An interpretation, i, is a function. It's generally not
 helpful to print functions in Lean. If you want to see a
@@ -166,7 +166,7 @@ And finally a way to get a printable list of multiple
 -/
 
 /-!
-ALL INTERPRETATIONS
+All interpretations
 
 Up to now we've been working with one interpretation, i.
 We can also easily obtain, and provide a function, for
@@ -177,6 +177,8 @@ list of interpretatins, one for each index from 2^n-1 to 0.
 -/
 
 def all_interps_e := listInterpsFromExpr e
+
+
 
 /-!
 TRUTH TABLES
@@ -225,7 +227,7 @@ false. (We have a note to clean this up.)
 
 
 /-!
-Properties of Propositions (Expressions)!
+Examples: Checking satisfiability-related properties of a few expressions
 -/
 
 #reduce is_sat ⊤
@@ -255,8 +257,10 @@ Properties of Propositions (Expressions)!
 #reduce is_unsat (P ∨ Q)
 #reduce is_valid (P ∨ Q)
 
+
+
 /-
-Models and counterexamples.
+MODELS AND COUNTEREXAMPLES
 
 Please read about models and counterexamples in models.lean.
 Then come here and predict the answers for each of the following
@@ -320,6 +324,6 @@ meaning that P is assigned 0; Q, 1; R, 1, by that interpretation.
 #eval! interpStringsFromInterps
         (findCounterexamples      -- a list of interpretations for ...
           ((P ⇒ Q) ⇒ (¬P ⇒ ¬Q)))  -- this proposition (parens needed)
-        2                    -- width to print each interpretation
+        2                         -- width to print each interpretation
 
 end cs2120f24
