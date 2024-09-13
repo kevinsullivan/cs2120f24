@@ -2,6 +2,7 @@ import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
 import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
 import «Cs2120f24».Lectures.«02_prop_logic».formal.models_counterexamples
 import Cs2120f24.Lectures.«02_prop_logic».formal.semantics
+import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
 namespace cs2120f24
 
 open PLExpr
@@ -120,8 +121,12 @@ so here ⟨0⟩ is (BoolVar.mk 0), a "variable" in our lexicon.)
  It's exactly this trick that is used in the semantic
 evaluation function that defines for us an operational
 semantics for propositional logic. That means that we
-have a *function* for computing expression meanings.
+have a *function* for computing an expression's meaning
+given an interpretation, i, giving the semantic values
+of the variables in the expression.
 -/
+
+def e := P_and_Q_concrete
 
 #eval! evalPLExpr e i
 
