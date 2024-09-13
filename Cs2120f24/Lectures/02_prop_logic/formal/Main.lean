@@ -1,4 +1,6 @@
 import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
+import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
+import «Cs2120f24».Lectures.«02_prop_logic».formal.models_counterexamples
 namespace cs2120f24
 
 open PLExpr
@@ -23,10 +25,16 @@ Now you define the variable expressions you want to use. The
 first line is using abstract syntax. The next two use our own
 (non-standard) notation, desugaring to exactly that abstract
 syntax.
+
+These variables are already declared at this point. This is a
+small design glitch that could be cleaned up. We comment them
+out for now so as not to introduce conflicting definitions.
 -/
+/-
 def P : PLExpr := PLExpr.var_expr v₀
 def Q : PLExpr := { v₁ }  -- our notation for var_expr constructor
 def R : PLExpr := { v₂ }
+-/
 
 /-
 Now that you have three variable expressions to work with,
@@ -36,15 +44,25 @@ for example. First we'll write it using abstract syntax,
 then using concrete syntax.
 -/
 
--- abstract syntax
+/-!
+Here we show the equivalence of abstract and concrete syntax.
+-/
 def P_and_Q_abstract : PLExpr :=
   (PLExpr.bin_op_expr BinOp.and P Q)
 
--- Concrete syntax (standard math book) notation
+/-!
+Standard concrete infix notation for (PLExpr.bin_op_expr BinOp.and
+That is the actual desugarad representation of ∧. Other propositional
+logic concrete notations (and the concepts they represent) reduce to
+these abstract sybtax repreesentations.
+-/
 def P_and_Q_concrete := P ∧ Q
-
--- Notation de-sugars to that astract syntax
 #reduce P_and_Q_concrete
+/-!
+(bin_op_expr BinOp.and) -- this is ∧
+  (var_expr { index := 0 }) -- the first conjunct, P
+  (var_expr { index := 1 }) -- the second conjunct, Q
+-/
 
 
 /-!
@@ -111,122 +129,71 @@ Properties of Propositions (Expressions)!
 #reduce is_unsat (P ∨ Q)
 #reduce is_valid (P ∨ Q)
 
-
-/-!
-Homework #1
-
-1.Complete the sentence: If a proposition is not valid,
-then there is at least one __________.
-
-2. Read the following propositions in English and render
-them into the formal language of propositional logic. We
-will get you started by defining three new propositional
-variables: isRaining, streetWet, and sprinklerOn. Now for
-each of the following propositions expressed in English,
-express it formally using these PL variable expressions.
-Here then are our three new PL variable expressions. The
-identifer's we're binding to these terms remind us what
-we are going to want these terms to mean "in the world."
--/
-
-def itsRaining : PLExpr := PLExpr.var_expr v₀
-def sprinklerOn : PLExpr := PLExpr.var_expr v₁
-def streetWet : PLExpr := PLExpr.var_expr v₂
-
 /-
-For each of the following English language expressions write
-the corresponding expression using our concrete propositional
-logic syntax. Give names to these propositions (PLExpr's) in
-the pattern of p0, p1, p2, as seen below.
+Models and counterexamples.
+
+Please read about models and counterexamples in models.lean.
+Then come here and predict the answers for each of the following
+problems before seeing what our model finder says. Notice that in
+each case we're asking to find all models, or counterexamples, for
+a given expression.
+
+Details: The numeric argument determines should reflect how many
+variables there are in the expression being analyzed. The number
+is used to determine how many variables each interpretation should
+be output as strings in the resulting lists of lists of strings.
+
+To decode the outputs remember that P refers to variable 0, Q
+to variable 1, R to variable 2. So in a list of strings for one
+interpretation, you'd want to print its values for these three
+variables. The ouput would be something like this [["0","1","1"]]
+meaning that P is assigned 0; Q, 1; R, 1, by that interpretation.
 -/
 
-/-!
-It's raining and the sprinkler's on.
--/
-def p0 : PLExpr := itsRaining ∧ sprinklerOn
+-- the numeric argument determines how many variables in expr
+#eval! interpStringsFromInterps
+        (findModels P)
+        1
 
-/-!
-The sprinler's on and it's raining.
--/
-def p1  : PLExpr := sorry
+#eval! interpStringsFromInterps
+        (findModels ¬P)
+        1
+#eval! interpStringsFromInterps
+        (findModels (P ∨ Q))
+        2
 
-/-!
-If it's raining, then if the sprinkler's on, then it's
-raining and the sprinkler is on. Conditional (if this
-then that) expressions in natural language are written
-formally in propositional and predicate logic using the
-implication (implies) operator, imp (⇒ in our notation).
--/
-def p2  : PLExpr := itsRaining ⇒ sprinklerOn ⇒ p0
+#eval! interpStringsFromInterps
+        (findModels (P ∧ Q))
+        2
 
-/-!
-If it's raining and the sprinkler's running, then it's raining.
--/
-def p3  : PLExpr := (itsRaining ∧ sprinklerOn) ⇒ itsRaining
-
-/-!
-If it's raining ,then it's raining or the sprinkler's running.
--/
-def p4  : PLExpr := sorry
-
-/-!
-If the sprinkler's running, it's raining or the sprinkler's running.
--/
-def p5  : PLExpr := sorry
-
-/-!
-Whenever it's raining the streets are wet.
--/
-def p6  : PLExpr := sorry
-
-/-!
-Whenever the sprinkler's running the streets are wet.
--/
-def p7  : PLExpr := sorry
-
-/-!
-If (a) it's raining or the sprinkler's running, then (b) if
-whenever it's raining then the streets are wet, then (c) if
-whenever the sprinkler's running then the streets are wet, then
-_________. What is the conclusion? Write the expression in PL.
--/
-
-def p8  : PLExpr := (itsRaining ∨ sprinklerOn) ⇒ (itsRaining ⇒ streetWet) ⇒ (sprinklerOn ⇒ streetWet) ⇒ streetWet
-#eval! is_valid p8
-#eval! is_sat p8
-#eval! is_unsat p8
+#eval! interpStringsFromInterps
+        (findModels (P ↔ Q))
+        2
 
 
+#eval! interpStringsFromInterps
+        (findCounterexamples P)
+        1
 
-/-!
-If whenever it's raining, the streets are wet, then whenever the
-streets are wet it's raining.
--/
-def p9  : PLExpr := sorry
+#eval! interpStringsFromInterps
+        (findCounterexamples ¬P)
+        1
 
+#eval! interpStringsFromInterps
+        (findCounterexamples (P ∨ Q))
+        2
 
-/-!
-If whever it's raining then bottom, then it's not raining.
--/
-def p10  : PLExpr := sorry
+#eval! interpStringsFromInterps
+        (findCounterexamples (P ∧ Q))
+        2
 
-/-!
-If it's raining or the sprinkler's running then if it's
-not raining then the sprinkler's running.
--/
-def p11 : PLExpr := sorry
+#eval! interpStringsFromInterps
+        (findCounterexamples (P ↔ Q))
+        2
 
-/-!
-If whenever it's raining the streets are wet, then whenever the
-streets are not wet, it must not be raining.
--/
-def p12 : PLExpr := sorry
-
-/-!
-QUIZ: challenges to come
--/
-def p13 : PLExpr := sorry
-def p14 : PLExpr := sorry
-def p15 : PLExpr := sorry
+#eval! interpStringsFromInterps
+        (findCounterexamples      -- a list of interpretations for ...
+          ((P ⇒ Q) ⇒ (¬P ⇒ ¬Q)))  -- this proposition (parens needed)
+        2                    -- width to print each interpretation
 
 end cs2120f24

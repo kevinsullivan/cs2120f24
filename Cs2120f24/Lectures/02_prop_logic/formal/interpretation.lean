@@ -73,15 +73,15 @@ def listInterpsFromExpr : PLExpr → List BoolInterp
 Given interp, i, return list of "0"/"1" strings of width n
 By case analysis on the width argument
 -/
-def listBitStringFromInterp : (i : BoolInterp) → (w : Nat) → List String
+def bitStringsFromInterp : (i : BoolInterp) → (w : Nat) → List String
 | _, 0 => []
 | i, (w' + 1) =>
   let b := (if (i ⟨w'⟩ ) then "1" else "0")
-  listBitStringFromInterp i w' ++ [b]  -- ++ here is binary List.append
+  bitStringsFromInterp i w' ++ [b]  -- ++ here is binary List.append
 
 /-!
 Given a list of Bool interps and a width n, output them as a list of list of Bool
 -/
 def interpStringsFromInterps : List BoolInterp → Nat → List (List String)
 | [], _ => []
-| h::t, n => listBitStringFromInterp h n::interpStringsFromInterps t n
+| h::t, n => bitStringsFromInterp h n::interpStringsFromInterps t n

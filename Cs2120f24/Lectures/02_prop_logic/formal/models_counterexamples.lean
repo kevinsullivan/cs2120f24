@@ -117,7 +117,7 @@ is technicallky defined as false for all column indices
 beyond those of interest in a given case.
 -/
 
-#eval! listBitStringFromInterp i 2
+#eval! bitStringsFromInterp i 2
 
 /-!
 We also provide a function for converting a list of Bool
@@ -125,7 +125,7 @@ values into an interpretation.
 -/
 
 def i2 := interpFromBools [true, false, true]
-#eval! listBitStringFromInterp i2 3
+#eval! bitStringsFromInterp i2 3
 
 /-!
 And finally a way to get a printable list of multiple
@@ -190,17 +190,17 @@ finder. A related problem is to find *all* models of a given
 proposition. How would you do that?
 -/
 
-def findModel (e : PLExpr) : Option BoolInterp :=
-  let modelIndex := indexFirstTrue (truthTableOutputs e)
-  match modelIndex with
-  | none => none
-  | some n => interpFromRowCols n (numVarsFromExpr e)
+def findModels (e : PLExpr) : List BoolInterp :=
+  List.filter
+    (fun i => evalPLExpr e i = true) -- given i, true iff i is model of e
+    (listInterpsFromExpr e)
 
-#print e
-#reduce match (findModel e) with | none => [] | some i => listBitStringFromInterp i (numVarsFromExpr e)
-#reduce match (findModel ¬e) with | none => [] | some i => listBitStringFromInterp i (numVarsFromExpr ¬e)
-
-
+def findModel :  PLExpr → Option BoolInterp
+| e =>
+  let ms := findModels e
+  match ms with
+  | [] => none
+  | h::_ => h
 
 /-
 COUNTEREXAMPLES
@@ -214,16 +214,7 @@ a *counterexample* to the specification. So how might we put
 together a method for finding a counterexample if there is one?
 -/
 
-def findCounterExample : PLExpr → Option BoolInterp
-| e => findModel ¬e
-
-#reduce match (findCounterExample e) with
-  | none => []
-  | some i => listBitStringFromInterp i (numVarsFromExpr e)
-
-#reduce match (findCounterExample ¬e) with
-  | none => []
-  | some i => listBitStringFromInterp i (numVarsFromExpr ¬e)
-
+def findCounterexamples (e : PLExpr) : List BoolInterp := findModels ¬e
+def findCounterexample (e : PLExpr) : Option BoolInterp := findModel ¬e
 
 end cs2120f24
