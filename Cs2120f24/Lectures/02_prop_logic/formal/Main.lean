@@ -31,11 +31,10 @@ These variables are already declared at this point. This is a
 small design glitch that could be cleaned up. We comment them
 out for now so as not to introduce conflicting definitions.
 -/
-/-
+
 def P : PLExpr := PLExpr.var_expr v₀
 def Q : PLExpr := { v₁ }  -- our notation for var_expr constructor
 def R : PLExpr := { v₂ }
--/
 
 /-
 Now that you have three variable expressions to work with,
