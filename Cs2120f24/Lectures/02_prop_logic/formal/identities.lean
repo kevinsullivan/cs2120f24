@@ -24,8 +24,8 @@ def andAssociative  := ((P ∧ Q) ∧ R) ↔ (P ∧ (Q ∧ R))
 def distribAndOr    := (P ∧ (Q ∨ R)) ↔ ((P ∧ Q) ∨ (P ∧ R))
 def distribOrAnd    := (P ∨ (Q ∧ R)) ↔ ((P ∨ Q) ∧ (P ∨ R))
 
-def distribNotAnd   := ¬(P ∧ Q) ↔ (¬P ∨ ¬ Q)
-def distribNotOr    := ¬(P ∨ Q) ↔ (¬P ∧ ¬ Q)
+def distribNotAnd   := ¬(P ∧ Q) ↔ (¬P ∨ ¬ Q)  -- DeMorgan's law
+def distribNotOr    := ¬(P ∨ Q) ↔ (¬P ∧ ¬ Q)  -- DeMorgan's law
 
 def equivalence     := (P ↔ Q) ↔ ((P ⇒ Q) ∧ (Q ⇒ P))
 def implication     := (P ⇒ Q) ↔ (¬P ∨ Q)
