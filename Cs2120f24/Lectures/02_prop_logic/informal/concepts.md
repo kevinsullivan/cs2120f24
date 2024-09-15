@@ -1,5 +1,7 @@
 # Concepts in and through Propositional Logic
 
+Under construction and incomplete. Better to look at notes.md
+
 - propositional logic: an expression language
 - formalize syntax as a type, Expr, with four expression constructors:
   - "lit" expression from Boolean
