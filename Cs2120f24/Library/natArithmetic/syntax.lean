@@ -1,4 +1,4 @@
-namespace cs2120f24
+namespace cs2120f24.arith
 
 /-!
 # Expression Language of Arithmetic
@@ -21,11 +21,8 @@ to them.
 -/
 
 -- arithmetic variables
-structure nat_var where
+structure natVar where
   (index : Nat)
-
--- type of interpretation of arithmetic variables
-def arith_var_interp := nat_var → Nat
 
 -- unary arithmetic operators (here increment, decrement)
 inductive arith_UnOp where
@@ -39,15 +36,18 @@ inductive arith_BinOp where
 | mul
 
 -- abstract syntax
-inductive arith_expr
+inductive arithExpr
 | lit (n : Nat)
-| var (v : var)
-| UnOp (op : arith_UnOp) (e : arith_expr)
-| BinOp (op : arith_BinOp) (e1 e2 : arith_expr)
+| var (v : natVar)
+| UnOp (op : arith_UnOp) (e : arithExpr)
+| BinOp (op : arith_BinOp) (e1 e2 : arithExpr)
 
 -- concrete syntax
-notation:max "++" n => arith_expr.arith_UnOp.inc n
-notation:max "--" n => arith_expr.arith_UnOp.dec n
-notation e1 "+" e2 => arith_expr.arith_UnOp.add e1 e2
-notation e1 "-" e2 => arith_expr.arith_UnOp.sub e1 e2
-notation e1 "+" e2 => arith_expr.arith_UnOp.mul e1 e2
+notation " { " v " } " => arithExpr.var v
+notation:max "++" n => arithExpr.UnOp arith_UnOp.inc n
+notation:max "--" n => arithExpr.UnOp arith_UnOp.dec n
+notation e1 "+" e2 => arithExpr.BinOp arith_BinOp.add e1 e2
+notation e1 "-" e2 => arithExpr.BinOp arith_BinOp.sub e1 e2
+notation e1 "+" e2 => arithExpr.BinOp arith_BinOp.mul e1 e2
+
+end cs2120f24.arith

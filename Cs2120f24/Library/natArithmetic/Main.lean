@@ -1,26 +1,16 @@
 import Cs2120f24.Library.natArithmetic.domain
+import Cs2120f24.Library.natArithmetic.syntax
 
-namespace cs2120f24
+namespace cs2120f24.arith
 
--- DOMAIN
+-- DOMAIN : Theory of Natural Number Arithmetic
 
-/-
-But even better than that, let's from now on just
-use Lean's definition of Nat, along with all kinds
-of machinery, including all standard math functions,
-notations with the right precedence and associativity,
-properties, lots of facts (theorems) about natural
-numbers, etc.
-
-Note that we are back in Lean's global namespace,
-not within the cs212024 namespace, within which we
-defined our own versions of the standard elements,
-just to see how to write them. You can right click
-on any of the function names below to see how the
-operations are defined in the
+/-!
+Nat is a type, terms of which are taken to represent
+elements from the mathematical set of natural numbers:
+the whole numbers from 0 on up: 0, 1, 2, ....
 -/
 
--- type
 #check Nat
 
 -- summary
@@ -30,15 +20,51 @@ operations are defined in the
 #check Nat.zero
 #check Nat.succ
 
--- A few constructibleble terms
+/-!
+Suggestive names bound here to a few small terms of type Nat.
+Note that we're actually using Lean to assign names to these
+terms, and to unfold these names to the terms to which they're
+bound, as the case may be. Unfolding names to the meanings to
+which they;re bound is called δ-reduction ("delta reduction").
+I guess that means that the act of binding a name to a term
+should be called δ-abstraction. By automated δ reductions we
+can use names and the terms they designate interchangeably in
+expressions. And not only there, but in our minds, where we can
+thereafter chunk up a complex representation of some possibly
+complex thing under the banner of a single, simple name.
+-/
+
+/-!
+Binding and using δ abstractions
+-/
+
+-- bind abstract name/identitifer, zero, to concrete term, Nat.zero
 def zero : Nat  := Nat.zero
+
+-- same idea, of δ abstraction, in this example
 def one : Nat   := Nat.succ Nat.zero
+
+-- δ abstraction involving δ *reduction* (of "one"), in this example
 def two : Nat   := Nat.succ one
-def three       := Nat.succ two   -- Lean infers ": Nat" type declaration so we can omit it
+
+-- similar case here
+def three       := Nat.succ two
+
+---- δ abstraction from a δ-reduced term, this one representing 4 : ℕ.
 def four        := Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.zero))))
 
 /-!
-As a special case, Lean provides ordinary base-10 notation for natural numbers.
+The constructors of a type *introduce* new instances/values of that type
+into the discussion. These are akin to the introduction and elimination
+inference rules discussion elsewhere in this class.
+-/
+
+
+/-!
+As a particularly special case,, Lean provides extensive support for our
+usual base-10 notation for natural numbers. If Lean sees numerals using
+the base-10 digits, it generally assumes it means that number as a value
+of the natural number type: as opposed to, say, the rational or real type.
 -/
 
 #check 0
@@ -47,7 +73,9 @@ As a special case, Lean provides ordinary base-10 notation for natural numbers.
 #check 3
 #eval four  -- Lean uses notations when it reports back to you (here "4")
 
-
+/-!
+OPERATORS
+-/
 -- unary operators (functions)
 #check (Nat.pred : Nat → Nat)
 #check (Nat.add: Nat → Nat → Nat )
@@ -136,7 +164,17 @@ As a special case, Lean provides ordinary base-10 notation for natural numbers.
 #eval le 3 4
 #eval le 4 3
 
+/-!
+## Our Own Arithmetic Expression Language and Evaluator
+-/
+open arithExpr
 
---
+-- variable expressions
+def K : arithExpr := {⟨0⟩}
+def M : arithExpr := {⟨1⟩}
+def N : arithExpr := {⟨2⟩}
 
-end cs2120f24
+def a1 : arithExpr := K + M
+
+
+end cs2120f24.arith
