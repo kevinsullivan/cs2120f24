@@ -174,7 +174,5 @@ def K : arithExpr := {⟨0⟩}
 def M : arithExpr := {⟨1⟩}
 def N : arithExpr := {⟨2⟩}
 
-def a1 : arithExpr := K + M
-
 
 end cs2120f24.arith
