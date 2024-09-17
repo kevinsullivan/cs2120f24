@@ -2,36 +2,38 @@ namespace cs2120f24.arith
 
 /-!
 # Domain: natural number arithmetic
+
+Natural number arithmetic is deeply familiar to everyone here.
+It comprises:
+
+- the natural numbers (the set of whole numbers from zero up)
+- operations taking and returning natural numbers
+- certain new axioms, especially *induction*
+
+We'll return to induction in a bit, but for now the plan is as
+follows:
+
+- The Nat type has terms/values that correspond to natural numbers
+- We define functions that implement standard arithmetic operations
+- We get a powerful new tool for building such functions: induction
+
+We'll now address each of these issues in turn.
 -/
 
-#check Nat
-#print Nat
 
 /-!
-## Inductive Definition of Nat
+## The Nat Type
 
-We represent them as terms of type Nat.
+Here's the entire mathematical definition of the natural numbers in
+Lean.
 
 inductive Nat : Type
 | zero
 | succ (n' : Nat)
-
-/-! KEEP?
-
-- with these two constructors one can build succ terms of any length, n; we represent n as the term of that length
-- disjointness of constructors: Different constructors yield unequal values. zero is not the successor of any number.
-- injectivity of constructors: Different arguments yield unequal values. no number is the success of distinct numbers.
 -/
 
-
-- English: zero is a (term of type) Nat; and if n' is any Nat, then so is (succ n')
-- With these two constructors one can build succ terms of any length, n
-- we represent the natural number n as the term of type Nat of that length
-- zero is not the successor of any number by "disjointness of constructors"
-- no number is the successor of two distinct numbers by "injectivity of constructors"
--/
-
-#print Nat
+#check Nat    -- Nat is a Type
+#print Nat    -- Here are its constructors
 
 /-!
 ## Constructors are for Constructing, for Introducing, Values of a Type
@@ -43,56 +45,79 @@ them (succ) requires another as an argument. The only one we can have at first
 then is Nat.zero. Call that 0. The only other thing you can do is apply succ to
 that, yielding (succ 0). This term is *also of type Nat* so we can apply succ
 again, to construct succ (succ 0); and so on essentially forever.
+
+- with these two constructors one can build succ terms of any length, n; we represent n as the term of that length
+- disjointness of constructors: Different constructors yield unequal values. zero is not the successor of any number.
+- injectivity of constructors: Different arguments yield unequal values. no number is the success of distinct numbers.
+
+- English: zero is a (term of type) Nat; and if n' is any Nat, then so is (succ n')
+- With these two constructors one can build succ terms of any length, n
+- we represent the natural number n as the term of type Nat of that length
+- zero is not the successor of any number by "disjointness of constructors"
+- no number is the successor of two distinct numbers by "injectivity of constructors"
 -/
 
 -- See examples in Main.lean
 /-!
-## Eliminators are for Consuming Values: Case Analysis & Pattern Matching
+## Nat Eliminators: Case Analysis by Pattern Matching
 
 The analysis distinguishes between Nat.zero and a term in which Nat.succ
 was applied to an argument: in this case a one-smaller term of type Nat.
 We could say that the two *cases* for the structure of a Nat supplied as
 an argument are Nat.zero and (Nat.succ n'), where n' is name that we bind
 temporarily to that one-smaller natural number.
+-/
 
-Pattern matching in Lean let's us bind names to the presumed arguments to
-constructors when doing case analysis. We can then use these names to work
-with these values when computing a result to return.
+def isZero : Nat → Bool
+| 0              => false
+| (Nat.succ _)   => true
 
-The easy example is the natural number decrement (subtract one) function.
-It takes a Nat term as an argument. There are two cases: it's either zero,
-in which we we return 0, or it's (succ n') where n' was the argument that
-must have been provided when the tern was built. Binding of names to these
-argument "fields" basically gives us "getter functions" for retrieving the
-argument values incorporated into a term of the given type.
+/-
+Pattern matching in Lean let's us bind names to parts of a given term.
+For example, is isZero is applied to n = 3, the first pattern match, with
+Nat.zero, fails; but the second matches 3 as (Nat.succ 2). This function
+requires a case analysis to distinguish zero from positive arguments but
+it did not use n' in computing a result, so the name can be and has been
+replaced here with an _.
 
-Nat.zero has no arguments. It's a constant constructor. Nat.succ has one:
-the natural number to represent the successor of. If the argument, n, to
-the decrement function is not zero, then it must be (Nat.succ n') where n'
-is some other term of type Nat. Given n, pattern matching uses x-ray vision
-to see that it's actually (Nat.succ _), then binds the name n' to it, so
-that it can be used to derive the final return value.
+This function can be said to be a predicate function: one that tells you
+whether a given object has a given property or not (thus a Boolean result).
+Here the function decides whether any given natural number has the property
+of being zero or not.
+-/
+
+/-
+Often it is necessary to bind names to elements within the terms being
+analyzed as arguments. These names are like "getters" for fetching values
+that have been packaged up by a constructor into a larger term.
+
+The easiest example is the predecessor function. In our definition it
+takes any natural number and, it it's zero, returns zero, and if it's
+positive (the only other possibility), i.e., of the form (Nat.succ n'),
+then return n' -- the natural number to which the Nat.succ constructor
+was applied to get the argument term being analyzed.
 -/
 
 def pred : Nat → Nat
-| Nat.zero => 0
-| Nat.succ n' => n'
+| 0 => 0        -- Nat.zero
+| n' + 1 => n'  -- Nat.succ n'
 
 /-!
-Pattern matching on constructor expressions let's you drill
-down into and around complex incoming parameter values. What
-does this function do/compute? Describe it in natural language.
-It takes a natural number n as an argument and ...
+But there's more. Pattern matching on constructor expressions
+in Lean enables you to drill down into extract parts of complex
+terms. You can figure it out. What does this function do/compute?
+Describe it in natural language.= It takes a natural number n as
+an argument and ...
 -/
 
 def poof : Nat → Bool
-| Nat.zero => true
-| Nat.succ Nat.zero => false
-| Nat.succ (Nat.succ n'') => poof n''
+| 0 => true
+| 1 => false
+| n'' + 2 => poof n''
 
 
 /-!
-## Arithmetic Operations
+## More Arithmetic Operations
 
 ### Unary
 
@@ -109,8 +134,8 @@ def id' (n : Nat) : Nat := n
 
 -- increment (add one) function, two ways
 def inc : Nat → Nat
-| n => Nat.succ n
-def inc' (n : Nat) := Nat.succ n
+| n => n + 1       -- Nat.succ n
+def inc' (n : Nat) := n + 1
 
 /-
 The first two unary functions here, id (identity)
@@ -127,7 +152,7 @@ is no actual predecessor of 0.
 -- decrement
 def dec : Nat → Nat
 | 0 => 0
-| (Nat.succ n') => n'
+| n' + 1 => n'
 
 /-
 In the increment function, n is a name that is
@@ -149,33 +174,115 @@ is n with the leading "succ" removed.
 -/
 
 /-!
-### Binary Operations
+Now we turn to defining nore interesting and complex
+operations involving natural numbers. The first will
+be the unary *factorial* operator.
 
-Now we turn to defining the usual binary operations
-of arithmetic for Nat-type arguments. We also see a
-next level of pattern matching, where we now match
-on both arguments to add. Moreover, we *analyze*
-just the second argument and consider the two cases,
-that m = 0 and that m = (succ m') for some m'. The
-definition then says this:
+In English one might explain that the factorial of n
+is the product of all the natural numbers from 1 to
+n. But that leaves out the case where n is 0. It's a
+bit of a muddle.
 
-- adding n and 0 returns n
-- adding n and (m' + 1) returns 1 + (adding n m')
+Let's turn around our entire perspective and ask how
+would be answer the question, what's the factorial of
+n. Instead we'll start by giving a literal answer for
+the case where n is 0: namely, 0! = 1.
 -/
+
+def fac_base := 1
+
+/-!
+Now here comes the cool bit. *Suppose* (assume, dream)
+that we know both a natural number value, n', and the
+factorial of n'; can we then easily compute the value
+of (n' + 1)! In other words, can you implement it?
+-/
+
+def fac_step (n' fac_n' : Nat): Nat := fac_n' * (n' + 1)
+-- notice c-like notation, named arguments left of :
+
+/-!
+Now if we want the answer to the question, what is 5!,
+for example, we can build it in steps. First use fac_base
+to get 0! = 1, then apply fac_step as many times as needed
+to get to n! for whatever n you've got. Each step creates
+the result for fact n' that you need to feed to fac n'+ 1.
+-/
+
+def fac_0 := fac_base
+def fac_1 := fac_step 0 fac_0
+def fac_2 := fac_step 1 fac_1
+def fac_3 := fac_step 2 fac_2
+def fac_4 := fac_step 3 fac_3
+def fac_5 := fac_step 4 fac_4
+def fac_6 := fac_step 5 fac_5
+
+#eval fac_5   -- expect 120
+
+/-!
+In each "step" you can assume you know n' and fac_n' and
+are responsible for returning fac_n' * (n' + 1). In other
+words, starting from the base and iterating the application
+of step n times yields the value of the function for n.
+
+You can see clearly that we can in principle construct the
+value of n! for any n no matter how high in exactly the same
+way. That said, we wouldn't want to have to write all that
+code. We want a *single* function that does the right thing:
+for any n, compute and return n!
+
+The almost magical solution is the "induction function" for
+natural numbers. In Lean its called Nat.rec. You come up with
+the base and step function definitions. It the combines them
+into the desired function for computing n! for any n, in effect
+by starting with the base value then applying the step function
+n times.
+-/
+
+def fac' : Nat → Nat :=
+  Nat.rec fac_base fac_step
+
+
+#eval fac' 5   -- whoa!
+
+/-!
+Lean provides nice for writing functions
+in this way, essentially with a solution
+for each "case" of the structure of the
+argument *and* with the assumption the
+function value for one less tha argument
+is already know (or equivalently, and in
+practice, it can be computed on demand.
+-/
+def fac : Nat → Nat
+| 0 => 1
+| (n' + 1) => (n' + 1) * fac n'
+
+
+-- It works
+#eval fac' 5   -- expect 120
+
+
+/-!
+Addition: by induction on the second argument
+-/
+
 def add : Nat → Nat → Nat
 | n, 0 => n
-| n, (Nat.succ m') => Nat.succ (add n m')
+| n, (m' + 1) => (add n m') + 1
 
 /-
 Detail: we define subtraction of any natural
 number from 0 yielding 0. There are no negative
-natural numbers, so this is the best we can do.
-Notice that on the first pattern matching line,
-the "m" is underlined in yellow. That reminds
-us that we don't use it in defining the return
-value. We can get rid of the yellow warning by
-using an "_" (underscore) in place of m. An
-underscore matches any value.
+natural numbers. This is one reasonable solution.
+
+Notice that on the first pattern matching line
+in the following logic, the "m" is underlined in
+yellow. That highlights  that we didn't have to
+give that argument a name, as it's not used in
+defining the return value for that case. The
+warning can be suppressed by replacing the name
+with an _.
 -/
 def sub : Nat → Nat → Nat
 | 0, m => 0

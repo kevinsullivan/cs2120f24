@@ -16,7 +16,10 @@ Nat; we'll have variables and interpretations that
 take variables arguments and return the numerical
 values that the particular interpretation assigns
 to them.
+-/
 
+
+/-!
 ## Syntax
 -/
 
@@ -26,8 +29,7 @@ structure natVar where
 
 -- unary arithmetic operators (here increment, decrement)
 inductive arith_UnOp where
-| inc
-| dec
+| fac
 
 -- binary arithemtic operators (here +, -, and *)
 inductive arith_BinOp where
@@ -48,6 +50,6 @@ notation:max "++" n => arithExpr.UnOp arith_UnOp.inc n
 notation:max "--" n => arithExpr.UnOp arith_UnOp.dec n
 notation e1 "+" e2 => arithExpr.BinOp arith_BinOp.add e1 e2
 notation e1 "-" e2 => arithExpr.BinOp arith_BinOp.sub e1 e2
-notation e1 "+" e2 => arithExpr.BinOp arith_BinOp.mul e1 e2
+notation e1 "*" e2 => arithExpr.BinOp arith_BinOp.mul e1 e2
 
 end cs2120f24.arith

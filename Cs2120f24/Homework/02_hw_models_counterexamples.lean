@@ -71,7 +71,6 @@ def cxs : List BoolInterp := sorry
 #eval! interpStringsFromInterps cxs 2
 
 
-
 /- #2: [25 points]. Translating counterexamples back into English.
 
 For each counterexample found, first translate it into English. Replace
