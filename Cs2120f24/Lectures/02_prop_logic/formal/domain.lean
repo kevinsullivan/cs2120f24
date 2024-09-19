@@ -1,13 +1,47 @@
 namespace cs2120f24
 
 /-!
-### Semantic Domain: Boolean Algebra
+# Semantic Domain: Boolean Algebra
 
 The semantic domain in propositional logic is
-Boolean algebra. This file contributes a few
-bits of Boolean algebra to the library provided
-by Lean.
+Boolean algebra. An algebra, such as Boolean algebra,
+generally involves one or several kinds of objects,
+operations to construct objects of these kinds, and
+operations that use objects of these kinds to derive
+other objects/values. For example, addition uses two
+Nat values to construct a third, the result.
 
+Almost all the parts of Boolean algebra that we need
+for our semantic domain are already defined in Lean.
+These include:
+- the Bool type, with constructors/values *true* and *false*
+- case analysis to "destructure" a Bool so as to see
+  - what constructur was used to produce it
+  - what arguments were provided to that constructor.
+The following examples take a Bool (argument to match)
+and then do a case analysis, returning one result if the
+constructor of the value was true, and andother if it was
+false.
+-/
+
+#eval match false with | true => "T" | false => "F"
+#eval match true  with | true => "T" | false => "F"
+
+-- Here's a function desugared form
+def TorF' : Bool → String :=
+fun b => match b with
+| true  => "T"
+| false => "F"
+
+-- The notation we've been using
+def TorF : Bool → String
+| true  => "T"
+| false => "F"
+
+#eval TorF' true  -- expect "T"
+#eval TorF false  -- expect "F"
+
+/-
 #### What is Boolean Algebra
 
 Boolean algbra has

@@ -50,7 +50,6 @@ but please do finish this assignment entirely on your own
 to be sure you're prepared to move on in our class.
 -/
 
-
 /-!
 We give you three variables expressions to work with and
 two different interpretations.
@@ -88,7 +87,7 @@ correct answers.
 
 #eval arithEval (X + Y) interp_1    -- expect 5
 #eval arithEval (X * Y) interp_1    -- expect 6
-#eval arithEval (Y - [1]) interp_1  -- expect 1
+#eval arithEval (Y - [1]) interp_1  -- expect 2   -- correction here
 
 -- Extra credit: Make this work, too
 #eval arithEval (Y !) interp_1      -- expect 6

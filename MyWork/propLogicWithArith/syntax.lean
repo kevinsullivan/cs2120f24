@@ -1,4 +1,6 @@
-namespace cs2120f24
+import Cs2120f24.Library.natArithmetic.syntax
+
+--namespace cs2120f24.arith
 
 /-!
 # Propositional Logic: Syntax
@@ -24,6 +26,7 @@ inductive PLExpr : Type
 | var_expr (from_var : BoolVar)
 | un_op_expr (op : UnOp) (e : PLExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLExpr)
+| arith_rel_expr (e : ArithExpr)
 deriving Repr
 
 open PLExpr
@@ -37,4 +40,4 @@ infixr:30 " ∨  "  => PLExpr.bin_op_expr BinOp.or
 infixr:20 " ↔ " => bin_op_expr BinOp.iff
 infixr:25 " ⇒ " => bin_op_expr BinOp.imp
 
-end cs2120f24
+-- end cs2120f24.arith

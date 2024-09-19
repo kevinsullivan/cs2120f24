@@ -1,94 +1,40 @@
 import Cs2120f24.Library.natArithmetic.domain
-import Cs2120f24.Library.natArithmetic.syntax
+import Cs2120f24.Library.natArithmetic.semantics
 
 namespace cs2120f24.arith
 
 /-!
 # Domain: Natural Number Arithmetic
 
-/-!
-As we saw in our investigation into propositional logic,
-the semantic domain for proposition logic comprises not
-just the Boolean type, supplying the two basic truth values
-of Boolean algebra, but also the full range of oeprations
-that consume Boolean values and return other Boolean values.
-Examples are typically denoted as && (Boolean and), || (or),
-! (not). So now when we talk about Boolean *algebra* we mean
-the type of Boolean values along with all of the operations
-(unary, binary, ternary, etc.), their properties, and so on.
-
-With the *domain* of Boolean algebra in hand,  we were then
-able to specify our own syntax for *propositional logic* *and*
-a set of semantic mappings (functions!) from syntactic terms
-in propositional logic to their corresponding Boolean algebra
-meanings, both values *and functions*.
-
-In this chapter, we do the same thing but for the domain of
-natural number arithmetic. This is just the arithmetic of the
-whole numbers from zero on up. Along the way we'll meet the
-Lean type *Nat* (also written ℕ), the terms of which we use
-to represent natural numbers; how to construct arbitrarily
-large values of this type; and how to use values of this type
-through *case analysis*, *pattern matching*, and *recursion*.
+UNDER CONSTRUCTION. PROBABLY USEFUL BUT NOT FINISHED.
 -/
--/
-
 
 /-!
-## The Nat Type and its Value Constructors
-
-Nat is a type, the terms of which have been designed for the
-express purpose of representing natural numbers, the infinite
-set of whole numbers from zero on up by ones.
--/
-
-
-/-!
-Here is the intended correspondence:
-
-0   Nat.zero
-1   Nat.succ Nat.zero
-2   Nat.succ (Nat.succ Nat.zero)
-3   Nat.succ (Nat.succ (Nat.succ Nat.zero))
-etc
-
-The *constant* term, Nat.zero, is taken to represent the natural
-number, 0. Lean provides the notation, 0, for Nat.zero, and it is
-important to use 0 instead of Nat.zero to take advantage of some
-Lean capabilities when we get further into proofs.
-
-The second, one-argument constructor, Nat.succ : Nat → Nat, takes
-any natural number, let's call it n', as an argument, and yields the
-term, (Nat.succ n'), which we will take to represent one more than n'.
-We will call one more than n'the *successor* of n'
-
-When writing Lean definitions it's best to write n' + 1 rather
-than (Nat.succ n') to take advantage of certain automations later
-on. Using the notations 0 and _ + 1 also makes definitions easier
-to read for most people.
--/
+## The Nat Datatype Type -/
 
 #check Nat  -- Nat is a type. What's it's type? It's Type.
-
 #print Nat  -- Here are it's constructors. Go to its definition!
-
 
 -- constructors
 #check Nat.zero       -- constant
 #check (Nat.succ)     -- function: takes term of type Nat, returns another
+
+-- notational variant
 #check Nat.succ       -- alternative way to write the same function type
 
--- using constructors
+-- constructor expressions
 #check Nat.zero       -- term has type Nat
 #check 0              -- preferred notation for same value
 #check Nat.succ 0     -- given Nat, construct next larger Nat
 #reduce Nat.succ 0    -- reduce prints it in standard notation
+
+-- operator expressions
 #reduce 0 + 1         -- preferred notation for successor (here, of 0)
 #reduce (0 + 1) + 1   -- Nat.succ (Nat.succ Nat.zero), i.e., 2
 #reduce ((0 + 1) + 1) + 1   -- this term represents 3, etc., ad infinitum
 
 /-!
-This representation of natural numbers is what we'd call a "unary"
+This representation of natural numbers is what we'd call "unary"
 notation. You've used it since grade school, where, for example,
 you could represent three as ///; four, ////; five, /////, etc.
 -/
@@ -112,12 +58,10 @@ def four  := 4
 
 
 /-!
-## Elimination (Use) of Nats: Case Analysis and Pattern Matching
+## Elimination: Case Analysis and Pattern Matching
 
 How can a function use some arbitrarilty selected value/term of
 type Nat?
-
-### No elimination
 
 One possibility is to incorporate it into a larger structure
 without ever looking into its details to make a decision. The
@@ -129,12 +73,10 @@ where inc is defined (domain).
 -/
 
 #check inc
-
 #reduce inc
+
 -- fun x => x.succ
 -- "a function that takes a Nat, x, and returns Nat.succ x"
-
-
 
 /-
 Put another way, you can increment a Nat, n, without knowing
@@ -156,7 +98,7 @@ of the natural number type: as opposed to, say, the rational or real type.
 #eval four  -- Lean uses notations when it reports back to you (here "4")
 
 /-!
-OPERATORS
+## Unary and Binary Operators
 -/
 -- unary operators (functions)
 #check (Nat.pred : Nat → Nat)
@@ -185,7 +127,6 @@ OPERATORS
 #eval Nat.mod 3 2
 
 -- concrete syntax (it's just arithmetic)
-
 
 -- nothing for pred
 #eval 2 + 3
@@ -223,6 +164,38 @@ OPERATORS
 #eval mul 0 5
 #eval mul 5 3
 
+/-!
+Predicate Function Representations of Properties and Relations
+
+Just run the darned functions on your own argument(s) to
+see if that sequence of values is "in the relation", which
+we will interpret as "being in some particular relation of
+interest to each other. As an example, less-than-or-equal
+is a binary relation. As a predicate function it takes two
+numeric arguments and returns a *Boolean* result indicating
+whether the first (number represented by the first) is less
+than or equal to the (number represented by the )second, by
+the usual rules of arithmetic.
+
+We call a unary relation--a relation/predicate with just one
+argument--a set or a property. For example, the property of
+being an *even* natural number corresponds with the of of all
+the even numbers. A value is in the set if and only if it has
+the intended property, here of being (a representation of) a
+number that is even. We tend to use the word "relation" when
+there are two or more arguments
+
+Again, a predicate function indicates/decides if a given an
+tuple (generally a pair but could be a sequence of any length)
+of values is considered to be "in" the relation, or "related
+in the specified manner." Exanple: the pair, (3, 7), is "in"
+the less than or equal relation, *le : Nat → Nat → Bool*.
+
+Here are some examples of *relational* operators on Nat-valued
+arguments but now yielding Booleans indicating membership or not
+in a given relation (or set), or possession of a given property.
+-/
+
 -- eq_zero
 #eval eq_zero 0
 #eval eq_zero 1
@@ -249,14 +222,54 @@ OPERATORS
 /-!
 ## Our Own Arithmetic Expression Language and Evaluator
 -/
-open arithExpr
 
--- variable expressions
-def K : arithExpr := {⟨0⟩}
-def M : arithExpr := {⟨1⟩}
-def N : arithExpr := {⟨2⟩}
+-- *variable expressions* from natural number indexed variables
+def X : ArithExpr := {⟨0⟩}
+def Y := {⟨1⟩}
+def Z := {⟨2⟩}
+def K := {⟨3⟩}
+def M := {⟨4⟩}
+def N := {⟨5⟩}
 
-#check K + M
-#check (K + M) * N
+-- two interpretations
+
+-- this one applied to any arithmetic *variable* reduces to 5
+def interp_0 (_ : ArithVar) := 0
+
+-- maps first six *variables* to given values and all the rest to 0
+def interp_1 : ArithVar → Nat
+| ⟨ 0 ⟩ => 2          -- X := 2
+| ⟨ 1 ⟩ => 3          -- Y := 3
+| ⟨ 2 ⟩ => 0          -- Z := 0
+| ⟨ 3 ⟩ => 4          -- N := 4
+| ⟨ 4 ⟩  => 6          -- M := 6
+| ⟨ 5 ⟩  => 3          -- P := 3
+| _ => 0               -- any other variable := 0
+
+
+-- Here are some arithmetic expressions using abstract syntax
+#eval! arithEval [3]                interp_0    -- expect 3
+#eval! arithEval (ArithExpr.lit 3)  interp_0    -- desugar []
+#eval! arithEval [3] interp_1       -- expect 3
+#eval! arithEval ([5] !) interp_0   -- expect 120
+#eval! arithEval X interp_0         -- expect 0
+#eval arithEval X interp_1          -- expect 2
+#eval arithEval Y interp_1          -- expect 3
+#eval arithEval Z interp_1          -- expect 0
+
+
+/-!
+But these evaluations are not producing answers
+that are not arithmetically correct. The problem
+is that some of the semantic evaluation rules are
+just "stubbed out" to always return zero. The goal
+of Homework #3 is to get you to the point where you
+genuinely know how to fix it and that it'll work.
+-/
+
+#eval arithEval (X + Y) interp_1    -- expect 5
+#eval arithEval (X * Y) interp_1    -- expect 6
+#eval arithEval (Y - [1]) interp_1  -- expect 2     --correction made here
+#eval arithEval (Y !) interp_1      -- expect 6
 
 end cs2120f24.arith

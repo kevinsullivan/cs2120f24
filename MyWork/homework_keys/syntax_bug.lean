@@ -1,40 +1,42 @@
-namespace cs2120f24
 
-/-!
-# Propositional Logic: Syntax
--/
-
-structure BoolVar : Type :=
-  mk :: (index: Nat)
-deriving Repr
-
-inductive UnOp : Type
+inductive UnOp where
 | not
-deriving Repr
 
-inductive BinOp : Type
+inductive BinOp where
 | and
 | or
 | imp
 | iff
-deriving Repr
+
+structure BoolVar where (index : Nat)
 
 inductive PLExpr : Type
 | lit_expr (from_bool : Bool) : PLExpr
 | var_expr (from_var : BoolVar)
 | un_op_expr (op : UnOp) (e : PLExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLExpr)
-deriving Repr
 
 open PLExpr
 
 notation:max " ⊤ " => (PLExpr.lit_expr true)
 notation:max " ⊥ " => (lit_expr false)
 notation:max "{" v "}" => (var_expr v)
+
 notation:max "¬" p:40 => un_op_expr UnOp.not p
 infixr:35 " ∧ "  =>  PLExpr.bin_op_expr BinOp.and
 infixr:30 " ∨  "  => PLExpr.bin_op_expr BinOp.or
-infixr:20 " ↔ " => bin_op_expr BinOp.iff
 infixr:25 " ⇒ " => bin_op_expr BinOp.imp
+infixr:20 " ⇔ " => bin_op_expr BinOp.iff
 
-end cs2120f24
+def P := {⟨0⟩}
+#check P
+#check P ∧ P
+#check (P ∧ P)
+#check (P ∧ P) ⇒ P
+#check P ∧ P ⇒ P
+
+def wet : PLExpr := {⟨0⟩}
+def rain : PLExpr := {⟨1⟩}
+def sprink : PLExpr := {⟨2⟩}
+
+def formal_0 := rain ∧ sprink ⇒ ⊥
