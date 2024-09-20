@@ -36,30 +36,33 @@ inductive Nat : Type
 #print Nat    -- Here are its constructors
 
 /-!
-## Constructors are for Constructing, for Introducing, Values of a Type
+## Constructors are for Constructing, Assembling, Introducing Values of a Type
 
-The constructors of a type are its introduction rules. Each provides a way to
-construct a new term of the given type by applying the constructor to argument
-values of the specified types. Here there are only two constructors, and one of
-them (succ) requires another as an argument. The only one we can have at first
-then is Nat.zero. Call that 0. The only other thing you can do is apply succ to
-that, yielding (succ 0). This term is *also of type Nat* so we can apply succ
-again, to construct succ (succ 0); and so on essentially forever.
+The constructors of a type are its introduction rules. Each one define a set of
+terms--those that be formed by applying the constructor to *any* values of its
+argument types, that Lean is then instructed to then accept as being terms of
+the type that the constructor belongs to.
 
-- with these two constructors one can build succ terms of any length, n; we represent n as the term of that length
-- disjointness of constructors: Different constructors yield unequal values. zero is not the successor of any number.
-- injectivity of constructors: Different arguments yield unequal values. no number is the success of distinct numbers.
+The Nat type, for example, has two constructors. The first, Nat.zero, takes no
+arguments and this defines a single constant term of type Nat. The seccond, the
+Nat.succ constructor takes one argument, another terms of type Nat. If we call
+that term, n', then the term, (Nat.succ n'), is accepted as also being a term of
+type Nat. Note carefully that if a Nat value is not zero then it can only have
+been constructed by Nat.succ applied to some smaller Nat.
 
-- English: zero is a (term of type) Nat; and if n' is any Nat, then so is (succ n')
-- With these two constructors one can build succ terms of any length, n
-- we represent the natural number n as the term of type Nat of that length
-- zero is not the successor of any number by "disjointness of constructors"
-- no number is the successor of two distinct numbers by "injectivity of constructors"
+- with these two constructors one can build Nat terms of any finite length, n
+- we can represent any natural numnber n as a term of type nat with n Nat.succ applications to Nat.zero
+- The set of terms of the Nat type is the set that can be "*finitely* generated" using these constructors
+- Different constructors yield unequal terms (disjointness): zero is not the successor of any number
+- Different constructor arguments yield unequal terms (injectivity): no n is the successor of different numbers
+- Combined with the fundamental properties of inductive types we have terms that simulate natural numbers
+- What we have technically speaking is a representation (Nat) of Peano Arithmetic, named after G. Peano
+- As any Nat term is of finite size, recursions on smaller Nat values always terminate in finite "time"
 -/
 
 -- See examples in Main.lean
 /-!
-## Nat Eliminators: Case Analysis by Pattern Matching
+## How to Use Nats: Elimination by Case Analysis by Pattern Matching
 
 The analysis distinguishes between Nat.zero and a term in which Nat.succ
 was applied to an argument: in this case a one-smaller term of type Nat.
