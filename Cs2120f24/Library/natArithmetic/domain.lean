@@ -36,7 +36,7 @@ inductive Nat : Type
 #print Nat    -- Here are its constructors
 
 /-!
-## Constructors are for Constructing, Assembling, Introducing Values of a Type
+## Constructors are for Constructing/Introducing New Values of a Type
 
 The constructors of a type are its introduction rules. Each one define a set of
 terms--those that be formed by applying the constructor to *any* values of its

@@ -1,3 +1,8 @@
+/-!
+An expression language for natural number arithmetic all in one place.
+And the homework on completing the syntax and semantics of this language.
+-/
+
 
 structure ArithVar : Type :=
   mk :: (index: Nat)
