@@ -346,7 +346,7 @@ for you is usually to figure out the right step function.
 /-!
 ## Exercises
 
-A. [50 points]
+### Sum of Squares of Nats Up To n
 
 Define a function two ways: using Nat.rec applied to two
 smaller "machines" (base value and step function), and
@@ -384,9 +384,7 @@ you expect. Example: sumSq 2 = 2^2 + 1^2 + 0^2 = 5.
 -/
 
 /-!
-B. [50 points] Do not cheat by looking up the answer.
-Figure it out to build the brain circuits you'll need
-in this course, and as a real-life computer scientist.
+### Nat to BinaryNumeral
 
 Define a function that converts any natural number n
 into a string of 0/1 characters representing its binary
@@ -474,12 +472,15 @@ def binaryRep : Nat → String
 | 0 => "0"
 | 1 => "1"
 | n' + 2 => let n := n' + 2
-            binaryRep (n / 2) ++ toString (n % 2)
+            _ ++ toString (n % 2)
 
-#eval binaryRep 0   --expect "101"
+-- Complete the definition. The tests will work,.
+#eval binaryRep 0   --expect "0"
 #eval binaryRep 5   --expect "101"
 
 /-!
+### Other Induction Axioms
+
 Interesting. We've got ourselves a recursive
 function, but it doesn't quite fit the schema
 we've seen to now. Nat.rec allows us to build
@@ -516,6 +517,10 @@ we can usually assume access to answer for *all
 smaller" values of n' (e.g., lesser by one, or
 quotient by 2), by way of recursive calls with
 these values as actual parameters.
+-/
+
+/-!
+### Specifying the Fibonacci Function
 
 Haha. So we finally get to the exercise. You
 are to specify in Lean and test a function to
@@ -560,3 +565,7 @@ def fib : Nat → Nat
 | 0 => _
 | 1 => _
 | n' + 2 => _
+
+/-
+Write test cases for 0, 1, 2, and 10. Does it work?
+-/
