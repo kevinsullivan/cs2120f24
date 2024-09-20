@@ -119,6 +119,8 @@ def poof : Nat → Bool
 | n'' + 2 => poof n''
 
 
+-- POSSIBLE QUIZ QUESTION!
+
 /-!
 ## More Arithmetic Operations
 
