@@ -178,94 +178,9 @@ as saying, if n = 0 return 0 else return n-1, which
 is n with the leading "succ" removed.
 -/
 
-/-!
-Now we turn to defining nore interesting and complex
-operations involving natural numbers. The first will
-be the unary *factorial* operator.
-
-In English one might explain that the factorial of n
-is the product of all the natural numbers from 1 to
-n. But that leaves out the case where n is 0. It's a
-bit of a muddle.
-
-Let's turn around our entire perspective and ask how
-would be answer the question, what's the factorial of
-n. Instead we'll start by giving a literal answer for
-the case where n is 0: namely, 0! = 1.
--/
-
-def fac_base := 1
-
-/-!
-Now here comes the cool bit. *Suppose* (assume, dream)
-that we know both a natural number value, n', and the
-factorial of n'; can we then easily compute the value
-of (n' + 1)! In other words, can you implement it?
--/
-
-def fac_step (n' fac_n' : Nat): Nat := fac_n' * (n' + 1)
--- notice c-like notation, named arguments left of :
-
-/-!
-Now if we want the answer to the question, what is 5!,
-for example, we can build it in steps. First use fac_base
-to get 0! = 1, then apply fac_step as many times as needed
-to get to n! for whatever n you've got. Each step creates
-the result for fact n' that you need to feed to fac n'+ 1.
--/
-
-def fac_0 := fac_base
-def fac_1 := fac_step 0 fac_0
-def fac_2 := fac_step 1 fac_1
-def fac_3 := fac_step 2 fac_2
-def fac_4 := fac_step 3 fac_3
-def fac_5 := fac_step 4 fac_4
-def fac_6 := fac_step 5 fac_5
-
-#eval fac_5   -- expect 120
-
-/-!
-In each "step" you can assume you know n' and fac_n' and
-are responsible for returning fac_n' * (n' + 1). In other
-words, starting from the base and iterating the application
-of step n times yields the value of the function for n.
-
-You can see clearly that we can in principle construct the
-value of n! for any n no matter how high in exactly the same
-way. That said, we wouldn't want to have to write all that
-code. We want a *single* function that does the right thing:
-for any n, compute and return n!
-
-The almost magical solution is the "induction function" for
-natural numbers. In Lean its called Nat.rec. You come up with
-the base and step function definitions. It the combines them
-into the desired function for computing n! for any n, in effect
-by starting with the base value then applying the step function
-n times.
--/
-
-def fac' : Nat → Nat :=
-  Nat.rec fac_base fac_step
-
-
-#eval fac' 5   -- whoa!
-
-/-!
-Lean provides nice for writing functions
-in this way, essentially with a solution
-for each "case" of the structure of the
-argument *and* with the assumption the
-function value for one less tha argument
-is already know (or equivalently, and in
-practice, it can be computed on demand.
--/
 def fac : Nat → Nat
 | 0 => 1
 | (n' + 1) => (n' + 1) * fac n'
-
-
--- It works
-#eval fac' 5   -- expect 120
 
 
 /-!
@@ -373,11 +288,18 @@ its mathlib.
 /-
 Now that we have the domain of natural number arithmetic set up,
 it's time to turn to building a new *expression language* of our
-own as a second example of a formal language with a syntax and a
-semantics, notions of models and counterexaples, and so on. And in
-each of these areas, we'll see the same tricks we used when we
-were formalizing propositional logic: variables, interpretations,
-a syntax with literal, variable, and operator expressions
+own as a second example of a formal language with a syntax and an
+operational semantics (an expression evaluation function). We'll
+borrow hevily from our specification of the syntax and semantics
+of propositinal logic. Instead of Boolean variables expressions,
+we'll have natural number-valued variable expressions. Instead of
+Boolean literals, we'll have Nat literal expressions. Instead of
+syntactic expressions with ∧ and ∨ symbols, the operators will be
+the likes of +, -, *.
+
+If you're confused about this material, please go back and study,
+and really figure out, how all aspects of the syntax and smenatic
+definitions work to produce a language
 -/
 
 end cs2120f24.arith

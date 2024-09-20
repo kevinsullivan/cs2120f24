@@ -1,4 +1,4 @@
-import Cs2120f24.Lectures.«02_prop_logic».formal.truth_table
+import Cs2120f24.Lectures.«03_pl_model_theory».truth_table
 
 namespace cs2120f24
 

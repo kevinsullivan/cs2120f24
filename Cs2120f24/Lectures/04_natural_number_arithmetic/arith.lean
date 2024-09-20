@@ -1,8 +1,22 @@
 /-!
-An expression language for natural number arithmetic all in one place.
-And the homework on completing the syntax and semantics of this language.
--/
+An expression language for natural number arithmetic all in one place,
+with homework on completing the syntax and semantics of this language.
 
+The evolved and refined version of this code in Library/natArithmetic.
+There we explore the domain by deliving into the Nat type, its simple
+induction principle, and an expression language for this domain. We're
+on a path to incorporating arithmetical relational expressions into
+our currently bare version of propositional logic. That will give us a
+wonderful version of proposition logic with arithmetic relations as a
+theory extension. That will take us to the end of our adventure in the
+wilds of formal language design. We will not, however, develop our own
+model theory for the artithmetic component. Rather, we'll then turn to
+a real-world "satisfiability modulo theories" solver that *can* solve
+systems of arithmetic constraints. Really understanding what we can do
+with a language and systen for PL with Natural Number Arithmetic should
+give you a sense of the rapidly increasing expressiveness of logics we
+can now envision and specify.
+-/
 
 structure ArithVar : Type :=
   mk :: (index: Nat)
