@@ -1,6 +1,6 @@
 import Cs2120f24.Library.propLogic.interpretation
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-!
 #### Truth Table Output Column
@@ -18,4 +18,4 @@ evalBoolExpr_interps : List BoolInterp → PLExpr → List Bool
 | [], _ => []
 | h::t, e => [evalPLExpr e h] ++ evalBoolExpr_interps t e
 
-end cs2120f24
+end cs2120f24.propLogic

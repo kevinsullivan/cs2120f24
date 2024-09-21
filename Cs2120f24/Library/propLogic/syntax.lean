@@ -1,4 +1,4 @@
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-!
 # Propositional Logic: Syntax
@@ -37,4 +37,4 @@ infixr:30 " ∨  "  => PLExpr.bin_op_expr BinOp.or
 infixr:20 " ↔ " => bin_op_expr BinOp.iff
 infixr:25 " ⇒ " => bin_op_expr BinOp.imp
 
-end cs2120f24
+end cs2120f24.propLogic

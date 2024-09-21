@@ -1,7 +1,7 @@
 import Cs2120f24.Library.propLogic.syntax
 import Cs2120f24.Library.propLogic.domain
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-!
 # Semantics
@@ -26,4 +26,5 @@ def evalPLExpr : PLExpr → BoolInterp → Bool
 | (un_op_expr op e),      i => (evalUnOp op) (evalPLExpr e i)
 | (bin_op_expr op e1 e2), i => (evalBinOp op) (evalPLExpr e1 i) (evalPLExpr e2 i)
 
-end cs2120f24
+
+end cs2120f24.propLogic

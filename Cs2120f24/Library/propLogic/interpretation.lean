@@ -5,7 +5,7 @@ import Cs2120f24.Library.propLogic.semantics
 #### Boolean Interpretation
 -/
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 -- From interpretation, variable, and new Bool, override that interpretation to assign that new value to that variable
 def overrideVarValInInterp : BoolInterp → BoolVar → Bool → BoolInterp
@@ -92,3 +92,5 @@ Given a list of Bool interps and a width w, output them as a list of list of Boo
 def interpStringsFromInterps : List BoolInterp → Nat → List (List String)
 | [], _ => []
 | h::t, n => bitStringsFromInterp h n::interpStringsFromInterps t n
+
+end cs2120f24.propLogic

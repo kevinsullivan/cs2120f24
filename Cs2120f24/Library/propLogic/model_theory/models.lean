@@ -1,6 +1,6 @@
 import Cs2120f24.Library.propLogic.model_theory.properties
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-!
 MODELS
@@ -33,4 +33,4 @@ def findModel :  PLExpr → Option BoolInterp
   | [] => none
   | h::_ => h
 
-end cs2120f24
+end cs2120f24.propLogic

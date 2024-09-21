@@ -1,4 +1,4 @@
-namespace cs2120f24
+namespace cs2120f24.lecture.prop_logic
 
 /-!
 # Propositional Logic: Syntax
@@ -239,4 +239,4 @@ copy it into your MyWork directory tree, and plan around with
 building expressions in our logic.
 -/
 
-end cs2120f24
+end cs2120f24.lecture.prop_logic

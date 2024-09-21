@@ -1,7 +1,7 @@
 import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
 import Cs2120f24.Lectures.«02_prop_logic».formal.domain
 
-namespace cs2120f24
+namespace cs2120f24.lecture.prop_logic
 
 /-!
 ### Semantics
@@ -89,4 +89,4 @@ That's it. From this material you should be able to aquire
 a justifiably confident grasp of essentially every aspect
 of the syntax and semantics of propositional logic.
 -/
-end cs2120f24
+end cs2120f24.lecture.prop_logic

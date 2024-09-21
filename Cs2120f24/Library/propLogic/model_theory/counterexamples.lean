@@ -1,6 +1,6 @@
 import Cs2120f24.Library.propLogic.model_theory.models
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-
 COUNTEREXAMPLES
@@ -13,4 +13,4 @@ of the given expression, which amount to counterexamples for it.
 def findCounterexamples (e : PLExpr) : List BoolInterp := findModels ¬e
 def findCounterexample (e : PLExpr) : Option BoolInterp := findModel ¬e
 
-end cs2120f24
+end cs2120f24.propLogic

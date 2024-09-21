@@ -1,6 +1,6 @@
 import Cs2120f24.Library.propLogic.model_theory.truth_table
 
-namespace cs2120f24
+namespace cs2120f24.propLogic
 
 /-!
 ### Satisfiability
@@ -45,4 +45,4 @@ def is_unsat : PLExpr → Bool :=
 def is_model : BoolInterp → PLExpr → Bool :=
   fun i e => evalPLExpr e i
 
-end cs2120f24
+end cs2120f24.propLogic

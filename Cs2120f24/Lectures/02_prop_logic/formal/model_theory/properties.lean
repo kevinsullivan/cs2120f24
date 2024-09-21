@@ -1,6 +1,6 @@
 import Cs2120f24.Lectures.«02_prop_logic».formal.model_theory.truth_table
 
-namespace cs2120f24
+namespace cs2120f24.lecture.prop_logic
 
 /-!
 ### Satisfiability
@@ -45,4 +45,4 @@ def is_unsat : PLExpr → Bool :=
 def is_model : BoolInterp → PLExpr → Bool :=
   fun i e => evalPLExpr e i
 
-end cs2120f24
+end cs2120f24.lecture.prop_logic

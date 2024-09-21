@@ -1,6 +1,6 @@
 import Cs2120f24.Lectures.«02_prop_logic».formal.model_theory.truth_table
 
-namespace cs2120f24
+namespace cs2120f24.lecture.prop_logic
 
 /-!
 As a final chapter in our unit on propositional logic, we
@@ -38,4 +38,4 @@ def findModel :  PLExpr → Option BoolInterp
   | [] => none
   | h::_ => h
 
-end cs2120f24
+end cs2120f24.lecture.prop_logic

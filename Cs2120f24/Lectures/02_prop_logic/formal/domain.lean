@@ -1,4 +1,4 @@
-namespace cs2120f24
+namespace cs2120f24.lecture.prop_logic
 
 /-!
 # Semantic Domain: Boolean Algebra
@@ -96,4 +96,4 @@ def iff : Bool → Bool → Bool
 -- Problem #1 (combinatorics): How many binary Boolean functions are there?
 -- Problem #2 (Boolean algenra): Write a specification of the exclusive or function (xor)
 
-end cs2120f24
+end cs2120f24.lecture.prop_logic
