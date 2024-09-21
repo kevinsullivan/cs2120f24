@@ -41,12 +41,13 @@ inductive ArithBinOp : Type
 deriving Repr
 
 -- abstract syntax
+
 inductive ArithExpr : Type
 | lit (from_nat : Nat) : ArithExpr
 | var (from_var : ArithVar)
 | unOp (op : ArithUnOp) (e : ArithExpr)
 | binOp (op : ArithBinOp) (e1 e2 : ArithExpr)
-deriving Repr
+-- deriving Repr
 
 -- concrete syntax
 notation " { " v " } " => ArithExpr.var v
