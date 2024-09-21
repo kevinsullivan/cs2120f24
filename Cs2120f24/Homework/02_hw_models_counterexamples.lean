@@ -1,4 +1,4 @@
-import «Cs2120f24».Library.propLogic.semantics
+import «Cs2120f24».Library.propLogic.interpretation
 
 namespace cs2120f24
 
@@ -67,8 +67,8 @@ Replace _ with the expression to get the list of counterexamples to affirm_disju
 def cxs : List BoolInterp := sorry
 
 -- This "code" should display the resulting interpretations lists of 0/1 strings
--- It'll work when you fill in an answer above.
-#eval! interpStringsFromInterps cxs 2
+-- It'll work when you fill in an answer above and uncomment it.
+-- #eval! interpStringsFromInterps cxs 2
 
 
 /- #2: [25 points]. Translating counterexamples back into English.
