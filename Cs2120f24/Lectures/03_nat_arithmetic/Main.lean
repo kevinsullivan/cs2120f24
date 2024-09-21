@@ -1,8 +1,6 @@
-import Cs2120f24.Library.natArithmetic.domain
 import Cs2120f24.Library.natArithmetic.semantics
 
-namespace cs2120f24.arith
-
+namespace cs2120f24.natArithmetic
 /-!
 # Domain: Natural Number Arithmetic
 
@@ -223,7 +221,7 @@ in a given relation (or set), or possession of a given property.
 -/
 
 -- *variable expressions* from natural number indexed variables
-def X : ArithExpr := {⟨0⟩}
+def X : Expr := {⟨0⟩}
 def Y := {⟨1⟩}
 def Z := {⟨2⟩}
 def K := {⟨3⟩}
@@ -232,11 +230,11 @@ def N := {⟨5⟩}
 
 -- two interpretations
 
--- this one applied to any arithmetic *variable* reduces to 5
-def interp_0 (_ : ArithVar) := 0
+-- this one applied to any arithmetic *variable* reduces to 0
+def interp_0 (_ : Var) := 0
 
--- maps first six *variables* to given values and all the rest to 0
-def interp_1 : ArithVar → Nat
+-- function: first six *variables* go to given values, rest to 0
+def interp_1 : Var → Nat
 | ⟨ 0 ⟩ => 2          -- X := 2
 | ⟨ 1 ⟩ => 3          -- Y := 3
 | ⟨ 2 ⟩ => 0          -- Z := 0
@@ -247,28 +245,37 @@ def interp_1 : ArithVar → Nat
 
 
 -- Here are some arithmetic expressions using abstract syntax
-#eval! arithEval [3]                interp_0    -- expect 3
-#eval! arithEval (ArithExpr.lit 3)  interp_0    -- desugar []
-#eval! arithEval [3] interp_1       -- expect 3
-#eval! arithEval ([5] !) interp_0   -- expect 120
-#eval! arithEval X interp_0         -- expect 0
-#eval arithEval X interp_1          -- expect 2
-#eval arithEval Y interp_1          -- expect 3
-#eval arithEval Z interp_1          -- expect 0
+#eval! evalExpr [3]                interp_0    -- expect 3
+#eval! evalExpr (Expr.lit 3)  interp_0    -- desugar []
+#eval! evalExpr [3] interp_1       -- expect 3
+#eval! evalExpr ([5] !) interp_0   -- expect 120
+#eval! evalExpr X interp_0         -- expect 0
+#eval evalExpr X interp_1          -- expect 2
+#eval evalExpr Y interp_1          -- expect 3
+#eval evalExpr Z interp_1          -- expect 0
 
 
 /-!
-But these evaluations are not producing answers
-that are not arithmetically correct. The problem
-is that some of the semantic evaluation rules are
-just "stubbed out" to always return zero. The goal
-of Homework #3 is to get you to the point where you
-genuinely know how to fix it and that it'll work.
+But these evaluations are [NOW WERE!] not producing
+answers that are arithmetically correct. The problem
+is [WAS] that some of the semantic evaluation rules
+are [WERE] just "stubbed out" to always return zero.
+
+The goal of Homework #3 was to get you to the point
+where you knew how to fix it, fixed it, and found it
+to work.
+
+The model homework solution making these arithmetic
+expressions, in our expression language, evalute to
+the right results, is in Library/natArithmetic. See
+the semantic domain, syntax, and semantics files.
+Your solutions do not have to match exactly but to
+work correctly will have to be right, anyway.
 -/
 
-#eval arithEval (X + Y) interp_1    -- expect 5
-#eval arithEval (X * Y) interp_1    -- expect 6
-#eval arithEval (Y - [1]) interp_1  -- expect 2     --correction made here
-#eval arithEval (Y !) interp_1      -- expect 6
+#eval evalExpr (X + Y) interp_1    -- expect 5
+#eval evalExpr (X * Y) interp_1    -- expect 6
+#eval evalExpr (Y - [1]) interp_1  -- expect 2     --correction made here
+#eval evalExpr (Y !) interp_1      -- expect 6
 
-end cs2120f24.arith
+end cs2120f24.natArithmetic

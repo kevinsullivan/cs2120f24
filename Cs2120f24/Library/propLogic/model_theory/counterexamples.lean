@@ -1,4 +1,4 @@
-import Cs2120f24.Library.propLogic.modelTheory.models
+import Cs2120f24.Library.propLogic.model_theory.models
 
 namespace cs2120f24
 

@@ -20,35 +20,29 @@ to them.
 
 structure Var : Type :=
   mk :: (index: Nat)
-deriving Repr
 
 
 -- pull from semantic domain: give syntax to concepts
-inductive UnOp : Type
-inductive unOp
+inductive BinOp : Type where
+| add
+| sub
+| mul
+
+-- pull from semantic domain: give syntax to concepts
+inductive UnOp : Type where
 | inc
 | dec
 | doub
 | halv
 | fac
-deriving Repr
-
-
--- pull from semantic domain: give syntax to concepts
-inductive BinOp : Type
-| add
-| sub
-| mul
-deriving Repr
 
 -- abstract syntax
 
-inductive Expr : Type
+inductive Expr : Type where
 | lit (from_nat : Nat) : Expr
 | var (from_var : Var)
 | unOp (op : UnOp) (e : Expr)
 | binOp (op : BinOp) (e1 e2 : Expr)
--- deriving Repr
 
 -- concrete syntax
 notation " { " v " } " => Expr.var v
