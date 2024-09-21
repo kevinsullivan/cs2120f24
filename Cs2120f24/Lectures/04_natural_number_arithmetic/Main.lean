@@ -126,8 +126,7 @@ of the natural number type: as opposed to, say, the rational or real type.
 #eval Nat.div 5 2
 #eval Nat.mod 3 2
 
--- concrete syntax (it's just arithmetic)
-
+-- Lean's concrete syntax for Lean's definitions of these opererations (it's just arithmetic)
 -- nothing for pred
 #eval 2 + 3
 #eval 2 * 3

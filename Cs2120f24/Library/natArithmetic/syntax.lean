@@ -23,7 +23,13 @@ structure ArithVar : Type :=
 deriving Repr
 
 
+-- pull from semantic domain: "symbols for concepts"
 inductive ArithUnOp : Type
+inductive unOp
+| inc
+| dec
+| doub
+| halv
 | fac
 deriving Repr
 
