@@ -1,17 +1,17 @@
 import «cs2120f24».Library.natArithmetic.syntax
 import «cs2120f24».Library.natArithmetic.domain
 
-namespace cs2120f24.arith
+namespace cs2120f24.natArithmetic
+
+#check UnOp
 
 
-
-
-def evalUnOp : unOp → (Nat → Nat)
-| unOp.inc => Nat.succ
-| unOp.dec => Nat.pred
-| unOp.doub => (fun n => n * 2)
-| unOp.halv => (fun n => n / 2)
-| unOp.fac => fac
+def evalUnOp : UnOp → (Nat → Nat)
+| inc => Nat.succ
+| dec => Nat.pred
+| doub => (fun n => n * 2)
+| halv => (fun n => n / 2)
+| fac => fac
 
 -- predicates
 -- | isZero =>
@@ -26,4 +26,4 @@ def arithEval : ArithExpr → (ArithVar → Nat) → Nat
 | ArithExpr.unOp op e,                i => (evalUnOp op) () ()
 | ArithExpr.binOp op e1 e2,           i => 0
 
-end cs2120f24.arith
+end cs2120f24.natArithmetic

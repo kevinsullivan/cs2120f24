@@ -1,8 +1,5 @@
-import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
-import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
-import «Cs2120f24».Lectures.«02_prop_logic».formal.models_counterexamples
-import Cs2120f24.Lectures.«02_prop_logic».formal.semantics
-import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
+import Cs2120f24.Library.modelTheory.models_counterexamples
+
 namespace cs2120f24
 
 open PLExpr

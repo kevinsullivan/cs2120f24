@@ -368,7 +368,6 @@ def stepSq : Nat → Nat → Nat
 def sumSq' : Nat → Nat := _      -- apply Nat.rec
 def sumSq : Nat → Nat
 | _ => _
-| _ => _
 
 /-!
 Format your table here

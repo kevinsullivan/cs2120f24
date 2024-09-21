@@ -1,4 +1,4 @@
-namespace cs2120f24.arith
+namespace cs2120f24.natArithmetic
 
 /-!
 # Domain: natural number arithmetic
@@ -119,10 +119,8 @@ def poof : Nat → Bool
 | n'' + 2 => poof n''
 
 
--- POSSIBLE QUIZ QUESTION!
-
 /-!
-## More Arithmetic Operations
+## Arithmetic Operations
 
 ### Unary
 
@@ -184,7 +182,7 @@ def fac : Nat → Nat
 
 
 /-!
-Addition: by induction on the second argument
+### Binary Operations
 -/
 
 def add : Nat → Nat → Nat
@@ -218,7 +216,7 @@ def mul : Nat → Nat → Nat
 -- effect is to iterate addition of n to zero m times
 
 /-!
-### Binary Relations (as Boolean Predicate Functions)
+### Binary Relations (Boolean Predicate Functions)
 
 You're already familiar with binary relations such as
 less than or equal to over the natural numbers. No one
@@ -279,8 +277,15 @@ you expect. Here are some basic expressions, using Lean4 and
 its mathlib.
 -/
 
+end cs2120f24.natArithmetic
+
+-- We're back to using Lean's definitions
+
+-- operations
 #eval 4 + 5 * 6   -- evaluated as 4 + (5 * 6) due to precedence
 #eval 2^10        -- remember this forever: 2^10 is about 1000
+
+-- relations
 #eval 4 ≤ 5
 #eval 5 ≤ 5
 #eval 6 ≤ 5
@@ -296,10 +301,4 @@ we'll have natural number-valued variable expressions. Instead of
 Boolean literals, we'll have Nat literal expressions. Instead of
 syntactic expressions with ∧ and ∨ symbols, the operators will be
 the likes of +, -, *.
-
-If you're confused about this material, please go back and study,
-and really figure out, how all aspects of the syntax and smenatic
-definitions work to produce a language
 -/
-
-end cs2120f24.arith

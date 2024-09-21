@@ -1,5 +1,5 @@
-import Cs2120f24.Lectures.«02_prop_logic».formal.syntax
-import Cs2120f24.Lectures.«02_prop_logic».formal.domain
+import Cs2120f24.Library.propLogic.syntax
+import Cs2120f24.Library.propLogic.domain
 
 namespace cs2120f24
 
