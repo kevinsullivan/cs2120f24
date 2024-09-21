@@ -1,6 +1,6 @@
 import «Cs2120f24».Lectures.«02_prop_logic».formal.syntax
 import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
-import «Cs2120f24».Lectures.«02_prop_logic».formal.properties
+import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.properties
 
 /-!
 CS 2120-002 F24 Homework #1: Propositional Logic

@@ -1,4 +1,8 @@
-import Cs2120f24.Library.modelTheory.models_counterexamples
+import Cs2120f24.Lectures.«02_prop_logic».formal.model_theory.properties
+import Cs2120f24.Lectures.«02_prop_logic».formal.model_theory.counterexamples
+
+--.modelTheory.properties
+--import Cs2120f24.Library.modelTheory
 
 namespace cs2120f24
 

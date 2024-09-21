@@ -31,3 +31,5 @@ def equivalence     := (P ↔ Q) ↔ ((P ⇒ Q) ∧ (Q ⇒ P))
 def implication     := (P ⇒ Q) ↔ (¬P ∨ Q)
 def exportation     := ((P ∧ Q) ⇒ R) ↔ (P ⇒ Q ⇒ R)
 def absurdity       := (P ⇒ Q) ∧ (P ⇒ ¬Q) ⇒ ¬P
+
+end cs2120f24

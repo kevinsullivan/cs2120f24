@@ -1,4 +1,4 @@
-import Cs2120f24.Library.modelTheory.truth_table
+import Cs2120f24.Library.propLogic.modelTheory.truth_table
 
 namespace cs2120f24
 
