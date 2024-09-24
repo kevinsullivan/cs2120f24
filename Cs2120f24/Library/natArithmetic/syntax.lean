@@ -24,8 +24,7 @@ deriving Repr
 
 
 -- pull from semantic domain: give syntax to concepts
-inductive UnOp : Type
-inductive unOp
+inductive UnOp : Type where
 | inc
 | dec
 | doub
