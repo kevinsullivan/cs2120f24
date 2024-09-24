@@ -1,5 +1,12 @@
 /-!
-An expression language for natural number arithmetic all in one place,
+NOTE: This file is a little dated. Refer first to Library/natArith
+for a better structured natural number arithmetic library. That said,
+original class notes and material covered, as covered, is here for
+reference. END NOTE.
+-/
+
+/-!
+An expression language for natural number arithmetic all in one file,
 with homework on completing the syntax and semantics of this language.
 The evolved and refined version of this code in Library/natArithmetic.
 
