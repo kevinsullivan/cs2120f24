@@ -1,6 +1,7 @@
 import «cs2120f24».Library.natArithmetic.syntax
 import «cs2120f24».Library.natArithmetic.domain
 
+
 namespace cs2120f24.natArithmetic
 
 def evalUnOp : UnOp → (Nat → Nat)
