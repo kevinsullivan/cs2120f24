@@ -23,33 +23,41 @@ structure Var : Type :=
 
 
 -- pull from semantic domain: give syntax to concepts
+inductive UnOp : Type where
+| inc
+| dec
+| doub
+| halve
+| fac
+
+-- pull from semantic domain: give syntax to concepts
 inductive BinOp : Type where
 | add
 | sub
 | mul
 
--- pull from semantic domain: give syntax to concepts
-inductive UnOp : Type where
-| inc
-| dec
-| doub
-| halv
-| fac
+inductive RelOp : Type
+| eq
+| le
+| lt
+| ge
+| gt
 
--- abstract syntax
-
-inductive Expr : Type where
-| lit (from_nat : Nat) : Expr
+inductive ArithExpr : Type where
+| lit (from_nat : Nat) : ArithExpr
 | var (from_var : Var)
-| unOp (op : UnOp) (e : Expr)
-| binOp (op : BinOp) (e1 e2 : Expr)
+| unOp (op : UnOp) (e : ArithExpr)
+| binOp (op : BinOp) (e1 e2 : ArithExpr)
+
+inductive RelExpr : Type where
+| mk (op : RelOp) (a1 a2 : ArithExpr)
 
 -- concrete syntax
-notation " { " v " } " => Expr.var v
-notation " [ " n " ] " => Expr.lit n
-notation e " ! " => Expr.unOp UnOp.fac e
-notation e1 " + " e2 => Expr.binOp BinOp.add e1 e2
-notation e1 " - " e2 => Expr.binOp BinOp.sub e1 e2
-notation e1 " * " e2 => Expr.binOp BinOp.mul e1 e2
+notation " { " v " } " => ArithExpr.var v
+notation " [ " n " ] " => ArithExpr.lit n
+notation e " ! " => ArithExpr.unOp UnOp.fac e
+notation e1 " + " e2 => ArithExpr.binOp BinOp.add e1 e2
+notation e1 " - " e2 => ArithExpr.binOp BinOp.sub e1 e2
+notation e1 " * " e2 => ArithExpr.binOp BinOp.mul e1 e2
 
 end cs2120f24.natArithmetic

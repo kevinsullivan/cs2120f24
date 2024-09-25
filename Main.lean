@@ -3,46 +3,45 @@ Tianle determined that on Windows, this main file needs to import
 everything that «Cs2120f24».lean
 -/
 
+-- propositional logic
+import «Cs2120f24».Lectures.«02_prop_logic».formal.utilities
 import «Cs2120f24».Lectures.«02_prop_logic».formal.domain
-import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
-import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.models
-import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.properties
-import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
 import «Cs2120f24».Lectures.«02_prop_logic».formal.syntax
-import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.truth_table
+import «Cs2120f24».Lectures.«02_prop_logic».formal.interpretation
+import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
 
-/-
-The first thing to do: open Cs2120f24/Demo/Demo.lean,
-read it, and work through the easy exercises. It will
-help to have been there for Kevin's introduction to all
-this. Feel free to give a holler: sullivan@virginia.edu.
--/
+-- natural number
+import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.properties
+import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.models
+import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.counterexamples
+-- LIBRARY FILES
 
+-- Propositional logic
+import «Cs2120f24».Library.propLogic.utilities
+import «Cs2120f24».Library.propLogic.domain
+import «Cs2120f24».Library.propLogic.syntax
+import «Cs2120f24».Library.propLogic.interpretation
+import «Cs2120f24».Library.propLogic.semantics
 
-/-
-Ok, so you've see that Lean is a proof assistant. But
-there's more! It's not just a proof assistant, it's a
-complete very usable functional programming language.
-What it lacks in libraries it makes up, over languages
-such as OCaml and Haskell, by *also* being a world-class
-proof assistant. From now on you can build systems in
-a cool language with both programming and foundational
-verification facilities.
--/
+-- Propositional logic model theory
+import «Cs2120f24».Library.propLogic.model_theory.truth_table
+import «Cs2120f24».Library.propLogic.model_theory.properties
+import «Cs2120f24».Library.propLogic.model_theory.models
+import «Cs2120f24».Library.propLogic.model_theory.counterexamples
+
+-- Natural number arithmetic
+import «Cs2120f24».Library.natArithmetic.domain
+import «Cs2120f24».Library.natArithmetic.syntax
+import «Cs2120f24».Library.natArithmetic.semantics
+
+-- Propositional with natural number arithmetic
+import «Cs2120f24».Library.propLogicWithArith.syntax
+import «Cs2120f24».Library.propLogicWithArith.utilities
+import «Cs2120f24».Library.propLogicWithArith.domain
+import «Cs2120f24».Library.propLogicWithArith.interpretation
+import «Cs2120f24».Library.propLogicWithArith.semantics
 
 def main : IO Unit :=
   IO.println s!"Hi!"
 
-/-
-You can run the main routine right here by using eval.
-Hover over the #eval to see the result of its execution.
-The {hello} string is defined in Cs2120f24/Welcome.lean.
--/
-
 #eval main
-
-/-
-You can also compile and run it as an executable.
-See the documentation for the *lake* command of the
-Lean4 system.
--/

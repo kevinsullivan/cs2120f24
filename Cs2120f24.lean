@@ -14,22 +14,29 @@ import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.properties
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.models
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.counterexamples
-
-
 -- LIBRARY FILES
 
 -- Propositional logic
-import «Cs2120f24».Library.propLogic.utilities
-import «Cs2120f24».Library.propLogic.domain
-import «Cs2120f24».Library.propLogic.syntax
-import «Cs2120f24».Library.propLogic.interpretation
-import «Cs2120f24».Library.propLogic.semantics
+import «Cs2120f24».Library.«propLogic».utilities
+import «Cs2120f24».Library.«propLogic».domain
+import «Cs2120f24».Library.«propLogic».syntax
+import «Cs2120f24».Library.«propLogic».interpretation
+import «Cs2120f24».Library.«propLogic».semantics
 
 -- Propositional logic model theory
-import «Cs2120f24».Library.propLogic.model_theory.truth_table
-import «Cs2120f24».Library.propLogic.model_theory.properties
-import «Cs2120f24».Library.propLogic.model_theory.models
-import «Cs2120f24».Library.propLogic.model_theory.counterexamples
+import «Cs2120f24».Library.«propLogic».model_theory.truth_table
+import «Cs2120f24».Library.«propLogic».model_theory.properties
+import «Cs2120f24».Library.«propLogic».model_theory.models
+import «Cs2120f24».Library.«propLogic».model_theory.counterexamples
 
 -- Natural number arithmetic
-import «Cs2120f24».Library.natArithmetic.semantics
+import «Cs2120f24».Library.«natArithmetic».domain
+import «Cs2120f24».Library.«natArithmetic».syntax
+import «Cs2120f24».Library.«natArithmetic».semantics
+
+-- Propositional with natural number arithmetic
+import «Cs2120f24».Library.«propLogicWithArith».syntax
+import «Cs2120f24».Library.«propLogicWithArith».utilities
+import «Cs2120f24».Library.«propLogicWithArith».domain
+import «Cs2120f24».Library.«propLogicWithArith».interpretation
+import «Cs2120f24».Library.«propLogicWithArith».semantics
