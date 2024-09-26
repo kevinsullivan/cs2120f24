@@ -1,15 +1,12 @@
 namespace cs2120f24.natArithmetic.syntax
 
-/-!
-# Syntax: Expression Language of Arithmetic
--/
 
-structure NatVar : Type where
+-- variables indexed by Nat
+structure Var : Type where
 (index: Nat)
 
-/-!
-Unary arithmetic operators.
--/
+
+-- Unary arithmetic operators.
 inductive UnOp : Type where
 | inc
 | dec
@@ -17,17 +14,15 @@ inductive UnOp : Type where
 | halve
 | fac
 
-/-!
-Binary arithmetic operators
--/
+
+-- Binary arithmetic operators
 inductive BinOp : Type where
 | add
 | sub
 | mul
 
-/-!
-Binary relational operators
--/
+
+-- Binary relational operators
 inductive RelOp : Type
 | eq
 | le
@@ -35,35 +30,38 @@ inductive RelOp : Type
 | ge
 | gt
 
-/-!
-Syntax of arithmetic (Nat returning) expressions
--/
-inductive ArithExpr : Type where
-| lit (from_nat : Nat) : ArithExpr
-| var (from_var : NatVar)
-| unOp (op : UnOp) (e : ArithExpr)
-| binOp (op : BinOp) (e1 e2 : ArithExpr)
 
-/-!
-Syntax of relational (Bool returning) expressions
--/
+-- Syntax of arithmetic (Nat returning) expressions
+inductive Expr : Type where
+| lit (from_nat : Nat) : Expr
+| var (from_var : Var)
+| unOp (op : UnOp) (e : Expr)
+| binOp (op : BinOp) (e1 e2 : Expr)
+
+
+-- Syntax of relational (Bool returning) expressions
 inductive RelExpr : Type where
-| mk (op : RelOp) (a1 a2 : ArithExpr)
+| mk (op : RelOp) (e1 e2 : Expr)
 
-/-!
-Concrete notations for our abstract syntax. Note: Lean
 
--/
-notation " { " v " } " => ArithExpr.var v
-notation " [ " n " ] " => ArithExpr.lit n
+-- Nnotations for our abstract syntax
+notation " { " v " } " => Expr.var v
+notation " [ " n " ] " => Expr.lit n
+
 
 -- Lean knows precedences and associativites for standard notations
-notation e " ! " => ArithExpr.unOp UnOp.fac e
-notation e1 " + " e2 => ArithExpr.binOp BinOp.add e1 e2
-notation e1 " - " e2 => ArithExpr.binOp BinOp.sub e1 e2
-notation e1 " * " e2 => ArithExpr.binOp BinOp.mul e1 e2
+notation:max e " ! " => Expr.unOp UnOp.fac e
+notation e1 " + " e2 => Expr.binOp BinOp.add e1 e2
+notation e1 " - " e2 => Expr.binOp BinOp.sub e1 e2
+notation e1 " * " e2 => Expr.binOp BinOp.mul e1 e2
 
-notation a1 " ≤ " a2 => RelExpr.mk RelOp.le a1 a2
-notation a1 " = " a2 => RelExpr.mk RelOp.eq a1 a2
+
+-- including for these relational operators
+notation e1 " = " e2 => RelExpr.mk RelOp.eq e1 e2
+notation e1 " ≤ " e2 => RelExpr.mk RelOp.le e1 e2
+notation e1 " < " e2 => RelExpr.mk RelOp.lt e1 e2
+notation e1 " ≥ " e2 => RelExpr.mk RelOp.ge e1 e2
+notation e1 " > " e2 => RelExpr.mk RelOp.gt e1 e2
+
 
 end cs2120f24.natArithmetic.syntax

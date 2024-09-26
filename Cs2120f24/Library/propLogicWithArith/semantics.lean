@@ -19,14 +19,14 @@ def evalBinOp : BinOp → (Bool → Bool → Bool)
 | BinOp.imp => propLogicwithArith.domain.imp
 | BinOp.iff => cs2120f24.propLogicwithArith.domain.iff
 
-abbrev BoolInterp := BoolVar → Bool -- varInterp would be better name
+abbrev BoolInterp := Var → Bool -- varInterp would be better name
 
 #check natArithmetic.semantics.evalExpr
-#check natArithmetic.syntax.ArithExpr
+#check natArithmetic.syntax.Expr
 #check natArithmetic.semantics.evalRelOp
-#check natArithmetic.syntax.NatVar
+#check natArithmetic.syntax.Var
 
-abbrev ArithInterp := natArithmetic.syntax.NatVar → Nat
+abbrev ArithInterp := natArithmetic.syntax.Var → Nat
 
 open cs2120f24.natArithmetic
 
@@ -45,12 +45,12 @@ def evalPLAExpr : PLAExpr → BoolInterp → ArithInterp → Bool
 #eval evalPLAExpr
   (PLAExpr.rel_op_expr
     (natArithmetic.syntax.RelOp.le)
-    (natArithmetic.syntax.ArithExpr.lit 9)
-    (natArithmetic.syntax.ArithExpr.lit 6))
+    (natArithmetic.syntax.Expr.lit 9)
+    (natArithmetic.syntax.Expr.lit 6))
     (fun _ => true)
     (fun _ => 0)
 
-#check ([5] : syntax.ArithExpr)
+#check ([5] : syntax.Expr)
 
 #eval semantics.evalRelExpr
   ([9] ≤ [8])

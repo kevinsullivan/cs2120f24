@@ -6,7 +6,7 @@ namespace cs2120f24.propLogicWithArith.syntax
 # Propositional Logic: Syntax
 -/
 
-structure BoolVar : Type where
+structure Var : Type where
 (index: Nat)
 
 
@@ -21,18 +21,19 @@ inductive BinOp : Type
 | iff
 
 
---open natArithmetic
+--open natArithmetic.syntax
 
 inductive PLAExpr : Type
 | lit_expr (from_bool : Bool) : PLAExpr
-| var_expr (from_var : BoolVar)
+| var_expr (from_var : Var)
 | un_op_expr (op : UnOp) (e : PLAExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLAExpr)
-| rel_op_expr (op : natArithmetic.syntax.RelOp) (a1 a2 : natArithmetic.syntax.ArithExpr)
+| rel_op_expr (op : natArithmetic.syntax.RelOp) (a1 a2 : natArithmetic.syntax.Expr)
 
 
 open PLAExpr
 
+-- concrete syntax/notations for PL operators
 notation:max " ⊤ " => (lit_expr true)
 notation:max " ⊥ " => (lit_expr false)
 notation:max "{" v "}" => (var_expr v)
