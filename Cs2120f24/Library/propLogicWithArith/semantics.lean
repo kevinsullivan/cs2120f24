@@ -32,18 +32,18 @@ open cs2120f24.natArithmetic
 
 #check natArithmetic.syntax.RelOp
 
-def evalPLAExpr : PLExpr → BoolInterp → ArithInterp → Bool
-| PLExpr.lit_expr b,             _, _ => b
-| (PLExpr.var_expr v),           i, _ => i v
-| (PLExpr.un_op_expr op e),      i, a => (evalUnOp op) (evalPLAExpr e i a)
-| (PLExpr.bin_op_expr op e1 e2), i, a => (evalBinOp op) (evalPLAExpr e1 i a) (evalPLAExpr e2 i a)
-| (PLExpr.rel_op_expr op a1 a2), _, a => (natArithmetic.semantics.evalRelOp op)
+def evalPLAExpr : PLAExpr → BoolInterp → ArithInterp → Bool
+| (PLAExpr.lit_expr b),             _, _ => b
+| (PLAExpr.var_expr v),           i, _ => i v
+| (PLAExpr.un_op_expr op e),      i, a => (evalUnOp op) (evalPLAExpr e i a)
+| (PLAExpr.bin_op_expr op e1 e2), i, a => (evalBinOp op) (evalPLAExpr e1 i a) (evalPLAExpr e2 i a)
+| (PLAExpr.rel_op_expr op a1 a2), _, a => (natArithmetic.semantics.evalRelOp op)
                                            (natArithmetic.semantics.evalExpr a1 a)
                                            (natArithmetic.semantics.evalExpr a2 a)
 #check natArithmetic.syntax.RelOp.le
 
 #eval evalPLAExpr
-  (PLExpr.rel_op_expr
+  (PLAExpr.rel_op_expr
     (natArithmetic.syntax.RelOp.le)
     (natArithmetic.syntax.ArithExpr.lit 9)
     (natArithmetic.syntax.ArithExpr.lit 6))
@@ -51,7 +51,8 @@ def evalPLAExpr : PLExpr → BoolInterp → ArithInterp → Bool
     (fun _ => 0)
 
 #check ([5] : syntax.ArithExpr)
-#eval natArithmetic.semantics.evalRelExpr
+
+#eval semantics.evalRelExpr
   ([9] ≤ [8])
   (fun _ => 0)
 

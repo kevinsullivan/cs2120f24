@@ -10,7 +10,7 @@ def evalUnOp : UnOp → (Nat → Nat)
 | UnOp.dec => Nat.pred
 | UnOp.doub => (fun n => n * 2)
 | UnOp.halve => (fun n => n / 2)
-| UnOp.fac => fac
+| UnOp.fac => natArithmetic.domain.fac
 
 def evalBinOp : BinOp → (Nat → Nat → Nat)
 | BinOp.add => Nat.add
@@ -18,11 +18,11 @@ def evalBinOp : BinOp → (Nat → Nat → Nat)
 | BinOp.mul => Nat.mul
 
 def evalRelOp : RelOp → (Nat → Nat → Bool)
-| RelOp.eq => eq
-| RelOp.le => le
-| RelOp.lt => lt
-| RelOp.ge => ge
-| RelOp.gt => gt
+| RelOp.eq => natArithmetic.domain.eq
+| RelOp.le => natArithmetic.domain.le
+| RelOp.lt => natArithmetic.domain.lt
+| RelOp.ge => natArithmetic.domain.ge
+| RelOp.gt => natArithmetic.domain.gt
 
 def Interp := NatVar → Nat
 
