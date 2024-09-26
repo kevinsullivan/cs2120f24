@@ -77,8 +77,8 @@ def isOdd : Nat → Bool
 
 def eq : Nat → Nat → Bool
 | 0, 0 => true
-| 0, (_ + 1) => false
-| (_ + 1), 0 => false
+| 0, _ => false
+| _, 0 => false
 | (n' + 1), (m' + 1) => eq n' m'
 
 def le : Nat → Nat → Bool

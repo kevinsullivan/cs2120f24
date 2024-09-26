@@ -361,10 +361,15 @@ in each row using the values from the previous row. That
 will tell you what your step function will be.
 -/
 
-def baseSq : Nat := _
+
+
+def baseSq : Nat := 0
+
 def stepSq : Nat → Nat → Nat
 | 0 => _
 | _ => _
+
+
 def sumSq' : Nat → Nat := _      -- apply Nat.rec
 def sumSq : Nat → Nat
 | _ => _

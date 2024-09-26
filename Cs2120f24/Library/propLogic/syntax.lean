@@ -6,25 +6,21 @@ namespace cs2120f24.propLogic
 
 structure BoolVar : Type :=
   mk :: (index: Nat)
-deriving Repr
 
 inductive UnOp : Type
 | not
-deriving Repr
 
 inductive BinOp : Type
 | and
 | or
 | imp
 | iff
-deriving Repr
 
 inductive PLExpr : Type
 | lit_expr (from_bool : Bool) : PLExpr
 | var_expr (from_var : BoolVar)
 | un_op_expr (op : UnOp) (e : PLExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLExpr)
-deriving Repr
 
 open PLExpr
 
