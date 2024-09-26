@@ -89,3 +89,19 @@ write arithmetic as you usually would and it'll all work as
 you expect. Here are some basic expressions, using Lean4 and
 its mathlib.
 -/
+
+/-!
+Ok, so now that we have the semantic domain, what
+about our expression language? We'll you write it
+almost exactly as for predicate logic, but now the
+arguments and operators are arithmetic, which is to
+say they yield arithmetic results (natural numbers
+in this work).
+
+Just as before we have literals, as before, we'll
+have a *literal* (arithmetic) expression for each
+Nat; we'll have variables and interpretations that
+take variables arguments and return the numerical
+values that the particular interpretation assigns
+to them.
+-/

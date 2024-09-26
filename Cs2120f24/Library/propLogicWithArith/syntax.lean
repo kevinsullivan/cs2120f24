@@ -6,8 +6,8 @@ namespace cs2120f24.propLogicWithArith
 # Propositional Logic: Syntax
 -/
 
-structure BoolVar : Type :=
-  mk :: (index: Nat)
+structure BoolVar : Type where
+(index: Nat)
 
 
 inductive UnOp : Type

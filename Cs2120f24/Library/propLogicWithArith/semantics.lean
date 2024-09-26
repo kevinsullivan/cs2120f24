@@ -1,6 +1,6 @@
-import «Cs2120f24».Library.natArithmetic.semantics
 import «Cs2120f24».Library.propLogicWithArith.syntax
 import «Cs2120f24».Library.propLogicWithArith.domain
+import «Cs2120f24».Library.natArithmetic.semantics
 
 
 /-!
@@ -10,7 +10,8 @@ import «Cs2120f24».Library.propLogicWithArith.domain
 namespace cs2120f24.propLogicwithArith
 
 open propLogicWithArith
-open natArithmetic
+
+-- open natArithmetic
 open PLExpr
 
 def evalUnOp : propLogicWithArith.UnOp → (Bool → Bool)
@@ -24,21 +25,22 @@ def evalBinOp : propLogicWithArith.BinOp → (Bool → Bool → Bool)
 
 abbrev BoolInterp := BoolVar → Bool -- varInterp would be better name
 
-#check evalExpr
-#check ArithExpr
-#check evalRelOp
+#check natArithmetic.evalExpr
+#check natArithmetic.ArithExpr
+#check natArithmetic.evalRelOp
+#check natArithmetic.NatVar
 
-abbrev ArithInterp := Var → Nat
+abbrev ArithInterp := natArithmetic.NatVar → Nat
 
 def evalPLExpr : PLExpr → BoolInterp → ArithInterp → Bool
 | lit_expr b,             _, _ => b
-| (var_expr v),           i, a => i v
+| (var_expr v),           i, _ => i v
 | (un_op_expr op e),      i, a => (evalUnOp op) (evalPLExpr e i a)
 | (bin_op_expr op e1 e2), i, a => (evalBinOp op) (evalPLExpr e1 i a) (evalPLExpr e2 i a)
-| (rel_op_expr op a1 a2), i, a => (evalRelOp op)
-                                  (evalExpr a1 a)
-                                  (evalExpr a2 a)
-#check RelOp.le
-#eval evalPLExpr (PLExpr.rel_op_expr (RelOp.le) (ArithExpr.lit 9) (ArithExpr.lit 8)) (λ v => true) (λ v => 0)
+| (rel_op_expr op a1 a2), _, a => (natArithmetic.evalRelOp op)
+                                  (natArithmetic.evalExpr a1 a)
+                                  (natArithmetic.evalExpr a2 a)
+#check natArithmetic.RelOp.le
+#eval evalPLExpr (PLExpr.rel_op_expr (natArithmetic.RelOp.le) (natArithmetic.ArithExpr.lit 9) (natArithmetic.ArithExpr.lit 10)) (λ _ => true) (λ _ => 0)
 
 end cs2120f24.propLogicwithArith

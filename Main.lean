@@ -3,6 +3,9 @@ Tianle determined that on Windows, this main file needs to import
 everything that «Cs2120f24».lean
 -/
 
+import Cs2120f24
+
+/-
 -- propositional logic
 import «Cs2120f24».Lectures.«02_prop_logic».formal.utilities
 import «Cs2120f24».Lectures.«02_prop_logic».formal.domain
@@ -28,18 +31,19 @@ import «Cs2120f24».Library.propLogic.model_theory.truth_table
 import «Cs2120f24».Library.propLogic.model_theory.properties
 import «Cs2120f24».Library.propLogic.model_theory.models
 import «Cs2120f24».Library.propLogic.model_theory.counterexamples
+-/
 
 -- Natural number arithmetic
-import «Cs2120f24».Library.natArithmetic.domain
-import «Cs2120f24».Library.natArithmetic.syntax
-import «Cs2120f24».Library.natArithmetic.semantics
+-- import «Cs2120f24».Library.natArithmetic.semantics
+-- import «Cs2120f24».Library.natArithmetic.domain
+-- import «Cs2120f24».Library.natArithmetic.syntax
 
+/-
 -- Propositional with natural number arithmetic
 import «Cs2120f24».Library.propLogicWithArith.syntax
-import «Cs2120f24».Library.propLogicWithArith.utilities
 import «Cs2120f24».Library.propLogicWithArith.domain
-import «Cs2120f24».Library.propLogicWithArith.interpretation
 import «Cs2120f24».Library.propLogicWithArith.semantics
+-/
 
 def main : IO Unit :=
   IO.println s!"Hi!"
