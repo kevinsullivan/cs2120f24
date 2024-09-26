@@ -1,6 +1,7 @@
-import Cs2120f24.Library.natArithmetic.semantics
+import Cs2120f24.Library.natArithmetic.syntax
+import Cs2120f24.Library.natArithmetic.domain
 
-namespace cs2120f24.natArithmetic
+namespace cs2120f24.natArithmetic.domain
 /-!
 # Domain: Natural Number Arithmetic
 

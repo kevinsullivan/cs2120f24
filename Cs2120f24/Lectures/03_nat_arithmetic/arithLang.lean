@@ -1,8 +1,8 @@
 /-!
-NOTE: This file is a little dated. Refer first to Library/natArith
-for a better structured natural number arithmetic library. That said,
-original class notes and material covered, as covered, is here for
-reference. END NOTE.
+NOTE: This file is now dated. Refer first to Library/natArith
+for a better structured natural number arithmetic library.
+That said, original class notes and material covered, as
+covered, is here for reference. END NOTE.
 -/
 
 /-!

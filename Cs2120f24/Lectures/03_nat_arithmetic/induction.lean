@@ -361,18 +361,46 @@ in each row using the values from the previous row. That
 will tell you what your step function will be.
 -/
 
-def baseSq : Nat := _
+
+-- base value machine
+def baseSq : Nat := 0
+
+-- step up answer machine
+-- from n' and sumSq n' return (n' + 1)^2 + sumSq n'
 def stepSq : Nat → Nat → Nat
-| 0 => _
-| _ => _
-def sumSq' : Nat → Nat := _      -- apply Nat.rec
-def sumSq : Nat → Nat
-| _ => _
+| n', sum_sq_n' => _
+
+-- here's how the stepping up works
+#eval stepSq 0 0  -- return answer for n = 1; expect 1
+#eval stepSq 1 1 -- return answer for n = 2; expect 5
+#eval stepSq 2 5 -- return answer for n = 3; expect 14
+#eval stepSq 3 14 -- return answer for n = 4; expect 30
+#eval stepSq 4 30 -- return answer for n = 5; expect 55
+
+-- apply induction to construct desired function
+def sumSq : Nat → Nat := Nat.rec baseSq stepSq
+
+#eval sumSq 0   -- expect 0
+#eval sumSq 1   -- expect 1
+#eval sumSq 2   -- expect 5
+#eval sumSq 3   -- expect 14
+#eval sumSq 4   -- expect 30
+#eval sumSq 5   -- expect 55  (weird: also sum of nat 0..10)
+
+def sumSq' : Nat → Nat
+| 0 => 0
+| (n' + 1) => let n := n' + 1
+              n^2 + sumSq' n'
+
+#eval sumSq' 0   -- expect 0
+#eval sumSq' 1   -- expect 1
+#eval sumSq' 2   -- expect 5
+#eval sumSq' 3   -- expect 14
+#eval sumSq' 4   -- expect 30
+#eval sumSq' 5   -- expect 55  (weird: also sum of nat 0..10)
 
 /-!
 Format your table here
-
-
 -/
 
 /-!

@@ -3,6 +3,8 @@ namespace cs2120f24.natArithmetic
 /-!
 # Domain: natural number arithmetic
 
+## The Nat Type
+
 Everyone's familar with natural number arithmetic in the abstract.
 
 It comprises:
@@ -21,191 +23,99 @@ The answer in both cases is induction, or inductive definitions: these are
 definitions of types of things, where bigger things are derived from smallers
 ones of the same type, and where answers for bigger arguments are derived from
 answers for smaller arguments.
--/
+
+We use Lean's definition of the Nat type.
+
+Using it, we go on to define a small library of
+basic arithmetic operators (addition, subtraction,
+etc.) and predicate functions (less than or equal,
+isEq0, and so on).
+
+Our dive into natural number arithmetic, and the
+language we use to work with it, provides you with
+a second major example of a discrete structure: the
+natural numbers and its associated operators (both
+arithemtic and relational).
+
+The central new idea in this exploration, beyond
+what we saw in propositional logic, is a solution
+to representing types of objects where there are
+infinitely many of them. There is an infinity of
+natural numbers (mathematical ideal abstraction).
+We thus need a type with an infinity of values to
+*represent* and infinity of natural numbers, then
+we need a way to *finitely* specify functions that
+can provide correct answers for an infinite number
+of possible argument values. It cannot be by just
+enumerating all the answers. There are too many.
 
 
-/-!
-## The Nat Type
+Rather, it's by building answers for larger inputs
+from answers from smaller inputs, starting from a
+*smallest* (base) value and a given answer for it.
+That's induction. It's akin to filling in a table
+from previous entries, starting from given initial
+ones, until you reach the answer you want. The very
+cool thing about induction is that it relies on an
+axiom that asserts that its valid to conclude that
+you can return an answer for any input if you have
+two smaller capabilities: to return an answer for
+the base case, and, given any n' and an answer for
+n' (from the just previous entry in the table), to
+return an answer for n = (n' + 1). The axiom says
+that you can jump from these two parts to the whole
+function that you need.
 
-We won't repeat the theory of the natural numbers. Rather, let's look
-at the definition of the Nat type, the terms of which we mean to use to
-represent natural numbers. We need an infinity of terms. We get that with
-the two constructors of the Nat data type.
+It starts with the inductive definition of the set
+of Nat terms, which we want to correspond exactly with
+the natural numbers. Our representation is basically
+*unary:* start with zero then put as many "succ" marks
+in front of it as the number you want to represent. So,
+for example, Nat.succ (Nat.succ Nat.Zero) represents 2.
 
 inductive Nat : Type
 | zero : Nat
 | succ (n' : Nat) : Nat
-
-Pick any natural number, n. To represent it using this data type, apply
-the Nat.succ constructor n times to Nat.zero. That will give you the term,
-(Nat.succ ( ... (Nat.succ Nat.zero))), with exactly n "applications" of
-the Nat.succ constructor to Nat.zero.
-
-The set of terms of type Nat is thus the set of terms that is *closed*
-under any finite number of applications of the available constructors.
-You can pick any n, no matter how large, and the terms that we will use
-to represent it will be a *finite* sequence of "n" Nat.succ applications
-to Nat.zero. Given any term of this type, you can always apply Nat.succ
-to represent an even bigger natural number.
-
-The ability to use inductive definitions is given to us by the induction
-axioms that come with every single inductive type definition. Every type
-has induction axioms; they always give you machines to build functions
-that can consume *any* value of a type, even if there's an infinity of
-them; and they always work by starting from base values and answers and
-then iteratively applying a step function that you provide to compute an
-answer for any argument value (here, Nat, but this principle extends to
-all inductive data types).
 -/
-
-
-
-#check Nat      -- Nat is a Type
-#print Nat      -- Here are its constructors
-#check Nat.zero -- The smallest term of this type
-#check Nat.succ Nat.zero  -- The second smallest
 
 /-!
-## Constructors are for Constructing/Introducing New Values of a Type
+## Operations
 
-The constructors of a type are its introduction rules. Each one define a set of
-terms--those that be formed by applying the constructor to *any* values of its
-argument types, that Lean is then instructed to then accept as being terms of
-the type that the constructor belongs to.
-
-The Nat type, for example, has two constructors. The first, Nat.zero, takes no
-arguments and this defines a single constant term of type Nat. The seccond, the
-Nat.succ constructor takes one argument, another terms of type Nat. If we call
-that term, n', then the term, (Nat.succ n'), is accepted as also being a term of
-type Nat. Note carefully that if a Nat value is not zero then it can only have
-been constructed by Nat.succ applied to some smaller Nat.
-
-- with these two constructors one can build Nat terms of any finite length, n
-- we can represent any natural numnber n as a term of type nat with n Nat.succ applications to Nat.zero
-- The set of terms of the Nat type is the set that can be "*finitely* generated" using these constructors
-- Different constructors yield unequal terms (disjointness): zero is not the successor of any number
-- Different constructor arguments yield unequal terms (injectivity): no n is the successor of different numbers
-- Combined with the fundamental properties of inductive types we have terms that simulate natural numbers
-- What we have technically speaking is a representation (Nat) of Peano Arithmetic, named after G. Peano
-- As any Nat term is of finite size, recursions on smaller Nat values always terminate in finite "time"
+Next we look at unary and binary operations. We represent
+the mathematical abstractions as functions in Lean that
+both consume (take as argments) and construct and return
+values of type Nat.
 -/
 
--- See more examples in Main.lean
 /-!
-## How to Use Nats: Elimination by Case Analysis by Pattern Matching
+### Unary Operations-/
 
-The analysis distinguishes between Nat.zero and a term in which Nat.succ
-was applied to an argument: in this case a one-smaller term of type Nat.
-We could say that the two *cases* for the structure of a Nat supplied as
-an argument are Nat.zero and (Nat.succ n'), where n' is name that we bind
-temporarily to that one-smaller natural number.
--/
+-- identity function; two different ways to write it in Lean
+def id : Nat → Nat
+| n => n
 
-def isZero : Nat → Bool
-| 0              => false
-| (Nat.succ _)   => true
+-- fyi: you can move arguments *before* the : and bind names there
+def id' (n : Nat) : Nat := n    -- the name n is bound, so can be used
 
-/-
-Pattern matching in Lean let's us bind names to parts of a given term.
-For example, is isZero is applied to n = 3, the first pattern match, with
-Nat.zero, fails; but the second matches 3 as (Nat.succ 2). This function
-requires a case analysis to distinguish zero from positive arguments but
-it did not use n' in computing a result, so the name can be and has been
-replaced here with an _.
+-- increment (add one) function
+def inc : Nat → Nat
+| n => n + 1       -- n + 1 is notation that "desugars" to "Nat.succ n"
 
-This function can be said to be a predicate function: one that tells you
-whether a given object has a given property or not (thus a Boolean result).
-Here the function decides whether any given natural number has the property
-of being zero or not.
--/
+-- again moving argument before colon; very same function
+def inc' (n : Nat) := n + 1
 
-/-
-Often it is necessary to bind names to elements within the terms being
-analyzed as arguments. These names are like "getters" for fetching values
-that have been packaged up by a constructor into a larger term.
-
-The easiest example is the predecessor function. In our definition it
-takes any natural number and, it it's zero, returns zero, and if it's
-positive (the only other possibility), i.e., of the form (Nat.succ n'),
-then return n' -- the natural number to which the Nat.succ constructor
-was applied to get the argument term being analyzed.
--/
-
+-- predecessor function
+-- if argument, call it n, is 0, return 0,
+-- otherwise match n as (n' + 1) and return n'
 def pred : Nat → Nat
 | 0 => 0        -- Nat.zero
 | n' + 1 => n'  -- Nat.succ n'
 
-/-!
-But there's more. Pattern matching on constructor expressions
-in Lean enables you to drill down into extract parts of complex
-terms. You can figure it out. What does this function do/compute?
-Describe it in natural language.= It takes a natural number n as
-an argument and ...
--/
+-- decrement (just another name for predcessor)
+def dec : Nat → Nat := pred
 
-def poof : Nat → Bool
-| 0 => true
-| 1 => false
-| n'' + 2 => poof n''
-
-
-/-!
-## Arithmetic Operations
-
-### Unary
-
-With our two Nat constructors (zero and succ n') and the
-ability to destructure any given Nat by pattern matching,
-we can define a whole zoo of functions taking Nat values
-as arguments.
--/
-
--- identity function, two ways
-def id : Nat → Nat
-| n => n
-def id' (n : Nat) : Nat := n
-
--- increment (add one) function, two ways
-def inc : Nat → Nat
-| n => n + 1       -- Nat.succ n
-def inc' (n : Nat) := n + 1
-
-/-
-The first two unary functions here, id (identity)
-and inc (increment) do not need to *analyze* there
-argument values. Id just returns the value it was
-handed, while inc wraps the given value in another
-layer of "succ" nesting. By contrast the predecessor
-function, pred, does need to reach inside a non-zero
-argument to get and return the argument wrapped up
-in the constructor term as the predecessor. Note:
-we "cheat" by returning 0 for argument 0, as there
-is no actual predecessor of 0.
--/
--- decrement
-def dec : Nat → Nat
-| 0 => 0
-| n' + 1 => n'
-
-/-
-In the increment function, n is a name that is
-not bound. It matches any argument value, and we
-use this identifier to write the expression for
-the return value.
-
-Now consider the dec function. In the first pattern
-match, the constructor term, 0 matches only Nat.0. If
-you think of the function as taking an argument, n,
-this you can think of this line as saying "if n = 0
-then return 0." The second line however destructures
-the argument to dec (call is n) as (succ n'), and the
-name, n', being unbound, matches any natural number
-after the *succ* at the head of the term representing
-the argument, n. The whole function can thus be read
-as saying, if n = 0 return 0 else return n-1, which
-is n with the leading "succ" removed.
--/
-
+-- factorial
+-- cases define *base* and *step* values; induction takes care of the rest
 def fac : Nat → Nat
 | 0 => 1
 | (n' + 1) => (n' + 1) * fac n'
@@ -213,99 +123,95 @@ def fac : Nat → Nat
 
 /-!
 ### Binary Operations
+
+The preceding operations were unary, each taking one natural
+number. The following definitions specify the standar binary
+arithmetic operations. Key ideas: (1) in general you need to
+pattern match on both arguments to distinguish key subsets of
+combinations of values to distinguish.
 -/
 
-def add : Nat → Nat → Nat
-| n, 0 => n
-| n, (m' + 1) => (add n m') + 1
+def add : Nat → Nat → Nat           -- case analysis on m only
+| n, 0 => n                         -- m = 0
+| n, (m' + 1) => (add n m') + 1     -- m = (m' + 1)
 
-/-
-Detail: we define subtraction of any natural
-number from 0 yielding 0. There are no negative
-natural numbers. This is one reasonable solution.
 
-Notice that on the first pattern matching line
-in the following logic, the "m" is underlined in
-yellow. That highlights  that we didn't have to
-give that argument a name, as it's not used in
-defining the return value for that case. The
-warning can be suppressed by replacing the name
-with an _.
--/
-def sub : Nat → Nat → Nat
-| 0, m => 0
-| n, 0 => n
-| (Nat.succ n'), (Nat.succ m') => sub n' m'
+def sub : Nat → Nat → Nat           -- case analysis on n and m
+| 0, _ => 0                         -- 0 on left is 0
+| n, 0 => n                         -- 0 on right is n
+| (n' + 1), (m' + 1) => sub n' m'   -- else return answer for n' m'
 
--- multiplication
-def mul : Nat → Nat → Nat
-| _, 0 => 0
--- n * (m + 1) => n + (n * m)
--- reduce multiplication to addition, already defined
-| n, (Nat.succ m') => add n (mul n m')
--- effect is to iterate addition of n to zero m times
+def mul : Nat → Nat → Nat           -- case analysis on second arg m
+| _, 0 => 0                         -- if it's zero, answer is zero (we want to specify multiplication!)
+| n, (m' + 1) => add n (mul n m')   -- otherwise add n to answer for n and m' = m - 1
 
--- exponentiation
-def exp : Nat → Nat → Nat
-| n, 0 => 1
+def exp : Nat → Nat → Nat           -- you figure it out
+| _, 0 => 1
 | n, (m' + 1) => n * exp n m'
 
 /-!
-### Properties and Relations (Predicate Functions)
+## Relations via Predicate Functions
 
-You're already familiar with binary relations such as
-less than or equal to over the natural numbers. No one
-will question that 7 ≤ 7
-We implement predicate functions that return true
-- unary: properties/sets
-  - eq_0 n
-  - even n
-- binary; pairs (triples, etc)
-  - eq n m      (true for all and only pairs where m and n are equal )
-  - le n m      (true for all and only pairs where n ≤ m)
+### Unary Relations
+
+The idea of a unary relation is a bit odd, but it makes
+sense if you think of it as a defined by a function from
+*one* value (unary) of a give type to Bool. A function of
+this kind could, for example, tell you whether any given
+argument is even, or prime, or a perfect square. You can
+pick the *property* of natural numbers you want. You can
+then often *specify* it as a predicate function, one that
+returns a Boolean yes/no answer, just as we're doing here.
 -/
+
+-- An interesting unary property is "n is equal to zero."
+-- As a predicate function: give it n; it answers yes/no.
+
+def isEq0 : Nat → Bool    -- by case analysis on n
+| 0 => true               -- true for 0
+| _ => false              -- false otherwise
+
+
+-- what predicate does this predicate function "decide"?
+def poof : Nat → Bool
+| 0 => true
+| 1 => false
+| n'' + 2 => poof n''
+
+-- Haha: is n *even*, does n have the property of being even?
+def isEven : Nat → Bool := poof
 
 
 /-!
-#### A property (unary predicate)
+### Binary Relations
+
+Carefully study the case analysis and compare it with
+that for the equality relation (eq).
 -/
 
--- does n have the property of being equal to zero?
-def eq_zero : Nat → Bool
-| Nat.zero => true
-| _ => false
-
-
-/-!
-#### Binary relations (binary predicates)
--/
-
--- are n and m equal?
-def eq : Nat → Nat → Bool
-| 0, 0 => true
-| (Nat.succ _), 0 => false
-| 0, (Nat.succ _) => false
-| Nat.succ n', Nat.succ m' => eq n' m'
-
--- is n ≤ m
 def le : Nat → Nat → Bool
 | 0, _ => true
-| n, 0 => false
-| (Nat.succ n'), (Nat.succ m') => le n' m'
-
-/-
-Now we can express the remaining inequality relations
-in terms of the ones we've already got.
--/
-
-def lt : Nat → Nat → Bool
-| n, m => le n m && !eq n m
+| (_ + 1), 0 => false
+| (n' + 1), (m' + 1) => le n' m'
 
 def gt : Nat → Nat → Bool
 | n, m => !le n m
 
+
+-- Study the case analysis and compare with le
+def eq : Nat → Nat → Bool
+| 0, 0 => true
+| 0, (_ + 1) => false
+| (_ + 1), 0 => false
+| (n'+1), (m'+1) => eq n' m'
+
+def lt : Nat → Nat → Bool
+| n, m => le n m && !(eq n m)
+
 def ge : Nat → Nat → Bool
 | n, m => gt n m || eq n m
+
+end cs2120f24.natArithmetic
 
 /-!
 ## The Natural Numbers in Lean4
@@ -321,8 +227,6 @@ write arithmetic as you usually would and it'll all work as
 you expect. Here are some basic expressions, using Lean4 and
 its mathlib.
 -/
-
-end cs2120f24.natArithmetic
 
 -- We're back to using Lean's definitions
 

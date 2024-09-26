@@ -15,9 +15,9 @@ def evalUnOp : UnOp → (Nat → Nat)
 | UnOp.fac    => domain.fac
 
 def evalBinOp : BinOp → (Nat → Nat → Nat)
-| BinOp.add => Nat.add
-| BinOp.sub => Nat.sub
-| BinOp.mul => Nat.mul
+| BinOp.add => domain.add
+| BinOp.sub => domain.sub
+| BinOp.mul => domain.mul
 
 def evalRelOp : RelOp → (Nat → Nat → Bool)
 | RelOp.eq => domain.eq    -- eq is from from natArithmetic.domain
@@ -26,28 +26,24 @@ def evalRelOp : RelOp → (Nat → Nat → Bool)
 | RelOp.ge => domain.ge
 | RelOp.gt => domain.gt
 
-
--- Helper function to evaluate a variable under an interpretation
-
+-- a function for evaluating "literal n" expressions -- it's just n
+def evalLit (n : Nat) : Nat := n
 
 -- A function for evaluating variable values under given interpretations
-def Interp := Var → Nat
+def Interp := Var → Nat           -- Interp is a type
+def evalVar : Var → Interp → Nat  -- evalVar is a function
+| v, i => i v   -- apply interpretation i to variable v to get value
 
-def evalVar : Var → Interp → Nat
-| v, i => i v   -- apply interpretation function i to variable v
-
-
--- Semantic evaluation of arithmetic expression (yielding Nat)
+-- Semantic evaluation of arithmetic expression, yielding its Nat value
 def evalExpr : Expr → Interp → Nat
-| Expr.lit n,          _   =>  n
+| Expr.lit n,          _   => (evalLit n)
 | Expr.var v,          i   => (evalVar v i)
 | Expr.unOp op e,      i   => (evalUnOp op) (evalExpr e i)
 | Expr.binOp op e1 e2, i   => (evalBinOp op) (evalExpr e1 i) (evalExpr e2 i)
 
-
--- Semantic evaluation of arithmetic relational expression (yielding Bool)
-def evalRelExpr : syntax.RelExpr → Interp → Bool
-| RelExpr.mk op a1 a2, i =>  (evalRelOp op) (evalExpr a1 i) (evalExpr a2 i)
+-- Semantic evaluation of a relational expression, with a Boolean indication
+def evalRelExpr : RelExpr → Interp → Bool
+| RelExpr.mk op e1 e2, i =>  (evalRelOp op) (evalExpr e1 i) (evalExpr e2 i)
 
 
 end cs2120f24.natArithmetic.semantics

@@ -45,23 +45,22 @@ inductive RelExpr : Type where
 
 
 -- Nnotations for our abstract syntax
-notation " { " v " } " => Expr.var v
-notation " [ " n " ] " => Expr.lit n
+notation:max " { " v " } " => Expr.var v
+notation:max " [ " n " ] " => Expr.lit n
 
 
 -- Lean knows precedences and associativites for standard notations
 notation:max e " ! " => Expr.unOp UnOp.fac e
-notation e1 " + " e2 => Expr.binOp BinOp.add e1 e2
-notation e1 " - " e2 => Expr.binOp BinOp.sub e1 e2
-notation e1 " * " e2 => Expr.binOp BinOp.mul e1 e2
+infixl:65 " + " => Expr.binOp BinOp.add
+infixl:65 " - " => Expr.binOp BinOp.sub
+infixl:70 " * " => Expr.binOp BinOp.mul
 
 
 -- including for these relational operators
-notation e1 " = " e2 => RelExpr.mk RelOp.eq e1 e2
-notation e1 " ≤ " e2 => RelExpr.mk RelOp.le e1 e2
-notation e1 " < " e2 => RelExpr.mk RelOp.lt e1 e2
-notation e1 " ≥ " e2 => RelExpr.mk RelOp.ge e1 e2
-notation e1 " > " e2 => RelExpr.mk RelOp.gt e1 e2
-
+infix:50 " = " => RelExpr.mk RelOp.eq
+infix:50 " ≤ " => RelExpr.mk RelOp.le
+infix:50 " < " => RelExpr.mk RelOp.lt
+infix:50 " ≥ " => RelExpr.mk RelOp.ge
+infix:50 " > " => RelExpr.mk RelOp.gt
 
 end cs2120f24.natArithmetic.syntax

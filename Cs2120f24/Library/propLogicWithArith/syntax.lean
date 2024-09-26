@@ -2,10 +2,6 @@ import cs2120f24.Library.natArithmetic.syntax
 
 namespace cs2120f24.propLogicWithArith.syntax
 
-/-!
-# Propositional Logic: Syntax
--/
-
 structure Var : Type where
 (index: Nat)
 
@@ -28,6 +24,7 @@ inductive PLAExpr : Type
 | var_expr (from_var : Var)
 | un_op_expr (op : UnOp) (e : PLAExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLAExpr)
+-- NEW! relational arithmetic expressions
 | rel_op_expr (op : natArithmetic.syntax.RelOp) (a1 a2 : natArithmetic.syntax.Expr)
 
 
