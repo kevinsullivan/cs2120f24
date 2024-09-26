@@ -1,4 +1,4 @@
-namespace cs2120f24.natArithmetic
+namespace cs2120f24.natArithmetic.domain
 
 /-!
 # Domain: natural number arithmetic
@@ -40,7 +40,7 @@ def add : Nat → Nat → Nat
 | n, (m' + 1) => (add n m') + 1
 
 def sub : Nat → Nat → Nat
-| 0, m => 0
+| 0, _ => 0
 | n, 0 => n
 | (n' + 1), (m' + 1) => sub n' m'
 
@@ -49,7 +49,7 @@ def mul : Nat → Nat → Nat
 | n, (m' + 1) => add n (mul n m')
 
 def exp : Nat → Nat → Nat
-| n, 0 => 1
+| _, 0 => 1
 | n, (m' + 1) => n * exp n m'
 
 /-!
@@ -66,6 +66,9 @@ def isEven : Nat → Bool
 | 0 => true
 | 1 => false
 | n'' + 2 => isEven n''
+
+def isOdd : Nat → Bool
+| n => !(isEven n)
 
 
 /-!
@@ -92,4 +95,4 @@ def lt : Nat → Nat → Bool
 def ge : Nat → Nat → Bool
 | n, m => gt n m || eq n m
 
-end cs2120f24.natArithmetic
+end cs2120f24.natArithmetic.domain

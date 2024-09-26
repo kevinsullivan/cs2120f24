@@ -1,9 +1,9 @@
 import «cs2120f24».Library.natArithmetic.syntax
 import «cs2120f24».Library.natArithmetic.domain
 
-namespace cs2120f24.natArithmetic
+namespace cs2120f24.natArithmetic.semantics
 
--- open cs2120f24.natArithmetic
+open cs2120f24.natArithmetic.syntax
 
 def evalUnOp : UnOp → (Nat → Nat)
 | UnOp.inc => Nat.succ
@@ -27,7 +27,7 @@ def evalRelOp : RelOp → (Nat → Nat → Bool)
 def Interp := NatVar → Nat
 
 def evalVar : NatVar → Interp → Nat
-| v, i => i v   -- apply interpretation function i to variable v to get v's value "under i"
+| v, i => i v   -- apply interpretation function i to variable v
 
 abbrev NatInterp := NatVar → Nat -- varInterp would be better name
 
@@ -45,4 +45,4 @@ open RelExpr
 def evalRelExpr : RelExpr → NatInterp → Bool
 | (mk op a1 a2), i =>  (evalRelOp op) (evalExpr a1 i) (evalExpr a2 i)
 
-end cs2120f24.natArithmetic
+end cs2120f24.natArithmetic.semantics

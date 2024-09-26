@@ -1,6 +1,6 @@
 import cs2120f24.Library.natArithmetic.syntax
 
-namespace cs2120f24.propLogicWithArith
+namespace cs2120f24.propLogicWithArith.syntax
 
 /-!
 # Propositional Logic: Syntax
@@ -20,15 +20,16 @@ inductive BinOp : Type
 | imp
 | iff
 
-open cs2120f24.propLogicWithArith
-open cs2120f24.natArithmetic
+
+--open natArithmetic
 
 inductive PLExpr : Type
 | lit_expr (from_bool : Bool) : PLExpr
 | var_expr (from_var : BoolVar)
 | un_op_expr (op : UnOp) (e : PLExpr)
 | bin_op_expr (op : BinOp) (e1 e2 : PLExpr)
-| rel_op_expr (op : RelOp) (a1 a2 : ArithExpr)  -- this is new
+| rel_op_expr (op : natArithmetic.syntax.RelOp) (a1 a2 : natArithmetic.syntax.ArithExpr)
+
 
 open PLExpr
 
@@ -41,4 +42,6 @@ infixr:30 " ∨  "  => bin_op_expr BinOp.or
 infixr:20 " ↔ " => bin_op_expr BinOp.iff
 infixr:25 " ⇒ " => bin_op_expr BinOp.imp
 
-namespace cs2120f24.propLogicWithArith
+
+
+namespace cs2120f24.propLogicWithArith.syntax

@@ -6,6 +6,8 @@ everything that «Cs2120f24».lean
 import Cs2120f24
 
 /-
+-- LECTURE FILES
+
 -- propositional logic
 import «Cs2120f24».Lectures.«02_prop_logic».formal.utilities
 import «Cs2120f24».Lectures.«02_prop_logic».formal.domain
@@ -17,6 +19,8 @@ import «Cs2120f24».Lectures.«02_prop_logic».formal.semantics
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.properties
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.models
 import «Cs2120f24».Lectures.«02_prop_logic».formal.model_theory.counterexamples
+
+
 -- LIBRARY FILES
 
 -- Propositional logic
