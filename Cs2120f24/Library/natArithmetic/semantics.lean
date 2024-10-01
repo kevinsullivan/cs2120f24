@@ -29,8 +29,10 @@ def evalRelOp : RelOp → (Nat → Nat → Bool)
 -- a function for evaluating "literal n" expressions -- it's just n
 def evalLit (n : Nat) : Nat := n
 
+-- The *type* of an interpretation
+def Interp := Var → Nat
+
 -- A function for evaluating variable values under given interpretations
-def Interp := Var → Nat           -- Interp is a type
 def evalVar : Var → Interp → Nat  -- evalVar is a function
 | v, i => i v   -- apply interpretation i to variable v to get value
 

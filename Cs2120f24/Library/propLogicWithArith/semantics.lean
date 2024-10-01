@@ -9,6 +9,7 @@ import «Cs2120f24».Library.natArithmetic.semantics
 namespace cs2120f24.propLogicwithArith.semantics
 
 open cs2120f24.propLogicWithArith.syntax
+--open cs2120f24.natArithmetic.syntax
 
 def evalUnOp : UnOp → (Bool → Bool)
 | (UnOp.not) => not
@@ -28,7 +29,7 @@ abbrev BoolInterp := Var → Bool -- varInterp would be better name
 
 abbrev ArithInterp := natArithmetic.syntax.Var → Nat
 
-open cs2120f24.natArithmetic
+open cs2120f24.natArithmetic.semantics
 
 #check natArithmetic.syntax.RelOp
 
@@ -50,9 +51,9 @@ def evalPLAExpr : PLAExpr → BoolInterp → ArithInterp → Bool
     (fun _ => true)
     (fun _ => 0)
 
-#check ([5] : syntax.Expr)
+#check ([5] : natArithmetic.syntax.Expr)
 
-#eval semantics.evalRelExpr
+#eval natArithmetic.semantics.evalRelExpr
   ([9] ≤ [8])
   (fun _ => 0)
 
