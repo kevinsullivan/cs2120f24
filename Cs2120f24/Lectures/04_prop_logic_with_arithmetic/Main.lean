@@ -21,8 +21,8 @@ is constructed from a *variable.
 -/
 
 -- *variable expressions*, each constructed from a distinct *variable*
-def N := Expr.var v0        -- abstract syntax: see natArithmetic.syntax.Expr
-def M := { v1 }             -- concrete syntax: see natArithmetic.syntax.Expr
+def M := Expr.var v0  -- concrete syntax: see natArithmetic.syntax.Expr
+def N := { v1 }       -- abstract syntax: see natArithmetic.syntax.Expr
 def P := { v2 }
 
 /-!
@@ -86,10 +86,98 @@ from) a variable. To evaluate a variable *expression* we apply our
 evaluate the same *expression* using our different interpretations.
 -/
 
-#reduce evalExpr M i1    -- cs2120f24.natArithmetic.semantics.EvalExpr
+-- Examples: evaluating variable expressions
+-- cs2120f24.natArithmetic.semantics.EvalExpr
+#reduce evalExpr M i1
 #reduce evalExpr M i2
 #reduce evalExpr M i3
 
+-- Examples: evaluating operator expressions
 #reduce evalExpr e1 i1    -- cs2120f24.natArithmetic.semantics.EvalExpr
 #reduce evalExpr e1 i2
 #reduce evalExpr e1 i3
+
+def e4 : Expr := sorry + sorry  -- the arguments can by any *expressions*
+def e4' : Expr := (M + N) + P
+def e4'' : Expr :=
+  Expr.binOp                  -- bin op expr
+    BinOp.add                 -- op = +
+      (Expr.binOp               -- e1 = (M + N)
+        BinOp.add                 -- (op = +
+        (Expr.var (Var.mk 0))     --  e1 = M
+        (Expr.var (Var.mk 1)))    --  e2 = N
+      (Expr.var (Var.mk 2))     -- e2 = P
+
+/-!
+You should now be able to understand
+our syntax for *relational* expressions.
+
+Its formal specification of the syntax of
+our language is given by RelExpr. Speaking
+informally, the syntax has only one form
+of expression, namely "l op r", where op
+is a relational operator (such as ≤), and
+l and r are *arithmetic* expressions. An
+example in the ordinary language of sixth
+grade math: 3 < X: There is an arithmetic
+literal expression on the left, variable
+expresion on the right, and the relational
+operator in the middle (infix notation).
+-/
+
+def r1 := (M ≤ [20])  -- var_expr op lit_expr
+def r1' :=            -- its abstract syntax
+  RelExpr.mk
+    RelOp.le                -- ≤
+    (Expr.var (Var.mk 0))     -- M
+    (Expr.lit 20)             -- 20
+
+def r2 : RelExpr := (M > N)
+
+/-
+Semantic evaluation, yielding Bool, is by
+application of evalRelExpr to an expression
+and a specific interpretation of the variables.
+-/
+
+-- evalating relational expressions under varying interpretations
+
+#eval evalRelExpr r1 i1 -- 10 < 20, expect true
+#eval evalRelExpr r1 i2
+#eval evalRelExpr r1 i3
+
+#eval evalRelExpr r2 i1
+#eval evalRelExpr r2 i2
+#eval evalRelExpr
+        r2
+        i3
+
+#eval evalRelExpr       -- expect false
+        ((M + N) > (N + M))
+        i3
+
+#eval evalRelExpr         -- expect false
+        ([20] ≥ (N * P))  -- relational expression
+        i3                -- arithmetic variable interpretation
+
+/-!
+O. M. Gosh, Yay. We now have a working formal specification
+of a little expression language of natural number arithmetic.
+
+Our specification defines both syntax (the Expr and RelExpr)
+types, and an operational semantics (the evalPLAExpr function).
+Given *any* expression and *any* variable interpretation, this
+function actually "operates (works!)" to compute the meaning /
+valye of the expression given an added interpretation function.
+That's why we call it an "operational" semantics.
+
+A hypothetical user of our little expression language would
+generally want to write numerical and relational expression
+using our concrete syntax, rather than using abstract syntax.
+
+But you are not just a language user but a language designer!
+In this capacity, you really must understand how expressions
+using concrete syntax get "desugared" into abstract syntactic
+expression. See the example, def e4' : Expr := (M + N) + P, a
+few paragraphs back.
+-/
