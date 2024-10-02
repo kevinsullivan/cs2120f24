@@ -157,7 +157,7 @@ and a specific interpretation of the variables.
         i3
 
 #eval evalRelExpr         -- expect false
-        ( [20] ≥ (N * P) )  -- relational expression
+        ([20] ≥ (N * P))  -- relational expression
         i3                -- arithmetic variable interpretation
 
 /-!
