@@ -374,7 +374,7 @@ def sumSq' : Nat → Nat := Nat.rec baseSq stepSq
 
 
 def sumSq : Nat → Nat
-| 0 => 1
+| 0 => 0                   -- corrected from previous release
 | (n' + 1) => (n' + 1)^2 + sumSq n'
 
 /-!
@@ -387,9 +387,9 @@ Format your table here
 | 3 |  2  |    9  |     5     |   14     | step up
 | 4 |  3  |   16  |    14     |   30     | step up
 | 5 |  4  |   25  |    30     |   55     | step up
-|
-
 -/
+
+#eval sumSq 5
 
 /-!
 Now write test cases as above, including "expect"

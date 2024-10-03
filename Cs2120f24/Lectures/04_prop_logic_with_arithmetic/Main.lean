@@ -417,6 +417,101 @@ expressions to their meanings as values from a semantic domain.
         i3
 
 /-!
+### What About Model Finding?
+
+Models are *solutions* in the form of assignments of
+values to variables, such that the variables with these
+values satisfy specified logical/mathematical constraints.
+
+Let's see an example (from z3py tutorial, online). Consider
+the following puzzle. Spend exactly 100 dollars and buy exactly
+100 animals. Dogs cost 15 dollars, cats cost 1 dollar, and mice
+cost 25 cents each. You have to buy at least one of each.
+How many of each should you buy?
+
+Analysis: we have three unknown numbers, the number of dogs,
+of cats, of mice to buy so that cost comes out exactly right.
+These unknows we represent by named variables.
+-/
+
+
+-- numeric variables
+def c : cs2120f24.natArithmetic.syntax.Var := ⟨ 0 ⟩     --# cats
+def d : cs2120f24.natArithmetic.syntax.Var := ⟨ 1 ⟩     --# dogs
+def r : cs2120f24.natArithmetic.syntax.Var := ⟨ 2 ⟩     --# rodents
+
+-- numberic variable expressions
+def C := cs2120f24.natArithmetic.syntax.Expr.var c
+def D := cs2120f24.natArithmetic.syntax.Expr.var d
+def R := cs2120f24.natArithmetic.syntax.Expr.var r
+
+-- individual constraints (rel op expressions in arith lifted to relop exprs in PLA)
+def cats_constraint := { C ≥ [1] }
+def dogs_constraint := { D ≥ [1] }
+def rodents_constraint := { R ≥ [1] }
+def total_animals_constraint := { C + D + R = [100] }
+def total_cost_constraint := { [100] * C  + [1500] * D + [25] * R = [10000] }
+
+-- we now conjoin the RelOp expressions, in *propositional logic (with arith)* using ∧
+def problem_specification :=
+    (cats_constraint)  ∧
+    dogs_constraint ∧
+    rodents_constraint ∧
+    total_animals_constraint ∧
+    total_cost_constraint
+
+/-!
+Ok, this this is really cool. We have not only an absolutely precise,
+formal specification of the constraints that define what constitutes
+an acceptable solution. But there's more! We also have an evaluator
+that can tell us whether this formula is true under specified Boolean
+and arithmetic interpretations. Let's guess a solution: C = 5, D = 4,
+and R = 12. Does tbis *interpretation* (a.k.a "valuation") satisfy the
+constraints?
+-/
+
+#eval evalPLAExpr
+        problem_specification
+        (λ _ => false)
+        (λ v => match v with
+          | (cs2120f24.natArithmetic.syntax.Var.mk 0) => 5
+          | (cs2120f24.natArithmetic.syntax.Var.mk 1) => 4
+          | (cs2120f24.natArithmetic.syntax.Var.mk 2) => 12
+          | _ => 0
+        )
+
+/-!
+What we already have is remarkable: both a formal language of
+propositional logic with natural number arithmetic as a theory
+extension, *and* a semantic evaluator that we can use to *check*
+whether any proposed *valuation* (interpretation) is a solution
+(model). That's pretty darn cool, but it doesn't get us all the
+way to where we want to go.
+
+So where is that? A first stop would be a model finder for our
+extended language of PL with arithmetic. A model finder for this
+language would find values (if there are any) for both Boolean
+and arithmetic variables that would make a given expression true.
+
+The ultimate destination would be a validity checker! This kind
+of machine would tell us whether a given proposition/expression
+is true under *all* interpretations. But now we have variables
+that can take on not just one of two values (true/false) but any
+number of values, from zero all the way up.
+
+We no longer have any hope of mechanically checking all possible
+solutions (interpretations) to see if any are actual solutions
+(models). So now what? We offer two solutions, the first augments
+traditional Boolean SAT solvers, model finders, and even validity
+checkers with powerful but limited "solvers" for different theories
+(here arithmetic). The second entails a profound shift: from what
+we can call semantic, or *model-theoretic* notions of validity to
+what we will come to know as a *proof-theoretic* notion of what it
+takes to show that a given proposition is *valid* (true under *all*
+conceivable interpetations).
+-/
+
+/-!
 ## Conclusion
 
 To conclude, we've defined by a syntax and an operational semantics

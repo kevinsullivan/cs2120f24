@@ -28,9 +28,9 @@ inductive PLAExpr : Type
 open PLAExpr
 
 -- concrete syntax/notations for PL operators
-notation " ⊤ "          => (lit_expr true)
-notation " ⊥ "          => (lit_expr false)
-notation:max "{" v "}"  => (var_expr v)
+notation " ⊤ "          => lit_expr true
+notation " ⊥ "          => lit_expr false
+notation:max "{" v "}"  => var_expr ( v : PLAExpr)
 notation:max "¬" p:40   => un_op_expr UnOp.not p
 infixr:35 " ∧ "         =>  bin_op_expr BinOp.and
 infixr:30 " ∨  "        => bin_op_expr BinOp.or
