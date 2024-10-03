@@ -21,7 +21,8 @@ rat_price = 25
 # the total cost must be exactly $100.00
 total_cost_constraint =  cat_price * C  + dog_price * D + rat_price * R == 10000 
 
-
+# the problem is to find values for C, D, and M that satisfy all of these conditions
+# our overall specification is the "and" of all of the individual constraints
 problem_specification = \
     And (
         cats_constraint, \
@@ -33,8 +34,10 @@ problem_specification = \
 
 
 s = Solver()
+
 s.add(problem_specification)
+
 print("The PLA problem,", problem_specification, ", is", s.check())
-if (s.check() == sat):
+if (s.check() == sat):      # otherwise we'd get a runtime exception
     print("Here's a satisfying solution (a model): ", s.model())
 
