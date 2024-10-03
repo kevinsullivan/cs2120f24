@@ -1,18 +1,17 @@
 from z3 import *
 
-# declare names for 3 distinct Z3 integer variable expressions
+# declare names for 3 distinct Z3 integer variable expressions and a PL variable expr
 M = Int('M')
 N = Int('N')
 P = Int('P')
-
 B = Bool('B')
 
-# arithmetic relational expressions
+# a few arithmetic relational expressions
 c1 = M + N < 10
 c2 = M > 3
 c3 = N > 5
 
-# expressions in propositional logic with arithmetic relational expressions 
+# a few propositional logic expressions involving arithmetic relational expressions 
 p = And(c1, c2, c3)
 q = And(Or(c1, c2), c3)
 r = And(q, B) 
@@ -28,6 +27,8 @@ def report(e):
 report(p) 
 report(q)
 report(r)
+
+
 
 
 

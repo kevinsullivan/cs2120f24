@@ -334,7 +334,7 @@ and every numberic variable is mapped to zero).
 
 -- What if we reverse the literals? Now
 #eval evalPLAExpr                         -- PLA sem eval
-        (PLAExpr.rel_op_expr ([8] ≤ [7])) -- PLA expression
+        (PLAExpr.rel_op_expr ([6] ≤ [7])) -- PLA expression
         (fun _ => false)                  -- PL/Bool interp
         (λ _ => 0)                        -- Arith interp (λ = fun)
 
