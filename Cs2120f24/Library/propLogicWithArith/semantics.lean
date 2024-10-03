@@ -10,40 +10,30 @@ namespace cs2120f24.propLogicwithArith.semantics
 
 open cs2120f24.propLogicWithArith.syntax
 
+
 def evalUnOp : UnOp → (Bool → Bool)
 | (UnOp.not) => not
 
-def evalBinOp : BinOp → (Bool → Bool → Bool)
-| BinOp.and => and
-| BinOp.or => or
-| BinOp.imp => propLogicwithArith.domain.imp
-| BinOp.iff => cs2120f24.propLogicwithArith.domain.iff
 
-abbrev BoolInterp := Var → Bool -- varInterp would be better name
+def evalBinOp : BinOp → (Bool → Bool → Bool)
+| BinOp.and => and    -- Bool and operator, &&, from Lean
+| BinOp.or => or      -- Bool or operator, ||, from Lean
+| BinOp.imp => cs2120f24.propLogicwithArith.domain.imp
+| BinOp.iff => domain.iff --shortened qualifier works
+
+
+abbrev BoolInterp := Var → Bool -- boolVarInterp would be better name
+
 
 abbrev ArithInterp := natArithmetic.syntax.Var → Nat
 
-open cs2120f24.natArithmetic.semantics
 
+-- Semantic evaluation of PLA Expressions under *two* variable interpretations
 def evalPLAExpr : PLAExpr → BoolInterp → ArithInterp → Bool
 | (PLAExpr.lit_expr b),             _, _ => b
 | (PLAExpr.var_expr v),           i, _ => i v
 | (PLAExpr.un_op_expr op e),      i, a => (evalUnOp op) (evalPLAExpr e i a)
 | (PLAExpr.bin_op_expr op e1 e2), i, a => (evalBinOp op) (evalPLAExpr e1 i a) (evalPLAExpr e2 i a)
-| (PLAExpr.rel_op_expr op a1 a2), _, a => (natArithmetic.semantics.evalRelOp op)
-                                           (natArithmetic.semantics.evalExpr a1 a)
-                                           (natArithmetic.semantics.evalExpr a2 a)
-
-#eval evalPLAExpr
-  (PLAExpr.rel_op_expr
-    (natArithmetic.syntax.RelOp.le)
-    (natArithmetic.syntax.Expr.lit 9)
-    (natArithmetic.syntax.Expr.lit 6))
-    (fun _ => true)
-    (fun _ => 0)
-
-#eval natArithmetic.semantics.evalRelExpr
-        ([9] ≤ [8])
-        (fun _ => 0)
+| (PLAExpr.rel_op_expr re),       _, a => (natArithmetic.semantics.evalRelExpr re a)
 
 end cs2120f24.propLogicwithArith.semantics

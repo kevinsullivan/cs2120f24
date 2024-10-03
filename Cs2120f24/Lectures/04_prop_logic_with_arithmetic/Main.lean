@@ -2,13 +2,43 @@ import Cs2120f24.Library.propLogicWithArith.semantics
 
 open cs2120f24.natArithmetic.syntax
 
--- arithmetic *variables*: indexed/distinguished by natural numbers
-def v0 : Var := Var.mk 0   -- abstract syntax: see natArithmetic.syntax.Var
+
+/-
+# Propositional Logic with Nat Arithmetic as a Theory Extension
+
+Our aim is to work up to a demonstration of the construction of
+expressions in our new and more *expressive* logic: propositional
+logic with natural number arithmetic as a theory extension. That
+means we can now write propositional logic expressions that have
+arithmetic *relational* (Boolean-valued!) expressions in natural
+number arithmetic. Let's start from the bottom up.
+-/
+
+
+/-!
+## Language of Arithmetic
+-/
+
+
+/-!
+### Arithmetic variables
+
+As a reminder, arithmetic variables in our design will serve
+both as building blocks of arithmetic *variable expressions*,
+and as arguments to interpretation functions, each of which in
+turn associates (maps) variables with (to) mathematical domain
+values (e.g., Boolean or natural number values).
+-/
+-- arithmetic *variables*: indexed by natural numbers
+def v0 : cs2120f24.natArithmetic.syntax.Var := Var.mk 0   -- abstract syntax
+-- Not that Var in this context means natArithmetic.syntax.Var. See why for yourself.
 def v1 : Var := ⟨ 1 ⟩      -- concrete syntax: see natArithmetic syntax file
 def v2 : Var := ⟨ 2 ⟩      -- the 0, 1, 2 here are variable *indices* not values!
 
+
 /-!
-It's crucially important that you not confuse the natural
+### Variable indices are syntactic: not variables' semantic domains values
+It's really important that you not confuse the natural
 number *indices* of *variables* with the values that we will
 assign to them. The values of these variables will be defined
 by interpretations. Different interpretations associate different
@@ -20,10 +50,19 @@ natural number arithmetic that we're definining. Each *expression*
 is constructed from a *variable.
 -/
 
+
+/-!
+### Arithmetic *variable expressions* in the language of arithmetic
+-/
 -- *variable expressions*, each constructed from a distinct *variable*
-def M := Expr.var v0  -- concrete syntax: see natArithmetic.syntax.Expr
-def N := { v1 }       -- abstract syntax: see natArithmetic.syntax.Expr
+def M := cs2120f24.natArithmetic.syntax.Expr.var v0  -- abstract syntax
+def N := { v1 }       -- concrete syntax: see natArithmetic.syntax.Expr
 def P := { v2 }
+
+
+/-!
+### Arithemtic operator expressions.
+-/
 
 /-!
 And now that we have a few small *expressions* in hand (the variable
@@ -45,6 +84,8 @@ open cs2120f24.natArithmetic.semantics
 
 
 /-!
+### Interpretations of *arithemtic* variables
+
 Here's one possible interpretation (*function* fron variables to values).
 The variable with index 0 is associated with the value, 2, etc. Be
 sure you understand that an "Interp" is a *function* from *variables*
@@ -69,6 +110,7 @@ def i3 : Interp
 | _ => 0
 
 /-
+### Evalation of *arithemtic variables* under interpretations
 Now we have a set-up where different interpretation functions
 associate different values with different variables. Here we are
 applying interpretation functions to variables.
@@ -79,6 +121,7 @@ applying interpretation functions to variables.
 #reduce i1 v2   -- expect 5
 
 /-!
+### Evaluation of *arithmetic variable expressions*
 Remember: variables are not variable *expressions*. The latter are
 elements in our language, each of which "contains" (is constructed
 from) a variable. To evaluate a variable *expression* we apply our
@@ -109,6 +152,8 @@ def e4'' : Expr :=
       (Expr.var (Var.mk 2))     -- e2 = P
 
 /-!
+### Arithmetic Relational Expressions: Syntax
+
 You should now be able to understand
 our syntax for *relational* expressions.
 
@@ -135,9 +180,12 @@ def r1' :=            -- its abstract syntax
 def r2 : RelExpr := (M > N)
 
 /-
-Semantic evaluation, yielding Bool, is by
-application of evalRelExpr to an expression
-and a specific interpretation of the variables.
+### Arithmetic Relational Expressions: Semantic Evaluation
+Sematic evaluation of *arithmetic relational
+expressions*, yielding Boolean values. This is
+why we can integrate these arithmetic expressions
+smoothly into propositional logic. Like PL variables
+they, too, evaluate to Boolean values.
 -/
 
 -- evalating relational expressions under varying interpretations
@@ -161,6 +209,8 @@ and a specific interpretation of the variables.
         i3                -- arithmetic variable interpretation
 
 /-!
+### Summary: A Formal Language of Natural Number Arithmetic
+
 O. M. Gosh, Yay. We now have a working formal specification
 of a little expression language of natural number arithmetic.
 
@@ -180,4 +230,211 @@ In this capacity, you really must understand how expressions
 using concrete syntax get "desugared" into abstract syntactic
 expression. See the example, def e4' : Expr := (M + N) + P, a
 few paragraphs back.
+-/
+
+/-!
+## Propositional Logic with Nat Arithmetic as a Theory Extension
+-/
+
+/-!
+And now for the syntax and operational semantics of our own
+verson of proposition logic with our own language of arithmetic
+relational expressions as a theory extension. Moreover we now
+have sophisticated computational tools to rigorously enforce
+the syntax rules of the language (that only certain constructs
+are allowed) and to evaluate the truth of propositional logic
+expressions with arithmetic relational operators expressions
+as a new basic construct. The key to smooth integration is
+that, just like propositional logic variables and variable
+expressions, these *arithmetical relational* expressions *also
+evaluate to Boolean values*.
+
+So here we go. Let's see how we've incorporated arithmetic
+relational operator expressions as new basic expressions in
+an extended version of propositional logic.
+
+A note. The definitions in the Library duplicate rather than
+include syntax, semantics, and domain from Library/propLogic.
+This makes the definitions more self-contained for purposes
+of presentation.
+-/
+
+open cs2120f24.propLogicWithArith.syntax
+open cs2120f24.propLogicwithArith.semantics
+
+/-!
+### PLA Relational Operator Expressions (Syntax)
+Now we construct some expressions in propositional logic
+with arithmetic, constructing each one from an underlying
+arithmetic relational operator expression in our language
+of natural number arithmetic.
+
+Just as we build PL variable *expressions* from variables,
+so we will construct PLA relational arithmetic expressions
+(in the PLA language) from from arithmetic expressions (in
+the language of natural number arithmetic).
+
+To quickly understand the construction of a propositional
+logic expression, that can be used in building larger such
+expressions, from an arithmetical relational expression, it
+is best to draw an analogy with our method of constructing
+a variable expression (an expression in propositional logic)
+from a variable (not an expression in propositional logic).
+Now we're analogously
+-/
+
+#check (PLAExpr.rel_op_expr ([7] ≤ [8]))
+
+#reduce evalPLAExpr (PLAExpr.rel_op_expr ([7] ≤ [8])) _ _
+
+#eval evalRelExpr
+        ([9] ≤ [8])
+        (fun _ => 0)
+
+/-!
+### Constructing PL Relational Expressions: Concrete Syntax
+
+At the moment we've used only abstract syntax for building
+*propositional logic* (relational operator) expressions from
+arithmetic relational expressions. We've also defined a new
+concrete syntax, employing the same pattern as used to turn
+a variable, v, into a variable expression: { v }. Similarly
+we can now turn anarithmetic relational expressions, r, into
+a propositional logic (relational operator) expression using
+{ r }.
+-/
+
+/-!
+### Examples of PLA Expressions
+
+A *propositional logic (with arithmetic) expression*
+constructed from an *arithmetic relational expression*.
+The arithmetical relational expression is constructed
+from two arithmetic literal expressions and a relational
+operator, ≤. The application of PLAExpr.rel_op_expr to
+this arithmetic relational expression "boxes it up" and
+the result is now an expression in propositional logic
+with arithmetic.
+-/
+def pla1 : PLAExpr := PLAExpr.rel_op_expr ([7] ≤ [8])
+
+/-!
+As an expression in propostional logic (with arithmetic)
+its truth can be determined by propositional logic (with
+arithmetic) evaluation. The semantic evaluation function
+for this language requires *two* interpretation arguments,
+one to assign values to propositional logic variables, the
+other to assign values to aritmetic variables. Here we use
+"function expressions" in Lean to provide trivial examples
+of interpretations (every logic variable is mapped to false
+and every numberic variable is mapped to zero).
+-/
+
+#eval evalPLAExpr pla1 (fun _ => false) (fun _ => 0)
+
+-- What if we reverse the literals? Now
+#eval evalPLAExpr                         -- PLA sem eval
+        (PLAExpr.rel_op_expr ([8] ≤ [7])) -- PLA expression
+        (fun _ => false)                  -- PL/Bool interp
+        (λ _ => 0)                        -- Arith interp (λ = fun)
+
+
+/-
+It quickly becomes apparent that constructing PLA expressions
+without good concrete syntax is unnecessarily burdensome and
+produces "code" that's hard to read. We need a nice concrete
+syntax. As building PLA expressions from arithmetic relational
+expression is analogous to building variable expressions from
+variables, and to maintain systactic consistency, I decided to
+use the same concrete syntax, namely "{" r "}", where r is any
+arithmetic relational expression.
+-/
+
+
+def pla2 : PLAExpr := {[7] + P ≤ [8]}   -- that's better!
+
+/-!
+And now the *coup de grace*: We can use logical connectives to
+build larger "propositional logic with arithmetic" expressions
+(PLAExpr values) from smaller ones using all the usual logical
+connectives, *and* we can evaluate the truth of any expression
+of this kind, given two interpretations, that serve to associate
+values with respectively propositional arithmetic variables (and
+thus to variable expressions in both languages).
+-/
+def pla3 : PLAExpr := pla1 ∧ pla2
+
+/-!
+### Propositional Logic with Arithmetic: Semantic Evaluation
+
+Here's a copy of our formal specification of an operational
+semantics for our formal language of propositional logic with
+arithmetic. As an important exercise, you should now express
+each rule in English. There's an intricate little dance going
+on here, with tbe evaluation of propositional logic expressions
+using the evaluation of *arithmetic* relational expressions,
+yielding Boolean values, as a subroutine.
+
+def evalPLAExpr : PLAExpr → BoolInterp → ArithInterp → Bool
+| (PLAExpr.lit_expr b),             _, _ => b
+| (PLAExpr.var_expr v),           i, _ => i v
+| (PLAExpr.un_op_expr op e),      i, a => (evalUnOp op) (evalPLAExpr e i a)
+| (PLAExpr.bin_op_expr op e1 e2), i, a => (evalBinOp op) (evalPLAExpr e1 i a) (evalPLAExpr e2 i a)
+| (PLAExpr.rel_op_expr re),       _, a => (natArithmetic.semantics.evalRelExpr re a)
+
+### Examples: Semantic Evaluation of Expressions in PLA
+
+As a quick reminder, our semantic evaluator for PLA expressions
+(propositions in the language of PLA) takes an expressions and
+*two* interpretation functions. The first will take BoolVars as
+arguments and return Boolean values. The second will take Vars
+(sorry, imperfect name) as defined in the natArithmetic library
+and return natural numbers. So let's get on to the examples.
+
+You are responsible for understanding all aspects of the syntax
+and the semantics of this language, including how exactly semantic
+evaluation is carried out, including but not limited to the roles
+of the two interpretation arguments in enabling the reduction of
+expressions to their meanings as values from a semantic domain.
+-/
+
+-- predict the answer before you check
+#eval evalPLAExpr
+        pla3            -- delta reduction
+        (fun _ => false)  -- no propositional variables in pla3: placeholder
+        i2              -- all-zero arithmetic interpretation from above
+
+-- predict the answer before you check
+#eval evalPLAExpr
+        pla3            -- delta reduction
+        (λ _ => false)  -- no propositional variables in pla3: placeholder
+        i3              -- arithmetic variable interpretation from above
+
+-- predict the answer before you check
+#eval evalPLAExpr
+        {[10] = [10]}
+        (λ _ => false)
+        i3
+
+/-!
+## Conclusion
+
+To conclude, we've defined by a syntax and an operational semantics
+for propositions in PLA. The operational semantics gives us a way to
+derive the Boolean value of *any* PLA proposition under interpretation
+functions from propositional and arithmetic variables to domain values.
+What we do *not* and will not develop here is a theory of model finding
+for propositions in PLA.
+
+The reason is that that could require cabilities for solving complex
+algebra problems. As a simple example, consider { X * X - [1] = [0] }.
+Model finding now involves quadratic integer programming, with X = 1
+as the only model. Clearly the formala is not valid. X = 2: 2 * 2 - 1
+does not equal 0, so the proposition is false under this *arithmetic*
+interpretation of the *arithmetic* variable, X.
+
+So, maybe other people have developed tools we can use to write formal
+propositions in propositional logic with natural number arithmetic and
+perhaps other theory extensions that include model finders for these far
+more expressive extensions of basic propositional logic?
 -/
