@@ -6,6 +6,8 @@ D = Int('D')
 R = Int('R')
 
 # you must buy at least one of each kind of animal
+# propositions in the language of propositional logic 
+# with arithmetic relations
 cats_constraint =  C >= 1 
 dogs_constraint =  D >= 1 
 rodents_constraint = R >= 1 

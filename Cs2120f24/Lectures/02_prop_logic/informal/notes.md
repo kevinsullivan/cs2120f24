@@ -194,6 +194,8 @@ to be sure that the theorem was true in all cases.
 
 Next Unit
 
-## Soundness and Completeness
+## Model- and Proof-theoretic validity equivalent
 
-Equivalence of Model and Proof-Theoretic Validity.
+A major result in logic is that of Model- and Proof-Theoretic Validity are equivalent. If one
+tells you a proposition is true (false) so will
+the other, without fail.

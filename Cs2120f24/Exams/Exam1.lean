@@ -5,27 +5,26 @@ This is an individual exam. You must complete it entirely on your own,
 with no outside inputs of any kind other than in response to questions
 posed directly to the instructor. You must take the exam while in class
 in the classroom. When you come in to the classroom, spread yourselves
-out, mix up, and do sit where you or someone you know of might hope to
+out, mix up, and don't sit where you or someone you know of might hope to
 catch a glance.
 -/
 
 /-!
 The sources of propositions on this exam will prominently include those
-in the two files, Library/PropLogic/identities.lean
+in the two files, Library/PropLogic/identities.lean and axioms.lean.
 -/
 
 /- #1
 
-Given a proposition in propositional logic, express it in precise English.
+Given a proposition in propositional logic express it in precise English
 
-Given a proposition in propositional logic in English, formalize it in the
-language of propositional logic as we've embedded it in Lean4.
+Given a PL in English, formalize it as an expression in propositional logic (in Lean)
 
-In either case:
+Given an expression, give examples of interpretations and evaluate the expression "under" them
 
-- Give examples of formal interpretations and "model check" (evaluate) them
-- Write (within a Lean comment block) a truth table for the overall proposition
-- If there are counter-examples, pick one and explain in English exactly why it's one
+Given a proposition in PL, write (in a Lean comment block) a truth table for it
+
+If there are counter-examples, pick one and explain in English exactly why it's one
 -/
 
 /- #2

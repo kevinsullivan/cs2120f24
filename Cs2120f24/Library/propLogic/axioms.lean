@@ -2,10 +2,6 @@ import «Cs2120f24».Library.propLogic.syntax
 import «Cs2120f24».Library.propLogic.semantics
 import «Cs2120f24».Library.propLogic.model_theory.properties
 
-/-!
--/
-
-
 namespace cs2120f24.propLogic
 
 def P : PLExpr := {⟨0⟩}
@@ -13,6 +9,21 @@ def Q : PLExpr := {⟨1⟩}
 def R : PLExpr := {⟨2⟩}
 
 
+/-!
+The following *semantically* valid propositions,
+organized into subsets pertaining to corresponding
+logical connectives, provide a more informative
+window that truth tables on the intended meanings
+of the logical connectives.
+
+For exaple the first cluster of three rules fully
+defines the intended meaning of conjunction (and).
+If two propositions, let's call them P and Q, are
+each true, the P ∧ Q is true; and if P ∧ Q is true,
+then so part P, and Q, individually. That's all we
+need to say to precisely define "what and means" in
+propositional, and many other, logics.
+-/
 
 def and_intro := R ⇒ Q ⇒ R ∧ Q
 def and_elim_left := R ∧ Q ⇒ R
@@ -32,14 +43,14 @@ def equiv_intro := (R ⇒ P) ⇒ (P ⇒ R) ⇒ (R ↔ P)
 def equiv_elim_left := (R ↔ P) ⇒ (R ⇒ P)
 def equiv_elim_right := (R ↔ P) ⇒ (P ⇒ R)
 
-def affirm_disjunct := (P ∨ R) ⇒ P ⇒ ¬R
-def affirm_consequent := (R ⇒ P) ⇒ P ⇒ R
-def deny_antecedent := (R ⇒ P) ⇒ ¬R ⇒ ¬P
+def true_intro := ⊤
+def false_elim := ⊥ ⇒ P
 
-
-
-/-
-Are they valid?
+/-!
+As an aside, we can apply our validity checker
+(our *is_valid* function) to each proposition
+to confirm that each and every one of them is
+valid.
 -/
 
 #eval! is_valid  and_intro
@@ -60,8 +71,7 @@ Are they valid?
 #eval! is_valid  equiv_elim_left
 #eval! is_valid  equiv_elim_right
 
-#eval! is_valid  affirm_disjunct
-#eval! is_valid  affirm_consequent
-#eval! is_valid  deny_antecedent
+#eval! is_valid  true_intro
+#eval! is_valid false_elim
 
 end cs2120f24.propLogic
