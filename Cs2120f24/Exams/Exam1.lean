@@ -51,3 +51,69 @@ include abstract syntax (including literal, variable, and operator expressions),
 concrete syntax concepts, interpretations, and the procedure for evaluating the
 truth of an expression given an interpretation (semantic evaluation).
 -/
+
+
+/-!
+semantic domain : some domain in which expressions will have meanings
+
+syntax: we represent a syntax as a *type* whose values/terms represent (expressions in ourlanguage)
+inductive, structure
+
+semantics:
+-/
+
+-- syntax is a data type
+inductive MyVariable : Type
+| x
+| y
+| z
+
+open MyVariable
+
+-- variable interpretations
+def i0 : MyVariable → Nat
+| x => 2
+| y => 4
+| z => 6
+
+#eval i0 x
+
+def i2 : MyVariable → Nat
+| x => 8
+| y => 1
+| z => 17
+
+-- syntax!
+inductive MySyntax : Type
+| Zero
+| Lit (n : Nat)
+| Succ (s : MySyntax)
+| Add (s1 : MySyntax) (s2 : MySyntax)
+| Mul (s1 : MySyntax) (s2 : MySyntax)
+| Var (v : MyVariable)
+
+-- semantics!
+open MySyntax
+def semantics : MySyntax → (MyVariable → Nat) →  Nat
+| Zero, _ => 0
+| Lit n, _ => n
+| Var v, i => i v
+| Succ s, i => semantics s i + 1
+| (MySyntax.Add s1 s2), i => (semantics s1 i) + (semantics s2 i)
+| (MySyntax.Mul s1 s2), i => (semantics s1 i) * (semantics s2 i)
+
+-- Examples
+def e0 : MySyntax := MySyntax.Zero    -- 0
+def e1 : MySyntax := Zero             -- 0
+def e2 : MySyntax := Succ e1          -- e1 + 1 = 0 + 1 = 1
+def e3 := Succ e2                     -- e2 + 1 =
+def e4 := Succ (Succ (Succ (Zero)))   -- 3
+def e5 := Add e4 e2
+def e6 := Add (Var x) e4
+def e7 := Mul e6 (Lit 2)
+
+-- yay, we can compute meaing of any expression now!
+#eval semantics e4 i0
+#eval semantics e6 i0
+#eval semantics e6 i2
+#eval semantics e7 i0
