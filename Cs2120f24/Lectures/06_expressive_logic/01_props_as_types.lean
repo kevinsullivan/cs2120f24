@@ -23,7 +23,7 @@ To make all of this concrete, we'll do the following in the rest of this lecture
 -/
 
 /-!
-## Propositions as Types, Values as Proofs of Validity
+## Propositions as Types; Values as Proofs of Validity
 
 We now represent two propositions as type: Kevin is from Charlottesville,
 and Carter is from Charlottesville. We'll use K and C as shorted names for
@@ -43,6 +43,9 @@ inductive C : Type where
 | cvilleDriversLicense
 | cvilleUtilityBill
 
+-- Kervin is from LA
+inductive KLA : Type where
+
 -- later we'll replace these two propositions with one predicate
 -- we can also see here that a proposition can have multiple proofs
 
@@ -54,6 +57,7 @@ open C
 --  proof name  proposition/type    proof/value
 def pfK      : K :=              K.cvilleDriversLicense
 def pfC      : C :=              C.cvilleUtilityBill
+def pfKLA    : KLA :=            _
 
 /-!
 We've introduced no new Lean constructs at this point. We've just
