@@ -45,7 +45,7 @@ it will suffice to first prove P → P ∧ P and then
 to prove P ∧ P → P. With that we'll be done.
 
 Proof of forward direction: P → P ∧ P. Assume we
-have a proof of (p : P). Then applying the axiom
+have a proof (p : P). Then applying the axiom
 of And introduction to p and p, we can derive the
 proof of P ∧ P that will show that if P is true,
 then P ∧ P is true. So P → P ∧ P.
