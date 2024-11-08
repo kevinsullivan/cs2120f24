@@ -1,6 +1,6 @@
 namespace cs2120f24.constructiveLogic
 
-/-! HOMEWORK #6. COUNTS FOR TWO ASSIGNMENTS.
+/-! HOMEWORK #5. COUNTS FOR TWO ASSIGNMENTS.
 
 This is an important homework. It gives you an
 opportunity to work out many of the kinks in your
@@ -34,53 +34,30 @@ def andIdempotent   : P ↔ (P ∧ P) :=
 Iff.intro
   -- forward direction: P → P ∧ P
   -- assume p : P, show P ∧ P
-  (fun (p : P) => (And.intro p p))
+  (fun (p : P) => And.intro p p)
   -- backwards direction: P ∧ P → P
-  (fun (h : And P P) => (h.right))
+  (fun (pimpp : P ∧ P) => pimpp.left)
 
 /-!
-In English: To prove P ↔ P ∧ P it will suffice
-by iff intro, to have proofs, (fw : P → (P ∧ P))
-and (bw : (P ∧ P) → P). Each is proved by giving
-an argument to result proof construction.
+In English. We are to show that any proposition
+P is equivalent to P ∧ P. By the Iff.intro axiom,
+it will suffice to first prove P → P ∧ P and then
+to prove P ∧ P → P. With that we'll be done.
 
-Forward direction:
+Proof of forward direction: P → P ∧ P. Assume we
+have a proof (p : P). Then applying the axiom
+of And introduction to p and p, we can derive the
+proof of P ∧ P that will show that if P is true,
+then P ∧ P is true. So P → P ∧ P.
 
-To prove P → P ∧ P, we show (by defining one) that
-there is a function that turns any proof of P into
-a proof of P ∧ P. There just one answer: ⟨ p, p ⟩.
-
-Backward direction:
-
-To prove P ∧ P → P, we assume a proof, (h : P ∧ P),
-and are to show P. Either h.left or h.right will do.
-
-Summary: Whether in formal logic or English language,
-you have to know that to prove any equivance, P ↔ Q,
-it is both sufficient and necessary that you have or
-obtain proofs (fw : P → Q) and (bw: Q → P). With these
-values, the term, (Iff.intro fw bw), is a proof of the
-equivalence.
+Proof of backward direction. P ∧ P → P. Assume
+we have a proof, pandp : P ∧ P. By either one of
+the two elimination axioms we can derive a proof
+of p: as either pandp.left or pandp.right.
 -/
 
--- What we are to prove is that ∨ is idemponent
--- That is, that for any P, P ↔ (P ∨ P).
 def orIdempotent    : P ↔ (P ∨ P) :=
--- Proof: by application if iff.intro
--- iff intro
-(
-  Iff.intro
-  -- Proof of P → P ∨ P
-  (fun (p : P) => Or.inl p)
-  -- Required proof of backward implication
-  (fun (h : P ∨ P) =>
-    (Or.elim
-      h
-      (fun p => p)
-      (fun p => p)
-    )
-  )
-)
+_
 
 def andCommutative  : (P ∧ Q) ↔ (Q ∧ P) :=
 _
@@ -92,18 +69,7 @@ def identityAnd     : (P ∧ True) ↔ P :=
 _
 
 def identityOr      : (P ∨ False) ↔ P :=
-Iff.intro
-  -- forwards
-  (fun (h : P ∨ False) =>
-    (Or.elim h
-      (fun (p : P) => p)
-      (fun (f : False) => False.elim f)
-    )
-  )
-  -- backwards
-  (fun (p : P) =>
-    (Or.inl p)
-  )
+_
 
 def annhilateAnd    : (P ∧ False) ↔ False  :=
 _
@@ -127,30 +93,28 @@ def equivalence     : (P ↔ Q) ↔ ((P → Q) ∧ (Q → P)) :=
 _
 
 def implication     : (P → Q) ↔ (¬P ∨ Q) :=
-Iff.intro
-  (fun (h : P → Q) =>
-    (Or.inr _))
-  (fun (h : (¬P ∨ Q)) =>
-    (fun (p : P) =>
-      Or.elim
-      h
-      (fun (k : ¬P) => False.elim (k p))
-      (fun q => q)
-    )
-  )
-
+_
 
 def exportation     : ((P ∧ Q) → R) ↔ (P → Q → R) :=
 _
 
 def absurdity       : (P → Q) ∧ (P → ¬Q) → ¬P :=
-_
+λ h =>
+  (
+    λ a => _
+  )
 
 def distribNotAnd   : ¬(P ∧ Q) ↔ (¬P ∨ ¬Q) :=
 _
 
 def distribNotOr    : ¬(P ∨ Q) ↔ (¬P ∧ ¬Q) :=
 _
+
+
+
+/-!
+
+-/
 
 
 /-!
