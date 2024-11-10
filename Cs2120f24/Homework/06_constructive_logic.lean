@@ -155,13 +155,96 @@ _
 
 /-!
 EXTRA CREDIT: apply the axiom of the excluded middle
-to give a classical proof of the one proposition that
-you identified as having no constructive proof. The
-axiom is available as Classical.em (p : Prop) : p ∨ ¬p.
+to give a classical proof of any propositions that you
+identified as having no constructive proof. The axiom
+is available as Classical.em (p : Prop) : p ∨ ¬p.
 -/
 
 #check Classical.em
 -- Classical.em (p : Prop) : p ∨ ¬p
--- Given any proposition p, you can have a proof of p ∨ ¬p
--- You then have two cases: one with a proof of p, one with ¬p
-example (A : Prop) : A ∨ ¬A := Classical.em A
+
+/-!
+Given nothing but a proposition, excluded middle gives
+you a proof of A ∨ ¬A 'for free". By "free" we mean that
+you can have a proof of A ∨ ¬A without providing a proof
+of either A or of ¬A. We call such a proof non-constructive.
+-/
+def pfAorNA (A : Prop) : A ∨ ¬A := Classical.em A
+
+
+/-!
+The next insight you want is that with a proof of A ∨ ¬A,
+you can do a case analysis on that disjunction. In one
+case, you'll have the assumption A is true (with a proof
+(a : A)). In the other case, you'll have the assumption
+that ¬A is true (with a proof (na : ¬A)). The other case
+assumes ¬A is true, with a proof, (na : ¬A).
+
+In other words, the axiom of the excluded middle forces
+every proposition to be either true or false, with no
+indeterminate "middle" state where you don't have a proof
+either way. (Recall that in the constructive logic of Lean
+you can construct a proof of A ∨ ¬A if and only if you have
+a proof one way or the other. Now we see why they call it
+the "law of the excluded middle." But really it's just an
+axiom.
+
+Indeed, excluded middle is one of several non-constructive
+axioms that can be added to Lean simply by stating that they
+are axioms. Negation elimination, ¬¬A → A, also called proof
+by contradiction, is equivalent to excluded middle (can you
+prove it), so if you adopt one you get the other as well.
+
+Additional axioms that you might need to include in Lean
+for some purposes include the following:
+
+- functional extensionality (simplified), ∀ a, f a = g a → f = g
+- propositional extensionality, (P ↔ Q) ↔ P = Q
+- choice: Nonempty A → A
+-/
+
+#check funext
+#check propext
+#check Classical.choice
+
+/-!
+The first axiom let's you conclude (and have a proof) that two
+functions are equal if they return the same results on all of
+their inputs. The second let's you replace bi-implication with
+equality of propositions, and vice versal.
+
+The third? It requires an understanding that when you construct
+a proof of ∃ x, P x, E.g., (Exists.intro 4 (Ev 4)) the value you
+provided (here 4) is forgotten. You can never get a specific value
+back out of a proof of ∃. This fact mirrors the idea that all that
+a proof of an existential proposition tells you is that there is
+*some* value out there in the universe that satisifes the given
+predicate, but not what it is. What this axiom says is that if
+you can provide there's some "witness/value", then you can get
+an actual value. To prove some theorems in mathematics, you need
+this. The tradeoff is that Lean marks the value as non-computable,
+which means you can't actually compute anything with it.
+
+All you need to know for this class is that the axioms of the
+excluded middle, and equivalently negation elimination (thus also
+proof by contradiction), are not constructive and thus not in the
+axioms of the *constructive* logic of Lean. However, you can add
+them to the logic without making it inconsistent (introducing any
+contradictions) in cases where you want to "reason classically."
+
+So, finally, let's see in Lean what it actually looks like to use
+"em" (excluded middle). Remember: from a proposition, A, first use
+em to get a proof of A ∨ ¬A, then do case analysis on that proof,
+yielding on case where A is true and another case where it's false,
+and where there are no other possible states of affairs, e.g., not
+having a proof either way.
+-/
+
+#check P                -- a proposition
+#check Classical.em P   -- a proof of P or ¬P
+
+-- And here's a partial proof showing exactly how to use em
+example : P → Q :=
+  match (Classical.em P) with
+  | Or.inl p =>  _      -- P is true, with p a proof
+  | Or.inr np => _      -- P is false, with np a proof
