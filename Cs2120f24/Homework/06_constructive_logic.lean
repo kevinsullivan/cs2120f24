@@ -167,7 +167,8 @@ is available as Classical.em (p : Prop) : p ∨ ¬p.
 Given nothing but a proposition, excluded middle gives
 you a proof of A ∨ ¬A 'for free". By "free" we mean that
 you can have a proof of A ∨ ¬A without providing a proof
-of either A or of ¬A. We call such a proof non-constructive.
+of either A or of ¬A. We call such a proof of (A ∨ ¬A)
+non-constructive.
 -/
 def pfAorNA (A : Prop) : A ∨ ¬A := Classical.em A
 
