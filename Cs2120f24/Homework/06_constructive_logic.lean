@@ -247,5 +247,10 @@ having a proof either way.
 -- And here's a partial proof showing exactly how to use em
 example : P → Q :=
   match (Classical.em P) with
-  | Or.inl p =>  _      -- P is true, with p a proof
-  | Or.inr np => _      -- P is false, with np a proof
+  | Or.inl p =>  _      -- P is true, with p a proof you can use
+  | Or.inr np => _      -- P is false, with np a proof you can use
+
+/-!
+If you're interested in learning more, you might want to read
+https://lean-lang.org/theorem_proving_in_lean4/axioms_and_computation.html
+-/
