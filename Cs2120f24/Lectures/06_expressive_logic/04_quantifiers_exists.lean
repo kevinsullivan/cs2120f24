@@ -12,30 +12,43 @@ there is (there exists) *some* even natural number.
 -/
 
 -- Predicate: defines property of *being even*
-def is_even : Nat → Prop := λ n => n % 2 = 0
+def isEven : Nat → Prop := λ n => (n % 2 = 0)
+-- λ means the same thing as fun: a function that ...
 
 -- Proposition: there exists an even number
-#check ∃ (n : Nat), is_even n
+#check ∃ (n : Nat), isEven n
 
 /-!
 ## Introduction
 
 In the *constructive* logic of Lean, a proof of
 a proposition, *∃ (x : T), P x*, has two parts. It's
-a kind of ordered pair. The first element is a specific
-value, *w : T*, that satisfies *P*. The second element
-is a proof that *w* satisfies *P* (a proof of *P w*).
-That we have an object *w* along with a proof of *P w*
-shows that there does exist some object with property
-*P* (namely *w*).
+a kind of ordered pair. What's most interesting is that
+type of value in the second element depends on the value
+of th element in the first position.
 
-This introduction rule in Lean is called *Exists.intro.*
-It takes two arguments: (1) a value, *w : T*, and a proof
-of *P w*. Here's a simple example showing that there exists
-an even number, with *4* as a witness.
+The first elementis a specific value, *w : T* (a value,
+w, of type T). What's new is the idea that the *type* of
+the second element, *(P w)*, the proposition obtained by
+applying P to w, *depends on w*. The return type, here,
+depends on the value, *w*, of the *argument*. It must
+be a proof of *P w*, which in turn is read as stating
+that w has property P (e.g., of being even, equal to
+zero, prime, odd, a perfect square, a beautiful number).
+
+So there you have the *exists introduction* rule.
+Apply Exists.intro to a witness (of the right type),
+and a proof that particular witness *does* have that
+property, as demonstrated by a formally checked proof
+of it.
+
+In type theory, proofs of existence are *dependent pairs*.
+
+Here's a simple example showing that there exists an even
+number, with *4* as a witness.
 -/
 
-example : exists (n : Nat), is_even n := Exists.intro 4 rfl
+example : exists (n : Nat), isEven n := Exists.intro 4 rfl
 
 /-!
 The witness is 4 and the proof (computed by rfl) is a
@@ -47,7 +60,16 @@ instead of *4* to see what happens.
 Lean provides ⟨ _, _ ⟩ as a notation for Exists.intro.
 -/
 
-example : exists (n : Nat), is_even n := ⟨ 4, rfl ⟩
+example : ∃ (n : Nat), isEven n := ⟨ 4, rfl ⟩
+
+/-!
+English language rendering: We are to prove that some
+natural number is even. To do so we need to choose a
+number (will will cleverly pick 4) and then also give
+a proof that *4 is even*, which we formalizes as the
+proposition resulting from the application of isEven
+(a predicate taking a Nat) to 4.
+-/
 
 /-!
 Another example: Suppose we have a proof that Iris is
@@ -166,14 +188,6 @@ along with a proof of *P w*. For this reason, you will see
 that proofs of existence are called *information hiding*
 objects. A specific witness is no longer availabe from a
 proof of existence.
-
-The easiest way to apply elimination is by pattern matching,
-as in the following example. It shows that if there exists a
-number that's true and even, then there's a natural number
-that's even. Note that what matching gives you is not the
-specific value used to form the proof, but an *arbitrary*
-value, *w* and a proof *pf : P w.* That is what you have
-to work with after applying the elimination rule.
 -/
 
 /-!
@@ -181,12 +195,114 @@ to work with after applying the elimination rule.
 
 Here's an example. We want to show that if we have a proof,
 *pf*, that there's a natural number, *n*, that satsifies
-*True* and *is_even*, then there's a natural number, *f*,
-that satisfies just *is_even*.
+*True* and *isEven*, then there's a natural number, *f*,
+that satisfies just *isEven*.
 -/
 
-def ex1 : (∃ (n : Nat), True ∧ is_even n) → (∃ (f : Nat), is_even f)
+def ex1 :
+  -- Prove:
+  (∃ (n : Nat), True ∧ isEven n) → (∃ (f : Nat), isEven f) :=
+  -- Proof: by "arrow/function introduction" (from premise, prove conclusion)
+  -- assume some proof h, of (∃ (n : Nat), True ∧ isEven n)) and thern ...
+  fun (h: (∃ (n : Nat), True ∧ isEven n)) =>
+    -- show (∃ (f : Nat), isEven f).
+    -- The proof is by exists elimination ...
+    -- ... essential here because it gives us a witness to use in proving the conclusion
+    Exists.elim
+      -- applied to h, a proof (∃ (n : Nat), True ∧ isEven n) ...
+      h
+      -- a proof that
+      (
+        --  from any natural number, a, and ...
+        fun (a : Nat) =>
+        (
+          -- a proof that a satisfies (True ∧ (Even n))
+          fun tea =>
+            -- there is a proof of (∃ (f : Nat), isEven f).
+            -- the proof is by the rule of exists introduction ...
+            Exists.intro
+              -- using the "abstracted" witness obtained by elimination of the premise ...
+              a
+              -- and a proof of (isEven a), obtained by right and elimination applied to
+              -- obtained from the proof of (True ∧ isEven a) by the rule of right and elimination
+              (tea.right)
+        )
+      )
+
+
+/-!
+To this end. delete everything from fun to the end and put
+(_) in its place. Next, use Lean to display, and understand,
+what type of value is needded. Provide a complete term of that
+type if you can, but in any case apply the right inference
+rule to as many of its arguments as you have, arranging the
+actual arguments vertically indented and with (_) for each
+of the arguments to be filled in subsequently. And now just
+elaborate what goes in each of those "holes", until you get
+to the bottom of the proof object (here, at *tea.right*). You
+can't just read the text, you have to watch and experience
+the emergence of the proof, largely at this point fron the
+mere syntactic forms of the propositions being proved all
+along the way.
+-/
+
+/-!
+The preceding expression of the proof explicitly applies
+inference axioms without Lean-provided concrete notations.
+The following expression of the proof uses concrete notations.
+
+Here's what that looks like. Lean packs all of the above into
+the often more compact and humanly interpretable "by case analysis
+syntax using pattern matching" notation. Here's that very same
+proof presented in this more conventional notation. in
+Lean. This notation, by the way, is largely adopted from Haskell,
+a historically and practically important programming language. It
+ushered in numerous fundamental constructs now deeply embedded not
+only into Lean but a broad swatch of functional languages. Others
+include, for example, OCaml, SML, etc. The Coq proof assistant, a
+most interesting, still important, antecedent of Lean, is written
+in OCaml, so with Coq, it's all the same ideas we've been learning
+but in OCaml-like syntax rather than Haskell-like syntax. Cool, eh!
+A great mind exercise is to read through the completely desugared,
+pure functional proof construction, and see where each element in
+that definition is reflected in the one using Haskelly notation,
+here.
+-/
+
+def ex1' :
+  (∃ (n : Nat), True ∧ isEven n) →
+  (∃ (f : Nat), isEven f)
 | ⟨ w, pf_w ⟩  => Exists.intro w pf_w.right
+
+
+/-!
+Note: In commonplace mathematical lingo, a theorem is often
+thought of as a "true proposition:" for which a proof has
+been given. There's also a purely social convention around
+using the word, theorem. A theorem is an "important" truth,
+often the "main result" of a mathematical research project.
+To produce such a proof it's often important to prove one or
+more "smaller" propositions along the way. The word used for
+these is usually "lemma." Finally, facts that follow from the
+truth of a theorem are usually called "corollaries."
+
+Lean4 does support use of the word, theorem, instead of def,
+when defining a proof of a proposition. It is just a nicety
+with no real additional importance. No need to be perplexed
+by it. Just read it as "def."
+-/
+
+
+--------
+/-!
+way to apply elimination is by pattern matching,
+as in the following example. It shows that if there exists a
+number that's true and even, then there's a natural number
+that's even. Note that what matching gives you is not the
+specific value used to form the proof, but an *arbitrary*
+value, *w* and a proof *pf : P w.* That is what you have
+to work with after applying the elimination rule.
+-/
 
 /-!
 To show this we destructure *pf* as *⟨ w, pf_w ⟩*. This
@@ -220,6 +336,16 @@ even, so we can form a proof that there exists a number
 that's even: ⟨ w, pf_w_even ⟩.
 -/
 
+
+
+
+--------
+
+theorem ex1'' :
+  (∃ (n : Nat), True ∧ isEven n) →
+  (∃ (f : Nat), isEven f)
+| ⟨ w, pf_w ⟩  => Exists.intro w pf_w.right
+
 /-!
 ## Worked Exercise
 
@@ -245,9 +371,7 @@ variable
   (Loves : Person → Person → Prop)
 
 example :
-  -- if there's someone everyone loves
   (∃ (beau : Person), ∀ (p : Person), Loves p beau) →
-  -- then everyone loves someone
   (∀ (p : Person), ∃ (q : Person), Loves p q)
 
 -- call the person everyone loves beau
