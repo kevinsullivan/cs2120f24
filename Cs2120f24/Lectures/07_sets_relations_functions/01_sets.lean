@@ -83,7 +83,7 @@ that this predicate is true of all and only the numbers from 0 to
 4 (inclusive).
 -/
 
-#reduce small 1
+#reduce (small 1)
 
 /-!
 The result is *1 = 0 ∨ 1 = 1 ∨ 1 = 2 ∨ 1 = 3 ∨ 1 = 4*. This
@@ -126,7 +126,9 @@ proof development to complete this simple proof. We give you the
 or introduction on the right to start.
 -/
 
-example : small 1 := (Or.inr (_))
+example : small 1 := (Or.inr (Or.inl rfl))
+
+example : small 3 := Or.inr (Or.inr (Or.inr (Or.inl (Eq.refl 3))))
 
 /-!
 ### Set Theory Notation
@@ -167,6 +169,12 @@ specify the same small set.
 -/
 
 def s2 : Set Nat := { n : Nat | n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4 }
+
+def noNat : Set Nat := { n : Nat | False}
+def allNat : Set Nat := { n : Nat | True}
+
+example : 3 ∈ noNat := _
+
 /-!
 We pronounce the expression (to the right of the := of course) as
 *the set of values, n, of type Nat, such that n = 0 ∨ n = 1 ∨ n = 2 ∨
@@ -188,6 +196,11 @@ in English as *the set of all balls, b, such that b is striped*, or
 more concisely and naturally simply as *the set of all striped balls*.
 -/
 
+axiom Ball : Type
+axiom Striped : Ball → Prop
+def sb : Set Ball := { b : Ball | Striped b}
+
+def ssb : Set (Set Ball) := { sb } -- a set of sets
 /-!
 ### Aside On Homogeneity
 
@@ -243,6 +256,8 @@ rest of this chapter.
 
 def ev_set : Set Nat := { n : Nat | ev n }
 def small_set : Set Nat := { n | small n }
+
+#reduce small_set 4
 
 /-!
 The take-away is that, no matter one's choice of notation,
