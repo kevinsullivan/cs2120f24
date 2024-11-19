@@ -106,7 +106,7 @@ there are *no* cases in which that will ever have
 to be done.
 -/
 
-def fimpf : ∀ (f : False), False := fun f => nomatch f
+def fimpf : ∀ (f : False), False := fun f => f
 #check (fimpf)  -- a value/proof of type False → False
 
 /-!
