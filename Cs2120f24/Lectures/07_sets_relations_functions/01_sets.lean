@@ -30,32 +30,254 @@ logical operations, which you already understand!
 
 ## Sets
 
-In Lean, a set is represented by a membership *predicate*. We
-have for example seen several definitions of *evenness* as a
-predicate on natural numbers. Just a small turn of the imagination
-lets us now talk about the set of even numbers as all of those
-numbers for which there is a proof of evenness. The predicate
-directly defines the set in question. We will call a predicate
-used to define a set a *membership* predicate.
+In what's sometimes called naive set theory, one thinks of a
+set as a collection of objects. Some objects are "in" the set.
+In type theory, we consider only sets of objects of one specific
+type. So we can talk about a set of natural numbers or a set of
+people, but we won't have sets that contain numbers and people.
 
-It's important to note that we are now operating entirely in the
-realm of specifications, not implementations. Sets are definitely
-*not* represented gere as data structures containing set elements.
-Sets are not data objects in Lean. They are logical specifications.
-A set is specified by a logical predicate that is engineered to be
-satisfied by all and only the elements of the set in question.
+Two examples of sets of natural numbers would be the set of all
+even numbers, and the set of all natural numbers less than five.
+An example of a set of people would be the set of those people
+who are taking this class for credit this semester.
+
+In each of these examples, we define a set by first saying what
+*type* of objects it contains, and then by stating the specific
+property of any such value that determines whether it's in the
+set or not. For example, rather than *the set of even numbers*
+we can say *the set of natural numbers, n, such that n is even*.
+Everything before the second comma introduces the type of object
+in the set (natural numbers) and give a name to some arbitrary
+value of that type. The rest, *such that n is even*, defines
+the property of any given *n* that determines whether it is to
+be considered in, or not in, the set. Here the condition is that
+*n* is even.
+
+### Representing Sets as Predicates
+
+In Lean, a set, a, is represented by a membership *predicate:*
+one that takes a single argument, let's call it *a*, of some type,
+*α*, and that reduces to a proposition about that a (such that a
+is even), where such a value, *a*, is defined to be in the set
+if it satisfies the predicate--that is, if there's a proof of the
+proposition, *(s a)*m; otherwise a is defined not to be in the set.
+
+For example, we've seen several definitions of *evenness* as a
+predicate on natural numbers. A small turn of the imagination
+lets us now talk about the set of even numbers, call it evNum,
+as comprising all of those numbers, n, for which there is a
+proof of (evNum n). The predicate defines the set in question.
+And in Lean we represent a Set as its *membership* predicate.
+
+It's important to note that we are now operating entirely in
+the realm of logical specifications, not implementations. Sets in
+Java are data structures that contain the values considered to be
+in a set. Sets are definitely *not* represented as data structures
+in Lean. Among other things we'd not be able to represent sets,
+such as the natural numbers, with infinite numbers of elements.
+Rather sets are defined by logical specifications, in Lean in
+the form of predicates, define in just the right way so that all
+the elements you want in a set satisfy the predicate and no other
+values do.
 
 You can see the actual definition of *Set* in Lean by going to
 its definition. Right click on Set and select *go to definition*.
 -/
 
-#check Set
+#reduce Set
+-- fun α => α → Prop
+-- a predicate taking an argument (a : α) yielding a proposition that might or might not be true
+
+/-!
+### Set Notations
+
+In the language of set theory, there are two especially
+common notations for represeting sets. They are *display*
+and *set comprehension* notation.
+
+#### Display Notation
+
+To represent a finite set of objects in mathematical writing,
+you can give a comma-separated list of members between curly
+braces. The set of small numbers (0 to 4) can be represented
+in this way as *{ 0, 1, 2, 3, 4 }*. Sometimes we will want to
+give a set a name, as in, *let s = { 0, 1, 2, 3, 4 }*, or
+*let s be the set, { 0, 1, 2, 3, 4 }.*
+
+Lean supports display notation as a set theory notation.
+One is still just definining a membership predicate, but
+it looks like the math you'll see in innumerable books and
+articles.
+
+The corresponding predicate in this case, computed by Lean,
+is *λ n => n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4*. In the
+following example, Lean doesn't infer that the set type is
+Set Nat, so we have to tell it so explicitly.
+-/
+
+def s1 : Set Nat := { 0, 1, 2, 3, 4 }
+#reduce s1   -- the predicate that represents this set
+
+/-!
+#### Comprehension Notation
+
+Sets can also be specified using what is called *set
+comprehension* notation. Here's an example using it to
+specify the same small set.
+-/
+
+def s2 : Set Nat := { n : Nat | n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4 }
+
+-- The empty set (of natural numbers)
+def noNat' : Set Nat := { n : Nat | False}
+def noNat : Set Nat := ∅                    -- set theory notation!
+
+--
+def allNat' : Set Nat := { n : Nat | True}
+def allNat : Set Nat := Set.univ            -- Univeral set (of all Nats)
+
+--
+example : 3 ∈ noNat := (_ : False)          -- unprovable
+example : 3 ∉ noNat := fun h => nomatch h   -- proof by negation
+
+/-!
+We pronounce the expression (to the right of the := of course) as
+*the set of values, n, of type Nat, such that n = 0 ∨ n = 1 ∨ n = 2 ∨
+n = 3 ∨ n = 4. The curly braces indicate that we're defining a set. The
+*n : Nat* specifies the set of set members. The vertical bar is read
+*such that*, or *satisfying the constraint that*. And the membership
+predicate is then written out.
+
+You can check that this set, s2, has the same membership predicate as s1.
+-/
+
+#reduce s2
+
+/-!
+Example: Assume there's a type of objects call Ball and a predicate,
+Striped, on balls. Use set comprehension notation to specify the set of
+striped balls. Answer: { b : Ball | Striped b }. Read this expression
+in English as *the set of all balls, b, such that b is striped*, or
+more concisely and naturally simply as *the set of all striped balls*.
+-/
+
+axiom Ball : Type
+axiom Striped : Ball → Prop
+def sb : Set Ball := { b : Ball | Striped b}
+
+-- Question: Can we define sets of sets? Yes! Example
+def ssb : Set (Set Ball) := { sb } -- a set of sets
 
 
-/-
-What you'll find is *def Set (α : Type u) := α → Prop*. In other
-words, the type, Set α, in Lean, really is just the type, α → Prop.
-A set truly *is* represented directly by a predicate in this sense.
+/-!
+### Homogenous vs Heterogeneous Sets
+
+The preceding example involved a set of natural numbers.
+In Lean, such a set, being defined by a predicate on the
+natural numbers, cannot contain elements that are not of
+the natural number type. Sets in Lean are thus said to be
+*homogeneous*. All elements are of the same type. This
+makes sense, as sets are represented in Lean by predicates
+that take arguments of fixed types.
+
+A *heterogeneous* set, by contrast, can have members of
+different types. Python supports heterogeneous sets. You
+can have a set containing a number, a string, and a person.
+The track in Python is that all objects actually have the
+same *static* type, which is *Object*. In the end, even in
+Python, sets are homogeneous in this sense.
+
+In Lean, and in ordinary mathematics as well, sets are most
+often assumed to be homogenous. In mathematical communication,
+one will often hear such phrases as, *Let T denote the set of
+natural numbers less than 5.* Notice that the element type is
+made clear.
+
+In support of all of this, Set, in Lean, is a type builder
+polymorphic in the element type. The type of a set of natural
+numbers is *Set Nat*, for example, while the type of a set of
+strings is *Set String*.
+
+The following example shows that, in Lean, the even and small
+predicates we've already defined can be assigned to variables
+of type *Set Nat*. It type-checks! Sets truly are specified by
+and equated with their membership predicates in Lean.
+-/
+
+
+def ev_set' : Set Nat := ev         -- ev is a predicate
+def small_set' : Set Nat := small   -- small is too
+
+/-!
+In mathematics, per se, sets are not equated with logical
+predices. Rather, to represent sets (to *implement* them,
+as it were) as predicates in Lean is just a very nice and
+convenient way to go. So, really, there are two things on
+your plate in this chapter: (1) understand the language of
+set theory and how set operations are defined logically, and
+(2) understand how representing sets as membership would be to use either display or
+set comprehension notation. Here are stylistically improved
+definitions of our sets of even and small natural numbers.
+We will use these definitions in running examples in the
+rest of this chapter.
+-/
+
+def ev_set : Set Nat := { n : Nat | ev n }
+def small_set : Set Nat := { n | small n }
+
+#reduce small_set 4
+
+/-!
+The take-away is that, no matter one's choice of notation,
+sets are truly represented in Lean by *logical* predicates.
+The great news is that you already understand the logic so
+learning set theory is largely reduced to learning the set
+algebraic concepts (the objects and operations of set theory)
+and in particular how each concept reduces to underlying logic.
+-/
+
+/-!
+## Operations on Sets
+
+Specifying sets, from set theory, as predicates in propositional
+logic, paves the way to:
+
+- (1) specifying *operations* on sets as definitions in predicate logic,
+- (2) proving propositions in set theory by proving the propositions to which they desugar.
+
+To acquire the skill of proving propositions in set theory you
+*must* learn how each operation is formally defined in predicate logic,
+and then be able to prove the corresponding the *logical* propositions.
+
+To that end, here's a table that summarizes the correspondence
+between operations in set theory, on one hand, and their specifications
+in the language of predicate logic (as implemented in Lean), on the other.
+
+
+| Name          | Notation  | Set Theory Definition     | Logical Specification          |
+|---------------|-----------|---------------------------|--------------------------------|
+| Set           | set α     | axioms of set theory      | (α → Prop)                     |
+| member        | x ∈ a     |                           | (a x)                          |
+| intersection  | s ∩ t     | { a \| a ∈ s ∧ a ∈ t }    | fun a => (s a) ∧ (t a)         |
+| union         | s ∪ t     | { a \| a ∈ s ∨ a ∈ t }    | fun a => (s a) ∨ (t a)         |
+| complement    | sᶜ        | { a \| a ∉ s }            | fun a => ¬(s a)                |
+| difference    | s \ t     | { a \| a ∈ s ∧ a ∉ t }    | fun a => (s a) ∧ ¬(t a) )      |
+| subset        | s ⊆ t     | ∀ a, a ∈ s → a ∈ t  ...   | fun a => (s a) → (t a)         |
+| proper subset | s ⊊ t     | ... ∧ ∃ w, w ∈ t ∧ w ∉ s  | ... ∧ ∃ w, (t w) ∧ ¬(s w)      |
+| product set   | s × t     | { (a,b) | a ∈ s ∧ b ∈ t } | fun (a, b) => (s a) /\ (t b)   |
+| powerset      | 𝒫 s       | { t \| t ⊆ s }            | fun t => ∀ ⦃a : ℕ⦄, t a → s a  |
+-/
+
+#reduce Set.inter
+#reduce Set.union
+#reduce Set.compl
+#reduce Set.diff
+#reduce @Set.Subset
+#reduce Set.prod
+#reduce Set.powerset
+
+/-!
+Let's elaborate on each of these concepts now.
 
 ### Membership Predicates
 
@@ -131,143 +353,6 @@ example : small 1 := (Or.inr (Or.inl rfl))
 example : small 3 := Or.inr (Or.inr (Or.inr (Or.inl (Eq.refl 3))))
 
 /-!
-### Set Theory Notation
-
-In the language of set theory, there are two especially
-common notations for represeting sets. They are *display*
-and *set comprehension* notation.
-
-#### Display Notation
-
-To represent a finite set of objects in mathematical writing,
-you can give a comma-separated list of members between curly
-braces. The set of small numbers (0 to 4) can be represented
-in this way as *{ 0, 1, 2, 3, 4 }*. Sometimes we will want to
-give a set a name, as in, *let s = { 0, 1, 2, 3, 4 }*, or
-*let s be the set, { 0, 1, 2, 3, 4 }.*
-
-Lean supports display notation as a set theory notation.
-One is still just definining a membership predicate, but
-it looks like the math you'll see in innumerable books and
-articles.
-
-The corresponding predicate in this case, computed by Lean,
-is *λ n => n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4*. In the
-following example, Lean doesn't infer that the set type is
-Set Nat, so we have to tell it so explicitly.
--/
-
-def s1 : Set Nat := { 0, 1, 2, 3, 4 }
-#reduce s1   -- the predicate that represents this set
-
-/-!
-#### Set Comprehension Notation
-
-Sets can also be specified using what is called *set
-comprehension* notation. Here's an example using it to
-specify the same small set.
--/
-
-def s2 : Set Nat := { n : Nat | n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4 }
-
-def noNat : Set Nat := { n : Nat | False}
-def allNat : Set Nat := { n : Nat | True}
-
-example : 3 ∈ noNat := _
-
-/-!
-We pronounce the expression (to the right of the := of course) as
-*the set of values, n, of type Nat, such that n = 0 ∨ n = 1 ∨ n = 2 ∨
-n = 3 ∨ n = 4. The curly braces indicate that we're defining a set. The
-*n : Nat* specifies the set of set members. The vertical bar is read
-*such that*, or *satisfying the constraint that*. And the membership
-predicate is then written out.
-
-You can check that this set, s2, has the same membership predicate as s1.
--/
-
-#reduce s2
-
-/-!
-Example: Assume there's a type of objects call Ball and a predicate,
-Striped, on balls. Use set comprehension notation to specify the set of
-striped balls. Answer: { b : Ball | Striped b }. Read this expression
-in English as *the set of all balls, b, such that b is striped*, or
-more concisely and naturally simply as *the set of all striped balls*.
--/
-
-axiom Ball : Type
-axiom Striped : Ball → Prop
-def sb : Set Ball := { b : Ball | Striped b}
-
-def ssb : Set (Set Ball) := { sb } -- a set of sets
-/-!
-### Aside On Homogeneity
-
-The preceding example involved a set of natural numbers.
-In Lean, such a set, being defined by a predicate on the
-natural numbers, cannot contain elements that are not of
-the natural number type. Sets in Lean are thus said to be
-*homogeneous*. All elements are of the same type. This
-makes sense, as sets are defined by predicates that take
-arguments of fixed types.
-
-A *heterogeneous* set, by contrast, can have members of
-different types. Python supports heterogeneous sets. You
-can have a set containing a number, a string, and a person.
-The track in Python is that all objects actually have the
-same *static* type, which is *Object*. In the end, even in
-Python, sets are homogeneous in this sense.
-
-In Lean, and in ordinary mathematics as well, sets are most
-often assumed to be homogenous. In mathematical communication,
-one will often hear such phrases as, *Let T denote the set of
-natural numbers less than 5.* Notice that the element type is
-made clear.
-
-In support of all of this, Set, in Lean, is a type builder
-polymorphic in the element type. The type of a set of natural
-numbers is *Set Nat*, for example, while the type of a set of
-strings is *Set String*.
-
-The homogeneity of sets, in turn allows sets to be represented
-by *membership predicates*. We represent a set of objects of some
-type T as a *predicate, P : T → Prop*, such that *P* is true (has
-a proof) for every value in the set and for no others. All of the
-elements of such a set are thus necessarily of the same type: in
-this case, T.
-
-The following example shows that, in Lean, the even and small
-predicates we've already defined can be assigned to variables
-of type *Set Nat*. It type-checks! Sets truly are specified by
-and equated with their membership predicates in Lean.
--/
-def ev_set' : Set Nat := ev         -- ev is a predicate
-def small_set' : Set Nat := small   -- small is too
-
-/-!
-It'd be unusual in mathematical writing however to define
-sets in this style. Better would be to use either display or
-set comprehension notation. Here are stylistically improved
-definitions of our sets of even and small natural numbers.
-We will use these definitions in running examples in the
-rest of this chapter.
--/
-
-def ev_set : Set Nat := { n : Nat | ev n }
-def small_set : Set Nat := { n | small n }
-
-#reduce small_set 4
-
-/-!
-The take-away is that, no matter one's choice of notation,
-sets are truly represented in Lean by *logical* predicates.
-The great news is that you already understand the logic so
-learning set theory is largely reduced to learning the set
-algebraic concepts (the objects and operations of set theory)
-and in particular how each concept reduces to underlying logic.
-
-
 ## Set Theory Operations
 
 We now turn to the operations and corresponding notations of
@@ -602,7 +687,7 @@ variable (s : Set Nat)
 Exercises:
 
 (1) State and prove the proposition that 5 ∈ smallᶜ. Hint:
-You have to prove the corresponding negation: ¬5 ∈ small_set.
+You have to prove the corresponding negation: ¬(5 ∈ small_set).
 -/
 
 example : 5 ∈ small_setᶜ := _
@@ -633,28 +718,3 @@ example : 6 ∈ ev_set \ small_set := ⟨ rfl, λ h => nomatch h ⟩
 
 #reduce @Set.powerset
 -- fun {α} s t => ∀ ⦃a : α⦄, a ∈ t → s a
-
-
-
-/-!
-## Set Theory and Logical Underpinnings
-
-| Set Theory Concept | Set Theory Definition    | Constructive Logic Reduction (Lean) |
-|--------------------|--------------------------|-------------------------------------|
-| set α              | axioms of set theory     | predicate (α → Prop in Lean)        |
-| s ∩ t              | { a \| a ∈ s ∧ a ∈ t }   | λ a => s a ∧ t a                    |
-| s ∪ t              | { a \| a ∈ s ∨ a ∈ t }   | λ a => s a ∨ t a                    |
-| sᶜ                 | { a \| a ∉ s }           | λ a => s a → False                  |
-| s \ t              | { a \| a ∈ s ∧ a ∉ t }   | λ a => s a ∧ (t a → False)          |
-| s ⊆ t              | ∀ a, a ∈ s → a ∈ t  ...  | λ a => s a → t a ...                |
-| s ⊊ t              | ... ∧ ∃ w, w ∈ t ∧ w ∉ s | ... ∧ ∃ w, (t w) ∧ (s w → False)    |
-| 𝒫 s                | { t \| t ⊆ s }           | λ t => ∀ ⦃a : ℕ⦄, t a → s a         |
-
-In set theory, you have an example of one mathematical abstraction with its own
-objects (sets) and operations (as in the table). Here we  have even more: how set
-theory language reduces to the language of predicate logic in Lean. You should know
-not only the meanings of the abstract operations, such as intersection, but how each
-is defined in terms of predicate logic. You will have to translate back and forth,
-because you have to understand set theory propositions at the logical level level
-to see how to construct proofs of them.
--/

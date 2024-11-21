@@ -351,8 +351,8 @@ true, always available, in Lean as True.intro. QED.
 -- #8
 def annhilateOr     : (P ∨ True) ↔ True :=
 Iff.intro
-  (fun _ => True.intro)
-  (fun t => Or.inr t)
+  (fun h => True.intro)
+  (_)
 
 /-!
 Most of the proofs in this assignments are proofs of
