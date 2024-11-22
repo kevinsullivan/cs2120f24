@@ -204,6 +204,9 @@ of type *Set Nat*. It type-checks! Sets truly are specified by
 and equated with their membership predicates in Lean.
 -/
 
+def ev := λ n : Nat => n % 2 = 0
+def small := λ n : Nat => n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4
+
 
 def ev_set' : Set Nat := ev         -- ev is a predicate
 def small_set' : Set Nat := small   -- small is too
@@ -265,7 +268,7 @@ in the language of predicate logic (as implemented in Lean), on the other.
 | subset        | s ⊆ t     | ∀ a, a ∈ s → a ∈ t  ...   | fun a => (s a) → (t a)         |
 | proper subset | s ⊊ t     | ... ∧ ∃ w, w ∈ t ∧ w ∉ s  | ... ∧ ∃ w, (t w) ∧ ¬(s w)      |
 | product set   | s × t     | { (a,b) | a ∈ s ∧ b ∈ t } | fun (a, b) => (s a) /\ (t b)   |
-| powerset      | 𝒫 s       | { t \| t ⊆ s }            | fun t => ∀ ⦃a : ℕ⦄, t a → s a  |
+| powerset      | 𝒫 s       | { t | t ⊆ s }            | fun t => ∀ ⦃a : ℕ⦄, t a → s a  |
 -/
 
 #reduce Set.inter
@@ -290,8 +293,6 @@ can be understood as specifying the set of even numbers; the second
 predicate, a set of small numbers.
 -/
 
-def ev := λ n : Nat => n % 2 = 0
-def small := λ n : Nat => n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4
 
 /-!
 Self test: What *proposition* is specified by the expression,
