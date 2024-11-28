@@ -148,7 +148,15 @@ to start.
 
 example : ∅ ∈ 𝒫 t :=
 (
-  _
+  -- prove ∀ a, a ∈ ∅ → a ∈ t
+  -- first assume a is some arbitrary Nat
+  fun a =>
+    (
+      fun (h : a ∈ ∅) =>
+      (
+        nomatch h
+      )
+    )
 )
 
 /-!

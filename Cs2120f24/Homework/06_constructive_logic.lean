@@ -66,21 +66,49 @@ equivalence.
 -- What we are to prove is that ∨ is idemponent
 -- That is, that for any P, P ↔ (P ∨ P).
 def orIdempotent    : P ↔ (P ∨ P) :=
--- Proof: by application if iff.intro
--- iff intro
-(
-  Iff.intro
-  -- Proof of P → P ∨ P
-  (fun (p : P) => Or.inl p)
-  -- Required proof of backward implication
-  (fun (h : P ∨ P) =>
-    (Or.elim
-      h
-      (fun p => p)
-      (fun p => p)
-    )
-  )
-)
+-- Proof: The inference/axiom of iff introduction
+-- tells us that it sufficies to have proofs of
+
+
+
+
+Iff.intro
+-- fw: P → P ∨ P
+  (fun (h : P) => (Or.inl h))
+-- bw: P ∨ P → P
+  (fun (h : P \/ P) => _)
+
+
+/-!
+Prove: P ↔ (P ∨ P)
+
+Proof: By the rule of iff introduction it will
+suffice to have proofs of the forwards and backwards
+implications. Our proof is therefore completed
+but for the construction of these two smaller
+proofs. Let's take each one at a time.
+
+Forwards: Prove P → P ∨ P
+Proof: By → introduction. Assume P, show P ∨ P.
+By or introduction (on the left or right) we can
+deduce P \/ P from our assumed proof of P.
+
+
+-- Backwards: P ∨ P → P
+Proof: By → introduction: assume P ∨ P, show P.
+The proof by case analysis on P \/ P. There are
+only two ways this proof could exist. Case 1: Or
+intro on left applied a proof of P. Case 2: Or
+intro on the right applied to a proof of P. In
+either case (and there are only two cases) we
+show that if P \/ P is true then  so is P.
+
+Having prove both P → P ∨ P and P ∨ P → P we can
+deduce (construct of proof of) P ↔ P ∨ P.
+-/
+
+
+
 
 def andCommutative  : (P ∧ Q) ↔ (Q ∧ P) :=
 _
@@ -92,18 +120,43 @@ def identityAnd     : (P ∧ True) ↔ P :=
 _
 
 def identityOr      : (P ∨ False) ↔ P :=
+/-
+Goal Prove: (P ∨ False) ↔ P
+Proof. To prove this equivalence we need to prove
+the implications in each direction:
+
+Forwards: (P ∨ False) → P
+The proof of this is by → introduction. That
+is to say, we'll assume we have a proof of
+P \/ False and we'll show that, by Or elimination,
+P is true in either case.
+
+-/
 Iff.intro
   -- forwards
-  (fun (h : P ∨ False) =>
-    (Or.elim h
+  (fun (h : (P ∨ False)) =>
+    (Or.elim
+      h
       (fun (p : P) => p)
-      (fun (f : False) => False.elim f)
+      (fun (h : False) => (False.elim h))
     )
   )
-  -- backwards
-  (fun (p : P) =>
-    (Or.inl p)
-  )
+  -- Backwards: P →  (P ∨ False)
+  (_)
+
+def noContradiction : ¬(P ∧ ¬P) :=
+-- proof by → introduction, assume h show False
+fun (h : (P ∧ ¬P)) =>
+  let (p : P) := h.left
+  let (np : ¬P) := h.right
+  let (f : False) := (np p)
+  f
+
+def noContradiction' : ¬(P ∧ ¬P) :=
+-- proof by negation: assume (P ∧ ¬P), show false, conclude ¬(P ∧ ¬P)
+fun (h : (P ∧ ¬P)) => False.elim (h.right h.left)
+
+
 
 def annhilateAnd    : (P ∧ False) ↔ False  :=
 _
@@ -118,10 +171,40 @@ def andAssociative  : ((P ∧ Q) ∧ R) ↔ (P ∧ (Q ∧ R)) :=
 _
 
 def distribAndOr    : (P ∧ (Q ∨ R)) ↔ ((P ∧ Q) ∨ (P ∧ R)) :=
-_
+Iff.intro
+  (_)
+  (_)
+
+def distribAndOr'    : (P ∧ (Q ∨ R)) ↔ ((P ∧ Q) ∨ (P ∧ R)) :=
+
+    -- let fw be a proof of the forward implication
+    -- proof is by → introduction: assume premise, show conclusion (use a function)
+    let (fw : (P ∧ (Q ∨ R)) → ((P ∧ Q) ∨ (P ∧ R))) :=
+    (
+      -- assume premise
+      fun h =>
+      (
+        -- by And elim left we conclude P
+        let p := h.left
+        -- by and elim right we conclude Q \/ R
+        let qorr := h.right
+        -- the remaining is by case analysis on Q \/ R
+        Or.elim
+          qorr
+          -- In the first case Q is true, thus so is P /\ Q, and so by Or intro left ((P ∧ Q) ∨ (P ∧ R)))
+          (fun (q : Q) => Or.inl (And.intro p q))
+          -- We then consider the second case, and show ((P ∧ Q) ∨ (P ∧ R))) is true because P ∧ R is true
+          (fun (r : R) => _)
+      )
+    )
+    -- Having shown that both implications hold, the equivalence also holds. QED.
+
+
+    let (bw : ((P ∧ Q) ∨ (P ∧ R)) → (P ∧ (Q ∨ R))) := _
+    Iff.intro fw bw
 
 def distribOrAnd    : (P ∨ (Q ∧ R)) ↔ ((P ∨ Q) ∧ (P ∨ R)) :=
-_
+
 
 def equivalence     : (P ↔ Q) ↔ ((P → Q) ∧ (Q → P)) :=
 _
