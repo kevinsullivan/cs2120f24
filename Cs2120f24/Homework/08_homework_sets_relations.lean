@@ -1,5 +1,8 @@
-import Cs2120f24.Lectures.«07_sets_relations_functions».«03_properties_of_relations»
-
+import Mathlib.Data.Rel
+import Mathlib.Data.Set.Basic
+import Mathlib.Logic.Relation
+import Mathlib.Data.Real.Basic
+import Cs2120f24.Library.setTheory.«03_properties_of_relations»
 /-
 Homework #8 Properties of Relations
 
@@ -63,7 +66,7 @@ by our isTotal predicate on binary relations. We give a
 good amount of the proof in English, and a little bit
 of it in Lean. You finish the missing formal parts.
 -/
-example {α β : Type} (f : α → β) : isTotal (funToRel f) :=
+example {α β : Type} (f : α → β) : isTotalRel (funToRel f) :=
 /-
 by the definition of total, what is to be proved is that
 ∀ (x : α), ∃ (y : β), r x y. We first assume an arbitrary
@@ -97,9 +100,9 @@ def acctsOf : Rel String Nat := fun s n =>
   s = "Lu"   ∧ n = 3
 
 
-example : ¬isSingleValued acctsOf :=
+example : ¬isSingleValuedRel acctsOf :=
 -- assume acctsOf is single valued:
-fun (h : isSingleValued acctsOf) =>
+fun (h : isSingleValuedRel acctsOf) =>
 -- show that that implies 1 = 2
 -- as that's absurd, conclude ¬isSingleValued acctsOf
 (
@@ -129,7 +132,7 @@ to Nat.succ to define that relation if you want.
 def succRel := funToRel Nat.succ
 
 #reduce (types:=true) succRel 1 2
--- reduces to the proposition Nat.succ 1 + 1 = 2, i.e., 2 = 2
+-- reduces to the proposition Nat.succ 1 + = 2, i.e., 2 = 2
 
 example : succRel 1 2 := rfl
 
