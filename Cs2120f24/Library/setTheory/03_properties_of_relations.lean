@@ -1,7 +1,4 @@
 import Mathlib.Data.Rel
-import Mathlib.Data.Set.Basic
-import Mathlib.Logic.Relation
-import Mathlib.Data.Real.Basic
 
 /-!
 # Properties of Binary Relations
