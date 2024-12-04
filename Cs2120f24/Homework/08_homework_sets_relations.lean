@@ -1,7 +1,7 @@
 import Cs2120f24.Lectures.«07_sets_relations_functions».«03_properties_of_relations»
 
 /-
-Homework #8 Properties of Relations.
+Homework #8 Properties of Relations
 
 You must be able to do this homework on your own.
 If getting to that point requires collaboration, you
@@ -19,6 +19,13 @@ from 03_properties_of_relations so you can use them here with no
 problem. Use View > Editor Layout > Split Down to have two panes
 open, one looking at the property definitions file and one open
 on this one.
+
+PREREQUISITE: Thoroughly study lecture 7, files 1, 2, and 3, on
+sets, relations, and properties of relations. Remember, you cannot
+learn to construct proofs by just reading Lean proof terms. You
+really have to construct them on your own. So where we give you
+proofs, *copy them into a comment, then delete them, then build
+them back, cheating by looking at the saved comment if you must*.
 -/
 
 /-
@@ -26,24 +33,34 @@ PROBLEM #1 [25 points]. We've see that, in Lean, every function
 of type α → β is total. Any such function in Lean must be defined
 *for all* values of the intput type, α. If you fail to provide an
 output value for every input, Lean will tell you you're "missing
-cases."
+cases." It's super-important in constructive logic that functions
+are total because we use them to prove universal generalizations!
+To prove ∀ (x : α), P x, we define a function from (x : α) to P x.
+The reason a function proves a universal proposition is that every
+function in constructive logic is required to be total.
 
 We can turn any function, f, in Lean into a binary relation by
-specifying it membership predicate to be fun a b => b = f a. In
-other words, (a, b) is in the relation exactly when b = f a. We
-can now define a function that takes any function from any type,
-α to any type β, and that returns the corresponding relation with
-exactly this membership predicate.
+specifying the relations' membership predicate to be nothing
+other than (fun a b => b = f a). This says that a pair, (a, b)
+is in this relation for a function f exactly when b = f a.
+
+Here's a function, funToRel, that takes any function from any type,
+α to any type β, and that returns the corresponding binary relation
+with this membership predicate. To be absolutely clear, funToRel takes
+two types, α and β (implicitly), and any function, f : α → β, and it
+returns a binary relation from α to β, specified by its membership
+predicate, as stated.
 -/
 
 def funToRel { α β : Type} : (f : α → β) → Rel α β :=
   fun f => fun a b => f a = b
 
 /-!
-Now we can propose, and prove, that every relation that is
-obtained from any function has the property of being total
-as defined by our isTotal predicate on binary relations. We
-give a good amount of the proof in English, and a little bit
+Now we can propose, and you are to complete the proof,
+that every relation obtained from any function (using
+funToRel) has the property of being total, as defined
+by our isTotal predicate on binary relations. We give a
+good amount of the proof in English, and a little bit
 of it in Lean. You finish the missing formal parts.
 -/
 example {α β : Type} (f : α → β) : isTotal (funToRel f) :=
