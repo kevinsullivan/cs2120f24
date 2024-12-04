@@ -37,11 +37,16 @@ import «Cs2120f24».Library.propLogic.model_theory.models
 import «Cs2120f24».Library.propLogic.model_theory.counterexamples
 
 -- Natural number arithmetic
-import «Cs2120f24».Library.natArithmetic.syntax
-import «Cs2120f24».Library.natArithmetic.domain
+-- import «Cs2120f24».Library.natArithmetic.syntax
+-- import «Cs2120f24».Library.natArithmetic.domain
 import «Cs2120f24».Library.natArithmetic.semantics
 
 -- Propositional with natural number arithmetic
 import «Cs2120f24».Library.propLogicWithArith.syntax
 import «Cs2120f24».Library.propLogicWithArith.domain
 import «Cs2120f24».Library.propLogicWithArith.semantics
+
+-- Set Theory
+import «Cs2120f24».Library.setTheory.«01_sets»
+import «Cs2120f24».Library.setTheory.«02_relations»
+import «Cs2120f24».Library.setTheory.«03_properties_of_relations»
