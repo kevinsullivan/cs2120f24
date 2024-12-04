@@ -178,7 +178,9 @@ def predRel : Rel Nat Nat := fun a b => b = a.succ
 
 
 example : @isWellOrdering Nat Nat predRel :=
-  fun s nonempty => sorry
+  fun s nonempty =>
+  -- ∃ m ∈ s, ¬∃ n ∈ s, predRel n m
+  _
 
 /-
 ## Examples
