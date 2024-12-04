@@ -15,13 +15,25 @@ The definitions/specifications speak for themselves.
 The property of not relating any pair of values
 -/
 def isEmpty {α β : Type} : Rel α β → Prop :=
-  fun r => ¬∃ x y, r x y
+  fun (r : Rel α β) => ¬∃ (x : α) (y : β), r x y
 
 /-
 The property of relating every every pair of values
 -/
 def isComplete {α β : Type} : Rel α β → Prop :=
   fun r => ∀ x y, r x y
+
+def natCompleteRel : Rel Nat Nat := fun a b => True
+
+example : isComplete natCompleteRel :=
+-- by the definiteion of isComplete what needs to be proved is
+-- ∀ (a b : Nat), natCompleteRel a b
+fun a b =>
+-- prove natCompleteRel a b
+-- by the definition of natCompleteRel
+-- what is to be proved is ...
+--
+True.intro
 
 /-
 The property of relating every input to some output
@@ -298,4 +310,4 @@ example {α β : Type} :
         have rbc : r b c := rinvcb
         -- ∀ x y z, r x y → r x z → y = z
         have rfun : isFunctional r := hinjr.left
-        _ ---???
+        sorry ---???
