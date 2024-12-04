@@ -1,7 +1,5 @@
 import Mathlib.Data.Rel
 import Mathlib.Data.Set.Basic
-import Mathlib.Logic.Relation
-import Mathlib.Data.Real.Basic
 import Cs2120f24.Library.setTheory.«03_properties_of_relations»
 /-
 Homework #8 Properties of Relations
