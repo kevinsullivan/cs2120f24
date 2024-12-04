@@ -96,16 +96,24 @@ def acctsOf : Rel String Nat := fun s n =>
   s = "Mary" ∧ n = 2 ∨
   s = "Lu"   ∧ n = 3
 
+
 example : ¬isSingleValued acctsOf :=
 -- assume acctsOf is single valued:
 fun (h : isSingleValued acctsOf) =>
--- show that that implies that 1 = 2
--- that's absurd so conclude ¬isSingleValued acctsOf
+-- show that that implies 1 = 2
+-- as that's absurd, conclude ¬isSingleValued acctsOf
 (
   -- ∀ x y z, r x y → r x z → y = z
+
+  -- First get proofs that ("Mary",1) and ("Mary", 2) are in acctsOf
   let a1 : acctsOf "Mary" 1 := Or.inl ⟨ rfl, rfl ⟩
   let a2 : acctsOf "Mary" 2 := Or.inr (Or.inl ⟨ rfl, rfl ⟩)
+
+  -- You should see that that contradicts h
+  -- Now use h to derive an evident contradiction
   let contra := h _ _ _ _ _
+  -- And show that that can't possibly be
+  -- Allowing you to conclude that h can't be true so ¬h must be
   _
 )
 
