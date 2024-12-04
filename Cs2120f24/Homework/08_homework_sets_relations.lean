@@ -129,7 +129,7 @@ to Nat.succ to define that relation if you want.
 def succRel := funToRel Nat.succ
 
 #reduce (types:=true) succRel 1 2
--- reduces to the proposition Nat.succ 1 = 2, i.e., 2 = 2
+-- reduces to the proposition Nat.succ 1 + 1 = 2, i.e., 2 = 2
 
 example : succRel 1 2 := rfl
 
