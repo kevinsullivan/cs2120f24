@@ -1,6 +1,5 @@
 namespace cs2120f24.natArithmetic.syntax
 
-
 -- variables indexed by Nat
 structure Var : Type where
 (index: Nat)
