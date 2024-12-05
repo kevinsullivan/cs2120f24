@@ -3,9 +3,8 @@ import «cs2120f24».Library.natArithmetic.domain
 
 namespace cs2120f24.natArithmetic.semantics
 
-
 -- given syntactic operator terms, return corresponding Nat- and Bool-valued functions
-open natArithmetic.syntax
+open cs2120f24.natArithmetic.syntax
 
 def evalUnOp : UnOp → (Nat → Nat)
 | UnOp.inc    => Nat.succ

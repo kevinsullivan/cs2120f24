@@ -1,5 +1,3 @@
-import «Cs2120f24».Library.propLogic.syntax
-import «Cs2120f24».Library.propLogic.semantics
 import «Cs2120f24».Library.propLogic.model_theory.properties
 
 namespace cs2120f24.propLogic

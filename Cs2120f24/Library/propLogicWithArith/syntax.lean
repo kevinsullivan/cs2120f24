@@ -1,4 +1,5 @@
 import cs2120f24.Library.natArithmetic.syntax
+
 namespace cs2120f24.propLogicWithArith.syntax
 
 structure Var : Type where
