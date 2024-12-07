@@ -37,8 +37,8 @@ import «Cs2120f24».Library.propLogic.model_theory.models
 import «Cs2120f24».Library.propLogic.model_theory.counterexamples
 
 -- Natural number arithmetic
-import «Cs2120f24».Library.natArithmetic.syntax
-import «Cs2120f24».Library.natArithmetic.domain
+--import «Cs2120f24».Library.natArithmetic.syntax
+--import «Cs2120f24».Library.natArithmetic.domain
 import «Cs2120f24».Library.natArithmetic.semantics
 
 -- Propositional with natural number arithmetic
