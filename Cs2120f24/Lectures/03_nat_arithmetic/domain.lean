@@ -78,6 +78,8 @@ inductive Nat : Type
 | succ (n' : Nat) : Nat
 -/
 
+namespace cs2120f24.lecture.natArithmetic
+
 /-!
 ## Operations
 

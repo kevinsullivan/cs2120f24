@@ -29,6 +29,8 @@ rapidly increasing expressiveness of logics we can envision, specify, and
 use.
 -/
 
+namespace cs2120f24.lecture.natArithmetic
+
 structure ArithVar : Type :=
   mk :: (index: Nat)
 deriving Repr
@@ -126,3 +128,5 @@ Note that we have to put that space between X and !.
 If we write X!, Lean interprets that as a single name
 and interprets it as an undefined name.
 -/
+
+end cs2120f24.lecture.natArithmetic
