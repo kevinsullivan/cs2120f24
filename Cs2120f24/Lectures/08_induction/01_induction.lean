@@ -506,7 +506,10 @@ def pfSumToNPropAll : sumToNPropAll :=
 
 
 /-
-Here's some nicer syntax for the same proof by induction
+Here's some nicer syntax for the same proof by induction.
+The proof is constructed entirely in tactic mode here.
+The comments, though, should all make sense.
+
 -/
 example : sumToNPropAll :=
 -- again in tactic mode
@@ -520,10 +523,10 @@ example : sumToNPropAll :=
   intro n
   -- complete proof by induction
   induction n with
-    -- case for n := Nat.zero
+    -- case for n = 0
     | zero => exact rfl
-    -- assuming n and proof for n
-    -- given n and proof, ih, for n, produce proof for n+1
-    -- this is exactly what our step function, sumStep, does
+    -- case n > 0
+    -- if given any n and a proof/value for n
+    -- constructs and returns a proof/value for n+1
     | succ n ih => exact (sumStep n ih)
 )

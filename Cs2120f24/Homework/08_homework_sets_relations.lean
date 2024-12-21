@@ -146,7 +146,34 @@ And.intro
     by rw [←hab, ←hac]    -- the ← means rewrite right hand in goal with left
   )
   -- succRel is an injective relation
-  (_)   -- ok, you have to prove the rest
+  (fun a b c hac hbc =>
+    let ac : a.succ = c := hac    -- by definition of succRel
+    let bc : b.succ = c := hbc    -- by definition of succRel
+    let aseqbs := Eq.subst ac _
+    _
+  )   -- ok, you have to prove the rest
+
+
+-- eq.subst : ∀ {α : Sort u} {P : α → Prop} {a b : α}, a = b → P a → P b
+axiom α : Type
+axiom P : α → Prop
+axiom a : α
+axiom b : α
+axiom Pa : P a
+axiom eqab : a = b
+
+#check Eq.subst eqab Pa
+
+example
+  {α : Type}      -- assumptions
+  (P : α → Prop)
+  (a b : α)
+  (heq : a = b)
+  (Pa : P a) :
+  P b :=          -- to prove
+Eq.subst heq Pa   -- rewrites P b goal to P a
+                  -- and finds P a is already an assumption (QED)
+
 
 
 /-!
