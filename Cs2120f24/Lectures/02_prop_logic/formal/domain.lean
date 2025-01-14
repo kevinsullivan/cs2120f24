@@ -20,7 +20,7 @@ These include:
   - what arguments were provided to that constructor.
 The following examples take a Bool (argument to match)
 and then do a case analysis, returning one result if the
-constructor of the value was true, and andother if it was
+constructor of the value was true, and another if it was
 false.
 -/
 
